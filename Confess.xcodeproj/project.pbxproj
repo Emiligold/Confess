@@ -21,6 +21,13 @@
 		9E99DD3B19DB36C000A40951 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E99DD1D19DB36C000A40951 /* UIKit.framework */; };
 		9E99DD4319DB36C000A40951 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E99DD4119DB36C000A40951 /* InfoPlist.strings */; };
 		9E99DD4519DB36C000A40951 /* ConfessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99DD4419DB36C000A40951 /* ConfessTests.m */; };
+		9E99DD4F19DB374600A40951 /* Icondemo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E99DD4E19DB374600A40951 /* Icondemo.png */; };
+		9E99DD5119DB37E400A40951 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E99DD5019DB37E400A40951 /* FacebookSDK.framework */; };
+		9EE9A50019DDEE04002AD3CB /* FriendsTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A4FF19DDEE04002AD3CB /* FriendsTab.m */; };
+		9EE9A50219DDF910002AD3CB /* Facebook_logo_(square).png in Resources */ = {isa = PBXBuildFile; fileRef = 9EE9A50119DDF910002AD3CB /* Facebook_logo_(square).png */; };
+		9EE9A50419DDF96B002AD3CB /* Telefono.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EE9A50319DDF96B002AD3CB /* Telefono.png */; };
+		9EE9A50A19DE9A4E002AD3CB /* MeTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A50919DE9A4E002AD3CB /* MeTab.m */; };
+		9EE9A50D19DE9A65002AD3CB /* SettingsTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +60,16 @@
 		9E99DD4019DB36C000A40951 /* ConfessTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConfessTests-Info.plist"; sourceTree = "<group>"; };
 		9E99DD4219DB36C000A40951 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9E99DD4419DB36C000A40951 /* ConfessTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfessTests.m; sourceTree = "<group>"; };
+		9E99DD4E19DB374600A40951 /* Icondemo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icondemo.png; path = ../../Icondemo.png; sourceTree = "<group>"; };
+		9E99DD5019DB37E400A40951 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		9EE9A4FE19DDEE04002AD3CB /* FriendsTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTab.h; sourceTree = "<group>"; };
+		9EE9A4FF19DDEE04002AD3CB /* FriendsTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTab.m; sourceTree = "<group>"; };
+		9EE9A50119DDF910002AD3CB /* Facebook_logo_(square).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Facebook_logo_(square).png"; sourceTree = "<group>"; };
+		9EE9A50319DDF96B002AD3CB /* Telefono.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Telefono.png; sourceTree = "<group>"; };
+		9EE9A50819DE9A4E002AD3CB /* MeTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeTab.h; sourceTree = "<group>"; };
+		9EE9A50919DE9A4E002AD3CB /* MeTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeTab.m; sourceTree = "<group>"; };
+		9EE9A50B19DE9A65002AD3CB /* SettingsTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTab.h; sourceTree = "<group>"; };
+		9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTab.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E99DD1C19DB36C000A40951 /* CoreGraphics.framework in Frameworks */,
+				9E99DD5119DB37E400A40951 /* FacebookSDK.framework in Frameworks */,
 				9E99DD1E19DB36C000A40951 /* UIKit.framework in Frameworks */,
 				9E99DD1A19DB36C000A40951 /* Foundation.framework in Frameworks */,
 			);
@@ -101,6 +119,7 @@
 		9E99DD1819DB36C000A40951 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E99DD5019DB37E400A40951 /* FacebookSDK.framework */,
 				9E99DD1919DB36C000A40951 /* Foundation.framework */,
 				9E99DD1B19DB36C000A40951 /* CoreGraphics.framework */,
 				9E99DD1D19DB36C000A40951 /* UIKit.framework */,
@@ -112,6 +131,10 @@
 		9E99DD1F19DB36C000A40951 /* Confess */ = {
 			isa = PBXGroup;
 			children = (
+				9EE9A50E19DE9DA0002AD3CB /* Images */,
+				9EE9A50319DDF96B002AD3CB /* Telefono.png */,
+				9EE9A50119DDF910002AD3CB /* Facebook_logo_(square).png */,
+				9E99DD4E19DB374600A40951 /* Icondemo.png */,
 				9E99DD2819DB36C000A40951 /* AppDelegate.h */,
 				9E99DD2919DB36C000A40951 /* AppDelegate.m */,
 				9E99DD2B19DB36C000A40951 /* Main.storyboard */,
@@ -119,6 +142,12 @@
 				9E99DD2F19DB36C000A40951 /* ViewController.m */,
 				9E99DD3119DB36C000A40951 /* Images.xcassets */,
 				9E99DD2019DB36C000A40951 /* Supporting Files */,
+				9EE9A4FE19DDEE04002AD3CB /* FriendsTab.h */,
+				9EE9A4FF19DDEE04002AD3CB /* FriendsTab.m */,
+				9EE9A50819DE9A4E002AD3CB /* MeTab.h */,
+				9EE9A50919DE9A4E002AD3CB /* MeTab.m */,
+				9EE9A50B19DE9A65002AD3CB /* SettingsTab.h */,
+				9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */,
 			);
 			path = Confess;
 			sourceTree = "<group>";
@@ -150,6 +179,13 @@
 				9E99DD4119DB36C000A40951 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9EE9A50E19DE9DA0002AD3CB /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,8 +265,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E99DD3219DB36C000A40951 /* Images.xcassets in Resources */,
+				9EE9A50419DDF96B002AD3CB /* Telefono.png in Resources */,
+				9E99DD4F19DB374600A40951 /* Icondemo.png in Resources */,
 				9E99DD2419DB36C000A40951 /* InfoPlist.strings in Resources */,
 				9E99DD2D19DB36C000A40951 /* Main.storyboard in Resources */,
+				9EE9A50219DDF910002AD3CB /* Facebook_logo_(square).png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +289,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E99DD3019DB36C000A40951 /* ViewController.m in Sources */,
+				9EE9A50019DDEE04002AD3CB /* FriendsTab.m in Sources */,
+				9EE9A50D19DE9A65002AD3CB /* SettingsTab.m in Sources */,
+				9EE9A50A19DE9A4E002AD3CB /* MeTab.m in Sources */,
 				9E99DD2A19DB36C000A40951 /* AppDelegate.m in Sources */,
 				9E99DD2619DB36C000A40951 /* main.m in Sources */,
 			);
@@ -376,6 +418,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Confess/Confess-Prefix.pch";
 				INFOPLIST_FILE = "Confess/Confess-Info.plist";
@@ -389,6 +435,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Confess/Confess-Prefix.pch";
 				INFOPLIST_FILE = "Confess/Confess-Info.plist";
@@ -456,6 +506,7 @@
 				9E99DD4A19DB36C000A40951 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9E99DD4B19DB36C000A40951 /* Build configuration list for PBXNativeTarget "ConfessTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +515,7 @@
 				9E99DD4D19DB36C000A40951 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
