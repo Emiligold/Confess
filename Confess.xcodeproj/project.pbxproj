@@ -28,6 +28,10 @@
 		9EE9A50419DDF96B002AD3CB /* Telefono.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EE9A50319DDF96B002AD3CB /* Telefono.png */; };
 		9EE9A50A19DE9A4E002AD3CB /* MeTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A50919DE9A4E002AD3CB /* MeTab.m */; };
 		9EE9A50D19DE9A65002AD3CB /* SettingsTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */; };
+		9EE9A51119DEB14C002AD3CB /* TabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A51019DEB14C002AD3CB /* TabController.m */; };
+		9EE9A51719DF09EF002AD3CB /* ConfessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A51619DF09EF002AD3CB /* ConfessView.m */; };
+		9EE9A51A19E03305002AD3CB /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A51919E03305002AD3CB /* NavigationController.m */; };
+		9EE9A51D19E0384D002AD3CB /* SearchFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9A51C19E0384D002AD3CB /* SearchFacebook.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +74,14 @@
 		9EE9A50919DE9A4E002AD3CB /* MeTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeTab.m; sourceTree = "<group>"; };
 		9EE9A50B19DE9A65002AD3CB /* SettingsTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTab.h; sourceTree = "<group>"; };
 		9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTab.m; sourceTree = "<group>"; };
+		9EE9A50F19DEB14C002AD3CB /* TabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabController.h; sourceTree = "<group>"; };
+		9EE9A51019DEB14C002AD3CB /* TabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabController.m; sourceTree = "<group>"; };
+		9EE9A51519DF09EF002AD3CB /* ConfessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfessView.h; sourceTree = "<group>"; };
+		9EE9A51619DF09EF002AD3CB /* ConfessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfessView.m; sourceTree = "<group>"; };
+		9EE9A51819E03304002AD3CB /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavigationController.h; path = ../NavigationController.h; sourceTree = "<group>"; };
+		9EE9A51919E03305002AD3CB /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavigationController.m; path = ../NavigationController.m; sourceTree = "<group>"; };
+		9EE9A51B19E0384D002AD3CB /* SearchFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchFacebook.h; path = ../SearchFacebook.h; sourceTree = "<group>"; };
+		9EE9A51C19E0384D002AD3CB /* SearchFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchFacebook.m; path = ../SearchFacebook.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +144,13 @@
 			isa = PBXGroup;
 			children = (
 				9EE9A50E19DE9DA0002AD3CB /* Images */,
+				9EE9A51B19E0384D002AD3CB /* SearchFacebook.h */,
+				9EE9A51C19E0384D002AD3CB /* SearchFacebook.m */,
+				9EE9A51819E03304002AD3CB /* NavigationController.h */,
+				9EE9A51919E03305002AD3CB /* NavigationController.m */,
 				9EE9A50319DDF96B002AD3CB /* Telefono.png */,
+				9EE9A50F19DEB14C002AD3CB /* TabController.h */,
+				9EE9A51019DEB14C002AD3CB /* TabController.m */,
 				9EE9A50119DDF910002AD3CB /* Facebook_logo_(square).png */,
 				9E99DD4E19DB374600A40951 /* Icondemo.png */,
 				9E99DD2819DB36C000A40951 /* AppDelegate.h */,
@@ -148,6 +166,8 @@
 				9EE9A50919DE9A4E002AD3CB /* MeTab.m */,
 				9EE9A50B19DE9A65002AD3CB /* SettingsTab.h */,
 				9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */,
+				9EE9A51519DF09EF002AD3CB /* ConfessView.h */,
+				9EE9A51619DF09EF002AD3CB /* ConfessView.m */,
 			);
 			path = Confess;
 			sourceTree = "<group>";
@@ -289,10 +309,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E99DD3019DB36C000A40951 /* ViewController.m in Sources */,
+				9EE9A51D19E0384D002AD3CB /* SearchFacebook.m in Sources */,
 				9EE9A50019DDEE04002AD3CB /* FriendsTab.m in Sources */,
 				9EE9A50D19DE9A65002AD3CB /* SettingsTab.m in Sources */,
+				9EE9A51A19E03305002AD3CB /* NavigationController.m in Sources */,
 				9EE9A50A19DE9A4E002AD3CB /* MeTab.m in Sources */,
+				9EE9A51719DF09EF002AD3CB /* ConfessView.m in Sources */,
 				9E99DD2A19DB36C000A40951 /* AppDelegate.m in Sources */,
+				9EE9A51119DEB14C002AD3CB /* TabController.m in Sources */,
 				9E99DD2619DB36C000A40951 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

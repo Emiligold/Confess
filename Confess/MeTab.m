@@ -27,12 +27,35 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = CGPointMake(220, 72);
+    spinner.hidesWhenStopped = YES;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+    
+    dispatch_queue_t downloadQuqeue = dispatch_queue_create("download", NULL);
+    dispatch_async(downloadQuqeue, ^{
+        [NSThread sleepForTimeInterval:1];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [spinner stopAnimating];
+        });
+    });
+
+    self.name.text = self.nameText;
+    self.profilePicture.profileID = self.profileID;
+    self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.height / 2;
+    self.profilePicture.clipsToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)initProperties
+{
 }
 
 /*
@@ -46,4 +69,6 @@
 }
 */
 
+- (IBAction)imageClicked:(id)sender {
+}
 @end

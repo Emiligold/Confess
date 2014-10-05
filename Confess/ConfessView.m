@@ -1,18 +1,18 @@
 //
-//  SettingsTab.m
+//  ConfessView.m
 //  Confess
 //
 //  Created by Noga badhav on 03/10/14.
 //  Copyright (c) 2014 Noga badhav. All rights reserved.
 //
 
-#import "SettingsTab.h"
+#import "ConfessView.h"
 
-@interface SettingsTab ()
+@interface ConfessView ()
 
 @end
 
-@implementation SettingsTab
+@implementation ConfessView
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,12 +33,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)initProperties
-{
-    self.loginView.hidden = false;
-    [self.view addSubview:self.loginView];
 }
 
 /*

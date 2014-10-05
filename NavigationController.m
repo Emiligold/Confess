@@ -1,18 +1,18 @@
 //
-//  SettingsTab.m
+//  NavigationController.m
 //  Confess
 //
-//  Created by Noga badhav on 03/10/14.
+//  Created by Noga badhav on 04/10/14.
 //  Copyright (c) 2014 Noga badhav. All rights reserved.
 //
 
-#import "SettingsTab.h"
+#import "NavigationController.h"
 
-@interface SettingsTab ()
+@interface NavigationController ()
 
 @end
 
-@implementation SettingsTab
+@implementation NavigationController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,12 +35,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)initProperties
-{
-    self.loginView.hidden = false;
-    [self.view addSubview:self.loginView];
-}
-
 /*
 #pragma mark - Navigation
 
@@ -51,5 +45,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (IBAction)sendClicked:(id)sender {
+}
 
 @end

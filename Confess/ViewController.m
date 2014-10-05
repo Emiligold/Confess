@@ -8,6 +8,9 @@
 
 #import "ViewController.h"
 #import "FriendsTab.h"
+#import "TabController.h"
+#import "ConfessView.h"
+#import "AppDelegate.h"
 
 @interface ViewController ()
 
@@ -91,21 +94,69 @@
 
 -(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView{
     //self.lblLoginStatus.text = @"You are logged in.";
-    
     [self toggleHiddenState:NO];
+    self.tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
+    self.tbc.selectedIndex=1;
+    self.loginView.hidden = NO;
+    self.tbc.loginView = self.loginView;
+    self.tbc.profileID = self.profileID;
+    self.tbc.nameText = self.nameText;
+    [self.tbc initProperties];
+    [self presentViewController:self.tbc animated:YES completion:nil];
+    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
+
+    [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
+                                                  NSDictionary* result,
+                                                  NSError *error) {
+        NSArray* friends = [result objectForKey:@"data"];
+        NSString *string = [NSString stringWithFormat: @"%d", (int)friends.count];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Continue without Facebook?" message:string delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+        [alert show];
+        NSLog(@"Found: %i friends", friends.count);
+        for (NSDictionary<FBGraphUser>* friend in friends) {
+            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.objectID);
+        }
+    }];
 }
 
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
     NSLog(@"%@", user);
-    //self.profilePicture.profileID = user.id;
-    //self.lblUsername.text = user.name;
+    self.profileID = user.objectID;
+    self.nameText = user.name;
+    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
+    [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
+                                                  NSDictionary* result,
+                                                  NSError *error) {
+        NSArray* friends = [result objectForKey:@"data"];
+        NSString *string = [NSString stringWithFormat: @"%d", (int)friends.count];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Continue without Facebook?" message:string delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+       // [alert show];
+        NSLog(@"Found: %i friends", friends.count);
+        for (NSDictionary<FBGraphUser>* friend in friends) {
+            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.objectID);
+        }
+    }];
+    
+    self.tbc.profileID = self.profileID;
+    self.tbc.nameText = self.nameText;
+    [self.tbc initProperties];
     //self.lblEmail.text = [user objectForKey:@"email"];
 }
 
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
     //self.content.text = @"You are logged out";
     
+    [FBSession.activeSession closeAndClearTokenInformation];
+    [FBSession.activeSession close];
+    [FBSession setActiveSession:nil];
     [self toggleHiddenState:YES];
+    
+    if (self.tbc != nil)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ConfessView *viewController = (ConfessView *)[storyboard instantiateViewControllerWithIdentifier:@"ConfessView"];
+        [self presentViewController:viewController animated:YES completion:nil];
+    }
 }
 
 -(void)loginView:(FBLoginView *)loginView handleError:(NSError *)error{
@@ -118,13 +169,45 @@
     [alert show];
 }
 
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1)
     {
-        UITabBarController *tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
-        tbc.selectedIndex=1;
-        [self presentViewController:tbc animated:YES completion:nil];
+        self.tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
+        self.tbc.selectedIndex=1;
+        self.tbc.loginView = self.loginView;
+        self.tbc.hideFacebook = YES;
+        [self.tbc hideFacebookAction];
+        [self.tbc initProperties];
+        [self presentViewController:self.tbc animated:YES completion:nil];
+    }
+}
+
+- (IBAction)buttonTouched:(id)sender
+{
+    // If the session state is any of the two "open" states when the button is clicked
+    if (FBSession.activeSession.state == FBSessionStateOpen
+        || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+        
+        // Close the session and remove the access token from the cache
+        // The session state handler (in the app delegate) will be called automatically
+        [FBSession.activeSession closeAndClearTokenInformation];
+        
+        // If the session state is not any of the two "open" states when the button is clicked
+    } else {
+        // Open a session showing the user the login UI
+        // You must ALWAYS ask for public_profile permissions when opening a session
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"]
+                                           allowLoginUI:YES
+                                      completionHandler:
+         ^(FBSession *session, FBSessionState state, NSError *error) {
+             
+             // Retrieve the app delegate
+             AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+             // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
+             [appDelegate sessionStateChanged:session state:state error:error];
+         }];
     }
 }
 

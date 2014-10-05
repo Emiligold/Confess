@@ -7,11 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AddressBookUI/AddressBookUI.h>
+#import <FacebookSDK/FacebookSDK.h>
 
-@interface FriendsTab : UIViewController
+@interface FriendsTab : UIViewController <ABPeoplePickerNavigationControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UITabBar *tab;
 @property (weak, nonatomic) IBOutlet UIImageView *phoneImage;
+//@property (strong, nonatomic) IBOutlet FBProfilePictureView *profilePicture;
+@property (nonatomic, assign) BOOL hideFacebook;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *facebookButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *confessTab;
+-(void)hideFacebookAction;
+- (IBAction)showPicker:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *facebookImage;
-
+- (IBAction)facebookClicked:(id)sender;
+-(IBAction)actionTest1:(id)sender;
+-(IBAction)actionTest2:(id)sender;
 @end

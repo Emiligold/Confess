@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface SettingsTab : UIViewController
+
+@property (strong, nonatomic) IBOutlet FBLoginView *loginView;
+-(void)initProperties;
 
 @end

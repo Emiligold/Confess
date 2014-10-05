@@ -1,18 +1,18 @@
 //
-//  SettingsTab.m
+//  SearchFacebook.m
 //  Confess
 //
-//  Created by Noga badhav on 03/10/14.
+//  Created by Noga badhav on 04/10/14.
 //  Copyright (c) 2014 Noga badhav. All rights reserved.
 //
 
-#import "SettingsTab.h"
+#import "SearchFacebook.h"
 
-@interface SettingsTab ()
+@interface SearchFacebook ()
 
 @end
 
-@implementation SettingsTab
+@implementation SearchFacebook
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,18 +27,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationController.navigationBar.topItem.title = @"";
+    //[self.navigationItem setHidesBackButton:YES animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)initProperties
-{
-    self.loginView.hidden = false;
-    [self.view addSubview:self.loginView];
 }
 
 /*

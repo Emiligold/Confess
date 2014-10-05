@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "TabController.h"
 
 @interface ViewController : UIViewController <FBLoginViewDelegate>
 
@@ -15,8 +16,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property (strong, nonatomic) IBOutlet FBLoginView *loginView;
 @property (strong, nonatomic) IBOutlet UIButton *continueNoFacebook;
-@property (strong, nonatomic) IBOutlet FBProfilePictureView *profilePictureView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet TabController *tbc;
+@property (weak, nonatomic) IBOutlet NSString *nameText;
+@property (weak, nonatomic) IBOutlet NSString *profileID;
 
 @end
