@@ -13,11 +13,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [QBApplication sharedApplication].applicationId = 15308;
+    [QBConnection registerServiceKey:@"DDPwPYWXG7KygnL"];
+    [QBConnection registerServiceSecret:@"N4YNOw5QzMXMKzf"];
+    [QBSettings setAccountKey:@"E6evRhoV9sHcQ5pYGgxq"];
+    
     // Whenever a person opens the app, check for a cached session
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         
         // If there's one, just open the session silently, without showing the user the login UI
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"]
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
                                            allowLoginUI:NO
                                       completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
                                           // Handler for session state changes
@@ -28,7 +33,6 @@
     [FBLoginView class];
     [FBProfilePictureView class];
     
-    return YES;
     }
     // Override point for customization after application launch.
     return YES;
@@ -49,6 +53,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    //[[QBChat instance] loginWithUser:user];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "DBManager.h"
 
 @interface MeTab : UIViewController
 
@@ -16,7 +17,14 @@
 @property (strong, nonatomic) IBOutlet NSString *nameText;
 @property (weak, nonatomic) IBOutlet NSString *profileID;
 -(void)initProperties;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 - (IBAction)imageClicked:(id)sender;
+@property (nonatomic, assign) BOOL isFullScreen;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tap;
+@property (nonatomic, assign) CGRect prevFrame;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
+@property (weak, nonatomic) IBOutlet UIImageView *prop;
+@property (nonatomic, assign) CGRect prevFrameButton;
+@property (weak, nonatomic) IBOutlet UITableView *confessesTableView;
+@property (nonatomic,strong) NSMutableArray *confesses;
 
 @end

@@ -13,4 +13,20 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <Quickblox/Quickblox.h>
+
+    #import "LocalStorageService.h"
+    #import "ChatService.h"
+    #import "CharactersEscapeService.h"
 #endif
+
+#define dbName @"sampledb.sql"
+#define kShowChatViewControllerSegue @"ShowChatViewControllerSegue"
+#define kShowNewChatViewControllerSegue @"ShowNewChatViewControllerSegue"
+#define tDialogs @"DIALOG_STATUS"
+#define tFriendsNoAppConfesses @"FRIENDS_NO_APP_CONFESSES"
+#define tCodeFriendsNoAppConfesses @"CODE_FRIENDS_NO_APP_CONFESSES"
+#define tConfessEntity @"confessEntity"
+#define tCodeUserConfesses @"CODE_USER_CONFESSES"

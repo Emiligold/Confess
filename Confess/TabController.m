@@ -39,7 +39,9 @@
 
 -(void)hideFacebookAction
 {
-    FriendsTab *view = ((FriendsTab*)[[self viewControllers] objectAtIndex:1]);
+    UINavigationController *navigationController = (UINavigationController*)[[self viewControllers] objectAtIndex:1];
+    FriendsTab *view = (FriendsTab*)[navigationController.viewControllers objectAtIndex:0];
+    //FriendsTab *view = ((FriendsTab*)[[self viewControllers] objectAtIndex:1]);
     view.hideFacebook = self.hideFacebook;
     [view hideFacebookAction];
     
@@ -47,7 +49,8 @@
 
 -(void)initProperties
 {
-    SettingsTab *settingsTab = ((SettingsTab*)[[self viewControllers] objectAtIndex:2]);
+    UINavigationController *navigationController = (UINavigationController*)[[self viewControllers] objectAtIndex:2];
+    SettingsTab *settingsTab = (SettingsTab*)[navigationController.viewControllers objectAtIndex:0];
     settingsTab.loginView = self.loginView;
     [settingsTab initProperties];
     MeTab *meTab = ((MeTab*)[[self viewControllers] objectAtIndex:0]);

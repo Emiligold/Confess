@@ -19,7 +19,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb299145526952444</string>
+				<string>fb698723233551605</string>
 			</array>
 		</dict>
 	</array>
@@ -40,9 +40,9 @@
 		<string>armv7</string>
 	</array>
 	<key>FacebookAppID</key>
-	<string>299145526952444</string>
+	<string>698723233551605</string>
 	<key>FacebookDisplayName</key>
-	<string>bb</string>
+	<string>cc</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

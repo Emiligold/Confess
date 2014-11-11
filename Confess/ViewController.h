@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "TabController.h"
+#import <Foundation/Foundation.h>
 
-@interface ViewController : UIViewController <FBLoginViewDelegate>
+@interface ViewController : UIViewController <FBLoginViewDelegate, QBChatDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *content;
 @property (weak, nonatomic) IBOutlet UIButton *startButton;

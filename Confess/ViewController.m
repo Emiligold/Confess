@@ -12,13 +12,18 @@
 #import "ConfessView.h"
 #import "AppDelegate.h"
 
-@interface ViewController ()
+@interface ViewController () <QBActionStatusDelegate>
 
 -(void)toggleHiddenState:(BOOL)shouldHide;
 
 @end
 
 @implementation ViewController
+
+BOOL fetched;
+NSString* UserLogin;
+NSString* UserPassword;
+NSString* UserEmail;
 
 - (void)viewDidLoad
 {
@@ -57,9 +62,61 @@
     [self.view addSubview:self.startButton];
     [UIView animateWithDuration:5.0
                           delay:0.0
-                        options: UIViewAnimationCurveEaseInOut
+                        options:UIViewAnimationOptionCurveEaseIn
                      animations:^{self.startButton.alpha = 1.0;}
                      completion:nil];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults objectForKey:@"LogInWithoutFacebook"] != nil)
+    {
+        QBSessionParameters *parameters = [QBSessionParameters new];
+        parameters.userLogin = NSUserName();
+        parameters.userPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"SBFormattedPhoneNumber"];
+        
+        [QBRequest createSessionWithExtendedParameters:parameters successBlock:^(QBResponse *response, QBASession *session) {
+            // Save current user
+            QBUUser *currentUser = [QBUUser user];
+            currentUser.ID = session.userID;
+            currentUser.login = NSUserName();
+            currentUser.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"SBFormattedPhoneNumber"];
+            //
+            [[LocalStorageService shared] setCurrentUser:currentUser];
+            
+            // Login to QuickBlox Chat
+            //
+            [[ChatService instance] loginWithUser:currentUser completionBlock:^{
+                
+                // hide alert after delay
+                double delayInSeconds = 0.2;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [self toggleHiddenState:NO];
+                    self.tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
+                    self.tbc.selectedIndex=1;
+                    self.loginView.hidden = NO;
+                    self.tbc.loginView = self.loginView;
+                    self.tbc.profileID = self.profileID;
+                    self.tbc.nameText = self.nameText;
+                    [self.tbc initProperties];
+                    [self presentViewController:self.tbc animated:YES completion:nil];
+                });
+            }];} errorBlock:^(QBResponse *response) {
+                NSString *errorMessage = [[response.error description] stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                errorMessage = [errorMessage stringByReplacingOccurrencesOfString:@")" withString:@""];
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Errors"
+                                                                message:errorMessage
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles: nil];
+                [alert show];
+            }];
+        
+        //TODO: Get name
+        self.tbc.nameText = self.nameText;
+        [self.tbc initProperties];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -102,45 +159,36 @@
     self.tbc.profileID = self.profileID;
     self.tbc.nameText = self.nameText;
     [self.tbc initProperties];
-    [self presentViewController:self.tbc animated:YES completion:nil];
-    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
-
-    [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
-                                                  NSDictionary* result,
-                                                  NSError *error) {
-        NSArray* friends = [result objectForKey:@"data"];
-        NSString *string = [NSString stringWithFormat: @"%d", (int)friends.count];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Continue without Facebook?" message:string delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-        [alert show];
-        NSLog(@"Found: %i friends", friends.count);
-        for (NSDictionary<FBGraphUser>* friend in friends) {
-            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.objectID);
-        }
-    }];
+    
+    if (!fetched && UserLogin != nil)
+    {
+        [self tryToConnect:UserLogin :UserPassword :UserEmail :loginView];
+    }
+    else if (fetched)
+    {
+        [self presentViewController:self.tbc animated:YES completion:nil];
+    }
 }
 
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
     NSLog(@"%@", user);
     self.profileID = user.objectID;
     self.nameText = user.name;
-    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
-    [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
-                                                  NSDictionary* result,
-                                                  NSError *error) {
-        NSArray* friends = [result objectForKey:@"data"];
-        NSString *string = [NSString stringWithFormat: @"%d", (int)friends.count];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Continue without Facebook?" message:string delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-       // [alert show];
-        NSLog(@"Found: %i friends", friends.count);
-        for (NSDictionary<FBGraphUser>* friend in friends) {
-            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.objectID);
-        }
-    }];
+    // Create session with user
+    NSString *userLogin = [user.name stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    NSString *userPassword = user.objectID;
+    NSString *userMail = [user objectForKey:@"email"];
+    
+    [self tryToConnect:userLogin :userPassword :userMail :loginView];
+    
+    if (fetched)
+    {
+        [self loginViewShowingLoggedInUser : loginView];
+    }
     
     self.tbc.profileID = self.profileID;
     self.tbc.nameText = self.nameText;
     [self.tbc initProperties];
-    //self.lblEmail.text = [user objectForKey:@"email"];
 }
 
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
@@ -151,6 +199,25 @@
     [FBSession setActiveSession:nil];
     [self toggleHiddenState:YES];
     
+    NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray* facebookCookies = [cookies cookiesForURL:[NSURL URLWithString:@"https://facebook.com/"]];
+    
+    for (NSHTTPCookie* cookie in facebookCookies) {
+        [cookies deleteCookie:cookie];
+    }
+    
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [storage cookies])
+    {
+        NSString* domainName = [cookie domain];
+        NSRange domainRange = [domainName rangeOfString:@"facebook"];
+        if(domainRange.length > 0)
+        {
+            [storage deleteCookie:cookie];
+        }
+    }
+    
     if (self.tbc != nil)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -158,6 +225,7 @@
         [self presentViewController:viewController animated:YES completion:nil];
     }
 }
+
 
 -(void)loginView:(FBLoginView *)loginView handleError:(NSError *)error{
     NSLog(@"%@", [error localizedDescription]);
@@ -174,6 +242,46 @@
 {
     if (buttonIndex == 1)
     {
+        QBUUser *signUp = [QBUUser user];
+        signUp.login = NSUserName();
+        signUp.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"SBFormattedPhoneNumber"];
+        
+        [QBRequest createSessionWithSuccessBlock:^(QBResponse *response, QBASession *session)
+         {
+             [QBRequest signUp:signUp successBlock:^(QBResponse *response, QBUUser *user)
+              {
+                  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                  [defaults setObject:@(YES) forKey:@"LogInWithoutFacebook"];
+                  
+                  QBUUser *login = [QBUUser user];
+                  login.login = signUp.login;
+                  login.password = signUp.password;
+                  login.ID = user.ID;
+                  //
+                  [[LocalStorageService shared] setCurrentUser:user];
+                  
+                  [self toggleHiddenState:NO];
+                  self.tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
+                  self.tbc.selectedIndex=1;
+                  self.loginView.hidden = NO;
+                  self.tbc.loginView = self.loginView;
+                  self.tbc.profileID = self.profileID;
+                  self.tbc.nameText = self.nameText;
+                  [self.tbc initProperties];
+                  [self presentViewController:self.tbc animated:YES completion:nil];
+                  // Login to QuickBlox Chat
+                  //
+                  //[[ChatService instance] loginWithUser:user completionBlock:^{
+                  //        [self loginViewShowingLoggedInUser:loginView];
+                  //}];
+                  // Sign up was successful
+              } errorBlock:^(QBResponse *response) {
+                  // Handle error here
+              }];
+             
+         }errorBlock:^(QBResponse *response) { }];
+
+        
         self.tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
         self.tbc.selectedIndex=1;
         self.tbc.loginView = self.loginView;
@@ -198,7 +306,7 @@
     } else {
         // Open a session showing the user the login UI
         // You must ALWAYS ask for public_profile permissions when opening a session
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"]
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
                                            allowLoginUI:YES
                                       completionHandler:
          ^(FBSession *session, FBSessionState state, NSError *error) {
@@ -208,6 +316,86 @@
              // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
              [appDelegate sessionStateChanged:session state:state error:error];
          }];
+    }
+}
+
+-(void)tryToConnect : (NSString*) userLogin : (NSString*) userPassword : (NSString*) userMail : (FBLoginView*) loginView
+{
+    QBSessionParameters *parameters = [QBSessionParameters new];
+    parameters.userLogin = userLogin;
+    parameters.userPassword = userPassword;
+    parameters.userEmail = userMail;
+    UserLogin = userLogin;
+    UserPassword = userPassword;
+    UserEmail = userMail;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    // If it's nil - the user needs to sign in
+    if ([defaults objectForKey:userPassword] != nil)
+    {
+        [QBRequest createSessionWithExtendedParameters:parameters successBlock:^(QBResponse *response, QBASession *session) {
+            // Save current user
+            QBUUser *currentUser = [QBUUser user];
+            currentUser.ID = session.userID;
+            currentUser.login = userLogin;
+            currentUser.password = userPassword;
+            currentUser.email = userMail;
+            fetched = YES;
+            [defaults setObject:@(currentUser.ID) forKey:userPassword];
+            //
+            [[LocalStorageService shared] setCurrentUser:currentUser];
+        
+            // Login to QuickBlox Chat
+            //
+            [[ChatService instance] loginWithUser:currentUser completionBlock:^{
+            
+            // hide alert after delay
+            double delayInSeconds = 0.2;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self loginViewShowingLoggedInUser:loginView];
+                
+            });
+        }];} errorBlock:^(QBResponse *response)
+        {
+        }];
+    }
+    else
+    {
+        QBUUser *signUp = [QBUUser user];
+        signUp.login = userLogin;
+        signUp.password = userPassword;
+        signUp.email = userMail;
+        
+        [QBRequest createSessionWithSuccessBlock:^(QBResponse *response, QBASession *session)
+         {
+             [QBRequest signUp:signUp successBlock:^(QBResponse *response, QBUUser *user)
+              {
+                  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                  [defaults setObject:@(user.ID) forKey:userPassword];
+                  
+                  QBUUser *login = [QBUUser user];
+                  login.login = userLogin;
+                  login.password = userPassword;
+                  login.email = userMail;
+                  login.ID = user.ID;
+                  fetched = YES;
+                  //
+                  [[LocalStorageService shared] setCurrentUser:user];
+                  [self loginViewShowingLoggedInUser:loginView];
+                  
+                  // Login to QuickBlox Chat
+                  //
+                  //[[ChatService instance] loginWithUser:user completionBlock:^{
+                  //        [self loginViewShowingLoggedInUser:loginView];
+                  //}];
+                  // Sign up was successful
+              } errorBlock:^(QBResponse *response) {
+                  // Handle error here
+              }];
+
+         }errorBlock:^(QBResponse *response) { }];
     }
 }
 
