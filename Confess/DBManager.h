@@ -20,8 +20,10 @@
 -(void)selectQuery:(NSString*)table table:(NSMutableArray*)conditionParameters;
 -(void)mergeQuery:(NSString*)table table:(NSMutableArray*)values;
 -(void)updateQuery:(NSString*)table table:(NSMutableArray*)setParameters setParameters:(NSMutableArray*)conditionParameters;
+-(void)joinQuery:(NSMutableArray*)tables tables:(NSMutableArray*)conditionParameters;
 -(void)orderBy:(NSMutableArray*)values values:(NSString*)method;
 -(void)createConditionParameters:(NSMutableArray*)conditionParameters;
+-(void)deleteQuery:(NSString*)table table:(NSMutableArray*)conditionParameters;
 -(instancetype)initWithDatabaseFilename:(NSString *)dbFilename;
 +(instancetype)shared;
 

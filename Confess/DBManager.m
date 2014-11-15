@@ -196,14 +196,20 @@ NSString* preparedQuery;
 }
 
 -(void)selectQuery:(NSString*)table table:(NSMutableArray*)conditionParameters{
-    preparedQuery = [NSString stringWithFormat:@"SELECT * FROM %@", table];
-    [self createConditionParameters:conditionParameters];
+    [self joinQuery:[[NSMutableArray alloc] initWithObjects:table, nil] tables:conditionParameters];
 }
 
 -(void)mergeQuery:(NSString*)table table:(NSMutableArray*)values{
     preparedQuery = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ values (", table];
     [self createCommaParameters:values];
     preparedQuery = [NSString stringWithFormat:@"%@)", preparedQuery];
+}
+
+-(void)joinQuery:(NSMutableArray*)tables tables:(NSMutableArray*)conditionParameters
+{
+    preparedQuery = [NSString stringWithFormat:@"SELECT * FROM "];
+    [self createCommaParameters:tables];
+    [self createConditionParameters:conditionParameters];
 }
 
 -(void)updateQuery:(NSString*)table table:(NSMutableArray*)setParameters setParameters:(NSMutableArray*)conditionParameters{
@@ -227,12 +233,20 @@ NSString* preparedQuery;
 }
 
 -(void)createCommaParameters:(NSMutableArray*)values{
+    int counter = 0;
     for (NSString *curr in values)
     {
         preparedQuery = [NSString stringWithFormat:@"%@ %@", preparedQuery, curr];
-        NSString *comma = [values indexOfObject:curr] == values.count - 1 ? @"" : @", ";
+        NSString *comma = counter == values.count - 1 ? @"" : @", ";
         preparedQuery = [NSString stringWithFormat:@"%@%@", preparedQuery, comma];
+        counter++;
     }
+}
+
+-(void)deleteQuery:(NSString*)table table:(NSMutableArray*)conditionParameters
+{
+    preparedQuery = [NSString stringWithFormat:@"DELETE FROM %@", table];
+    [self createConditionParameters:conditionParameters];
 }
 
 -(void)orderBy:(NSMutableArray*)values values:(NSString*)method{

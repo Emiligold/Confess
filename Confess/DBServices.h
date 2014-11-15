@@ -25,5 +25,6 @@
 +(long long)insertNewCodeFriends:(long long)confessId confessId:(long long)noAppCode;
 +(void)updateConversationStatus:(NSString*)userUrl userUrl:(NSUInteger)status;
 +(void)updateDialogStatus:(NSString*)dialogId dialogId:(NSUInteger)status;
++(NSMutableArray*)getRecievedConversations:(NSString*)userUrl;
 
 @end

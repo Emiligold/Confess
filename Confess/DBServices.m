@@ -45,6 +45,26 @@
     return [self uniqueSelect:[[FriendsNoAppConfesses alloc] init] entityClass:parameters];
 }
 
++(NSMutableArray*)getRecievedConversations:(NSString*)userUrl
+{
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"a.friend_url = '%@'", userUrl], @"a.id = b.no_app_code", @"b.confess_id = c.id",  nil];
+    [[DBManager shared] joinQuery:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"%@ a", tFriendsNoAppConfesses], [NSString stringWithFormat:@"%@ b", tCodeFriendsNoAppConfesses], [NSString stringWithFormat:@"%@ c", tConfessEntity], nil] tables:parameters];
+    [[DBManager shared] orderBy:[[NSMutableArray alloc] initWithObjects:@"c.date", nil] values:@"DESC"];
+    NSMutableArray *values = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    for (NSMutableArray *curr in values)
+    {
+        [[DBManager shared] deleteQuery:tFriendsNoAppConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"id = %@", curr[0]], nil]];
+        [[DBManager shared] deleteQuery:tCodeFriendsNoAppConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"id = %@", curr[4]], nil]];
+        [result addObject:[[NSMutableArray alloc] initWithObjects:curr[1], [[ConfessEntity alloc] initProperties:[NSMutableArray arrayWithArray:[curr subarrayWithRange:NSMakeRange(7, 13)]]], nil]];
+        //[result addObject:[self getEntityById:[[ConfessEntity alloc] init] entityClass:((CodeFriendsNoAppConfesses*)[self getEntityByUniqe:[[CodeFriendsNoAppConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"no_app_code = %@", curr[0]], nil]]).confessID]];
+    }
+    
+    return result;
+
+}
+
 +(NSMutableArray*)getConfessesOfConversation:(NSUInteger)noAppCode
 {
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"no_app_code = %lu", (unsigned long)noAppCode], nil];
@@ -84,6 +104,7 @@
 {
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:@"null", [NSString stringWithFormat:@"'%@'",[self myID]], [NSString stringWithFormat:@"'%@'", userUrl], @"0", nil];
     [[DBManager shared] mergeQuery:tFriendsNoAppConfesses table:parameters];
+    [[DBManager shared] executeExecutableQuery];
     return [[DBManager shared] lastInsertedRowID];
 }
 
@@ -101,6 +122,7 @@
 {
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:@"null", [NSString stringWithFormat:@"'%@'",userId], [NSString stringWithFormat:@"%lld", confessId], [NSString stringWithFormat:@"'%@'",facebookId], nil];
     [[DBManager shared] mergeQuery:tCodeUserConfesses table:parameters];
+    [[DBManager shared] executeExecutableQuery];
     return [[DBManager shared] lastInsertedRowID];
 }
 
@@ -108,6 +130,7 @@
 {
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:@"null", [NSString stringWithFormat:@"%ld", (unsigned long)confessId], [NSString stringWithFormat:@"%ld", (unsigned long)noAppCode], nil];
     [[DBManager shared] mergeQuery:tCodeFriendsNoAppConfesses table:parameters];
+    [[DBManager shared] executeExecutableQuery];
     return [[DBManager shared] lastInsertedRowID];
 }
 

@@ -195,6 +195,7 @@ NSString *phone;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatRoomCellIdentifier"];
     cell.tag  = indexPath.row;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    NSString *url;
     
     if ([self.dialogs[indexPath.row] isKindOfClass:[QBChatDialog class]])
     {
@@ -208,7 +209,15 @@ NSString *phone;
         ConfessEntity *confess = self.dialogs[indexPath.row];
         cell.textLabel.text = confess.loginName;
         cell.detailTextLabel.text = confess.content;
+        url = confess.facebookID;
     }
+    
+    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
+    cell.imageView.image = [UIImage imageWithData: data];
+    CGFloat widthScale = 50 / cell.imageView.image.size.width;
+    CGFloat heightScale = 50 / cell.imageView.image.size.height;
+    cell.imageView.transform = CGAffineTransformMakeScale(widthScale, heightScale);
+    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
     
     return cell;
 }
@@ -252,29 +261,33 @@ NSString *phone;
         NSMutableArray *resultFirst = [[NSMutableArray alloc]
                                        initWithArray:[[DBManager shared] executeNonExecutableQuery]];
         
-        // The dialog is not deleted
-        if (resultFirst.count > 0 && ![resultFirst[0][3] boolValue])
+        //TODO: Improve this shit
+        for (NSMutableArray *curr in resultFirst)
         {
-            // Getting last confess
-            NSMutableArray *parameters = [[NSMutableArray alloc] init];
-            [parameters addObject:[NSString stringWithFormat:@"no_app_code = %@", resultFirst[0][0]]];
-            [[DBManager shared] selectQuery:tCodeFriendsNoAppConfesses table:parameters];
-            [parameters removeAllObjects];
-            [parameters addObject:@"confess_id"];
-            [[DBManager shared] orderBy:parameters values:@"DESC"];
-            NSMutableArray *resultSecond = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
-            [parameters removeAllObjects];
-            [parameters addObject:[NSString stringWithFormat:@"id = %@", resultSecond[0][1]]];
-            [[DBManager shared] selectQuery:tConfessEntity table:parameters];
-            NSMutableArray *confessResult = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
-            ConfessEntity *confess = [[ConfessEntity alloc] init];
-            confess.objectID = [((NSMutableArray*)confessResult[0])[0] integerValue];
-            confess.loginName = ((NSMutableArray*)confessResult[0])[2];
-            confess.facebookID = ((NSMutableArray*)confessResult[0])[1];
-            confess.content = ((NSMutableArray*)confessResult[0])[3];
-            confess.date = [DateHandler dateFromString:((NSMutableArray*)confessResult[0])[4]];
-            confess.isNew = [((NSMutableArray*)confessResult[0])[5] boolValue];
-            [self.dialogs addObject:confess];
+            // The dialog is not deleted
+            if (resultFirst.count > 0 && ![curr[3] boolValue])
+            {
+                // Getting last confess
+                NSMutableArray *parameters = [[NSMutableArray alloc] init];
+                [parameters addObject:[NSString stringWithFormat:@"no_app_code = %@", curr[0]]];
+                [[DBManager shared] selectQuery:tCodeFriendsNoAppConfesses table:parameters];
+                [parameters removeAllObjects];
+                [parameters addObject:@"confess_id"];
+                [[DBManager shared] orderBy:parameters values:@"DESC"];
+                NSMutableArray *resultSecond = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
+                [parameters removeAllObjects];
+                [parameters addObject:[NSString stringWithFormat:@"id = %@", resultSecond[0][1]]];
+                [[DBManager shared] selectQuery:tConfessEntity table:parameters];
+                NSMutableArray *confessResult = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
+                ConfessEntity *confess = [[ConfessEntity alloc] init];
+                confess.objectID = [((NSMutableArray*)confessResult[0])[0] integerValue];
+                confess.loginName = ((NSMutableArray*)confessResult[0])[2];
+                confess.facebookID = ((NSMutableArray*)confessResult[0])[1];
+                confess.content = ((NSMutableArray*)confessResult[0])[3];
+                confess.date = [DateHandler dateFromString:((NSMutableArray*)confessResult[0])[4]];
+                confess.isNew = [((NSMutableArray*)confessResult[0])[5] boolValue];
+                [self.dialogs addObject:confess];
+            }
         }
         
         QBGeneralResponsePage *pagedRequest = [QBGeneralResponsePage responsePageWithCurrentPage:0 perPage:100];
@@ -310,6 +323,11 @@ NSString *phone;
         [self.dialogs removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
 }
 
 @end

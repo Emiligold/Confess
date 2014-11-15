@@ -11,6 +11,7 @@
 #import "TabController.h"
 #import "ConfessView.h"
 #import "AppDelegate.h"
+#import "DBServices.h"
 
 @interface ViewController () <QBActionStatusDelegate>
 
@@ -24,6 +25,7 @@ BOOL fetched;
 NSString* UserLogin;
 NSString* UserPassword;
 NSString* UserEmail;
+BOOL isNew;
 
 - (void)viewDidLoad
 {
@@ -67,7 +69,7 @@ NSString* UserEmail;
                      completion:nil];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
+    isNew = NO;
     if ([defaults objectForKey:@"LogInWithoutFacebook"] != nil)
     {
         QBSessionParameters *parameters = [QBSessionParameters new];
@@ -178,6 +180,37 @@ NSString* UserEmail;
     NSString *userLogin = [user.name stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     NSString *userPassword = user.objectID;
     NSString *userMail = [user objectForKey:@"email"];
+    
+    if (isNew)
+    {
+        FBGraphObject *picture = [user objectForKey:@"picture"];
+        FBGraphObject *check = [picture objectForKey:@"data"];
+        NSString *url = [check objectForKey:@"url"];
+        NSMutableArray *confesses = [DBServices getRecievedConversations:url];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        for (NSMutableArray *values in confesses)
+        {
+            ConfessEntity *curr = values[1];
+            QBChatDialog *chatDialog = [QBChatDialog new];
+            NSMutableArray *selectedUsersIDs = [NSMutableArray array];
+            NSMutableArray *selectedUsersNames = [NSMutableArray array];
+            [selectedUsersIDs addObject:curr.facebookID];
+            [selectedUsersNames addObject:curr.loginName];
+            chatDialog.occupantIDs = selectedUsersIDs;
+            chatDialog.type = QBChatDialogTypePrivate;
+            [QBChat createDialog:chatDialog delegate:self];
+            QBChatMessage *message = [[QBChatMessage alloc] init];
+            message.text = curr.content;
+            message.senderID = [values[0] integerValue];
+            NSMutableDictionary *params = [NSMutableDictionary dictionary];
+            params[@"save_to_history"] = @YES;
+            [message setCustomParameters:params];
+            //message.senderID = [LocalStorageService shared].currentUser.ID;
+            [[ChatService instance] sendMessage:message];
+            [DBServices insertCodeUserConfesses:[defaults objectForKey:user.objectID] userId:curr.objectID confessId:user.objectID];
+        }
+    }
     
     [self tryToConnect:userLogin :userPassword :userMail :loginView];
     
@@ -374,7 +407,7 @@ NSString* UserEmail;
               {
                   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                   [defaults setObject:@(user.ID) forKey:userPassword];
-                  
+                  isNew = YES;
                   QBUUser *login = [QBUUser user];
                   login.login = userLogin;
                   login.password = userPassword;

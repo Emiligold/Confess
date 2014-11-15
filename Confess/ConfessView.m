@@ -217,26 +217,38 @@ ConfessWrite *translationQuizAssociateVC;
 
 -(void)sendConfess:(NSString*) confess
 {
-    NSString *user;
     //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    QBChatMessage *message;
+    ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
+    confessEntity.loginName = self.check.title;
+    confessEntity.content = confess;
+    NSDate *currDate = [NSDate date];
+    confessEntity.date = currDate;
+    confessEntity.isNew = YES;
+    confessEntity.facebookID = self.userID != nil ? self.userID : self.userUrl;
+    long long confessID = [DBServices insertNewConfess:confessEntity];
     
     if (self.userID != nil)
     {
         // create a message
-        message = [[QBChatMessage alloc] init];
+        QBChatMessage *message = [[QBChatMessage alloc] init];
         message.text = confess;
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"save_to_history"] = @YES;
         [message setCustomParameters:params];
-    
+        message.recipientID = [self.userID integerValue];
         message.senderID = [LocalStorageService shared].currentUser.ID;
-    
         [[ChatService instance] sendMessage:message];
-        user = [NSString stringWithFormat:@"%ld", (unsigned long)message.recipientID];
+         [DBServices insertCodeUserConfesses:self.userID userId:confessID confessId:self.userID];
+        [self.messages addObject:message];
+        [DBServices updateDialogStatus:self.dialog.ID dialogId:0];
     }
     else
     {
+        FriendsNoAppConfesses *result = [DBServices getConversation:self.userUrl];
+        long long no_app_code = result == nil ? [DBServices insertNewConversation:self.userUrl] : result.objectID;
+        [DBServices updateConversationStatus:self.userUrl userUrl:0];
+        [DBServices insertNewCodeFriends:confessID confessId:no_app_code];
+        [self.messages addObject:confessEntity];
         //NSString *key = [NSString stringWithFormat:@"%@%@", myID, @"sentConfesses"];
         //user = [NSString stringWithFormat:@"%@,%@", myID, self.userUrl];
         
@@ -264,66 +276,10 @@ ConfessWrite *translationQuizAssociateVC;
 
    // NSMutableArray *check = (NSMutableArray*)[defaults objectForKey:user];
     //NSMutableArray *copy = [NSMutableArray arrayWithArray:check];
-    ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
-    confessEntity.loginName = self.check.title;
-    
-    if (self.userID != nil)
-    {
-        confessEntity.facebookID = self.userID;
-    }
-    else
-    {
-        confessEntity.facebookID = self.userUrl;
-    }
-    
-    confessEntity.content = confess;
-    NSDate *currDate = [NSDate date];
-    confessEntity.date = currDate;
-    confessEntity.isNew = YES;
-    long long confessID = [DBServices insertNewConfess:confessEntity];
-    
-    if (self.userID == nil)
-    {
-        FriendsNoAppConfesses *result = [DBServices getConversation:self.userUrl];
-        long long no_app_code;
-        
-        if (result == nil)
-        {
-            no_app_code = [DBServices insertNewConversation:self.userUrl];
-        }
-        else
-        {
-            [DBServices updateConversationStatus:self.userUrl userUrl:0];
-            no_app_code = result.objectID;
-        }
-        
-        [DBServices insertNewCodeFriends:confessID confessId:no_app_code];
-    }
-    else
-    {
-        [DBServices insertCodeUserConfesses:self.userID userId:confessID confessId:self.userID];
-    }
-    
     //[copy addObject:confessEntity];
-    
     //[defaults setObject:copy forKey:user];
     //[defaults synchronize];
-    
-    if (message != nil)
-    {
-        [self.messages addObject:message];
-    }
-    else
-    {
-        [self.messages addObject:confessEntity];
-    }
-    
     [self.confessesTableView reloadData];
-    
-    if (self.dialog != nil)
-    {
-        [DBServices updateDialogStatus:self.dialog.ID dialogId:0];
-    }
     
     if(self.messages.count > 0){
         NSIndexPath* ipath = [NSIndexPath indexPathForRow: self.messages.count-1 inSection: [self.confessesTableView numberOfSections] - 1];
