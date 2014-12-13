@@ -103,7 +103,7 @@
 
 +(long long)insertNewConfess:(ConfessEntity*)confessEntity
 {
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:@"null", [NSString stringWithFormat:@"'%@'",confessEntity.facebookID], [NSString stringWithFormat:@"'%@'", confessEntity.loginName], [NSString stringWithFormat:@"'%@'", confessEntity.content], [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.date]], [NSString stringWithFormat:@"%@", [NSNumber numberWithBool: confessEntity.isNew]], nil];
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:@"null", [NSString stringWithFormat:@"'%@'",confessEntity.facebookID], [NSString stringWithFormat:@"'%@'", confessEntity.loginName], [NSString stringWithFormat:@"'%@'", confessEntity.content], [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.date]], [NSString stringWithFormat:@"%@", [NSNumber numberWithBool: confessEntity.isNew]], @(-1), nil];
     [[DBManager shared] mergeQuery:tConfessEntity table:parameters];
     [[DBManager shared] executeExecutableQuery];
     return [[DBManager shared] lastInsertedRowID];

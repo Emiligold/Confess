@@ -309,8 +309,6 @@ BOOL isNew;
                   self.tbc.nameText = self.nameText;
                   [self.tbc initProperties];
                   [self presentViewController:self.tbc animated:YES completion:nil];
-                  // Login to QuickBlox Chat
-                  //
                   //[[ChatService instance] loginWithUser:user completionBlock:^{
                   //        [self loginViewShowingLoggedInUser:loginView];
                   //}];
@@ -391,14 +389,14 @@ BOOL isNew;
             // Login to QuickBlox Chat
             //
             [[ChatService instance] loginWithUser:currentUser completionBlock:^{
-            
+            [self loginViewShowingLoggedInUser:loginView];
             // hide alert after delay
-            double delayInSeconds = 0.2;
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                [self loginViewShowingLoggedInUser:loginView];
+            //double delayInSeconds = 0.2;
+            //dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            //dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            //    [self loginViewShowingLoggedInUser:loginView];
                 
-            });
+            //});
         }];} errorBlock:^(QBResponse *response)
         {
         }];

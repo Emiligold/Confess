@@ -325,7 +325,6 @@
 				9EE9A50319DDF96B002AD3CB /* Telefono.png */,
 				9EE9A50F19DEB14C002AD3CB /* TabController.h */,
 				9EE9A51019DEB14C002AD3CB /* TabController.m */,
-				9EE9A50119DDF910002AD3CB /* Facebook_logo_(square).png */,
 				9E99DD4E19DB374600A40951 /* Icondemo.png */,
 				9E99DD2819DB36C000A40951 /* AppDelegate.h */,
 				9E99DD2919DB36C000A40951 /* AppDelegate.m */,
@@ -410,6 +409,7 @@
 		9EE9A50E19DE9DA0002AD3CB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9EE9A50119DDF910002AD3CB /* Facebook_logo_(square).png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
