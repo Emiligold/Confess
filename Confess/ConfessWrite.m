@@ -8,6 +8,8 @@
 
 #import "ConfessWrite.h"
 #import "AppDelegate.h"
+#import "ColorsHandler.h"
+#import "DBServices.h"
 
 @interface ConfessWrite ()
 
@@ -32,10 +34,10 @@
     [super viewDidLoad];
     
     _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveDataWithNotification:)
-                                                 name:@"MCDidReceiveDataNotification"
-                                               object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self
+    //                                         selector:@selector(didReceiveDataWithNotification:)
+    //                                             name:@"MCDidReceiveDataNotification"
+    //                                           object:nil];
     [self.textArea setReturnKeyType:UIReturnKeyDone];
     [self.textArea setFont:[UIFont fontWithName:@"HelveticaNeue" size:17]];
     [self.textArea setTextColor:[UIColor lightGrayColor]];
@@ -44,6 +46,13 @@
     [self.initailText setFont:[UIFont fontWithName:@"HelveticaNeue" size:17]];
     [self.initailText setTextColor:[UIColor lightGrayColor]];
     self.initailText.text = [NSString stringWithFormat:@"%@%@", @"Confess ", self.name];
+    self.view.backgroundColor = [DBServices getNextColor:[[LocalStorageService shared] currentUser].ID];
+    self.textArea.backgroundColor = self.view.backgroundColor;
+    self.textArea.textColor = [UIColor whiteColor];
+    self.initailText.textColor = [UIColor whiteColor];
+    self.closeButto.backgroundColor = self.view.backgroundColor;
+    self.infoButton.backgroundColor = self.view.backgroundColor;
+    self.confessButton.backgroundColor = self.view.backgroundColor;
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,7 +100,7 @@
 
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
-    if (self.textArea.textColor == [UIColor lightGrayColor]) {
+    if (!self.textArea.hidden) {
         self.textArea.text = @"";
         self.textArea.textColor = [UIColor blackColor];
         self.initailText.hidden = YES;
@@ -124,6 +133,22 @@
     }
     
     return YES;
+}
+
+- (IBAction)swipedAction:(id)sender {
+    self.view.backgroundColor = [DBServices getNextColor:[[LocalStorageService shared] currentUser].ID];
+    self.textArea.backgroundColor = self.view.backgroundColor;
+    self.closeButto.backgroundColor = self.view.backgroundColor;
+    self.infoButton.backgroundColor = self.view.backgroundColor;
+    self.confessButton.backgroundColor = self.view.backgroundColor;
+}
+
+- (IBAction)leftSwipedAction:(id)sender {
+    self.view.backgroundColor = [DBServices getPreviousColor:[[LocalStorageService shared] currentUser].ID];
+    self.textArea.backgroundColor = self.view.backgroundColor;
+    self.closeButto.backgroundColor = self.view.backgroundColor;
+    self.infoButton.backgroundColor = self.view.backgroundColor;
+    self.confessButton.backgroundColor = self.view.backgroundColor;
 }
 
 @end

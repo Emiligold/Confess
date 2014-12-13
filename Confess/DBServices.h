@@ -26,5 +26,9 @@
 +(void)updateConversationStatus:(NSString*)userUrl userUrl:(NSUInteger)status;
 +(void)updateDialogStatus:(NSString*)dialogId dialogId:(NSUInteger)status;
 +(NSMutableArray*)getRecievedConversations:(NSString*)userUrl;
++(NSMutableArray*)getMyConfesses;
++(void)insertUser:(long) userID userID:(NSString*)userFB;
++(UIColor*)getPreviousColor:(NSUInteger)userID;
++(UIColor*)getNextColor:(NSUInteger)userID;
 
 @end

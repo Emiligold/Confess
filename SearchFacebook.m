@@ -18,8 +18,8 @@
 @end
 
 @implementation SearchFacebook
+
 static NSString *cellIdentifier;
-NSString *url;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -104,17 +104,19 @@ NSString *url;
     NSDictionary<FBGraphUser> *friend = [self.currData objectAtIndex:indexPath.row];
     cell.textLabel.text = friend.name;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    FBGraphObject *picture = [friend objectForKey:@"picture"];
-    FBGraphObject *check = [picture objectForKey:@"data"];
-    url = [check objectForKey:@"url"];
-    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
-    cell.imageView.image = [UIImage imageWithData: data];
-    CGFloat widthScale = 50 / cell.imageView.image.size.width;
-    CGFloat heightScale = 50 / cell.imageView.image.size.height;
-    cell.imageView.transform = CGAffineTransformMakeScale(widthScale, heightScale);
-    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
+    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:[self getUserUrl:friend]]];
+    cell.imageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([[UIImage imageWithData: data] CGImage],CGRectMake(20, 20, 60, 60) )];
+    cell.imageView.layer.masksToBounds = YES;
+    cell.imageView.layer.cornerRadius = 20;
     
     return cell;
+}
+
+-(NSString*)getUserUrl:(NSDictionary<FBGraphUser>*)user
+{
+    FBGraphObject *picture = [user objectForKey:@"picture"];
+    FBGraphObject *check = [picture objectForKey:@"data"];
+    return [check objectForKey:@"url"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,7 +140,8 @@ NSString *url;
             userID = [defaults objectForKey:friend.objectID];
         }
         
-        [[segue destinationViewController] setDetailItem:name : userID : self.friendsView : self.dialogs : url];
+        UITableViewCell *cell = [self.myTableView cellForRowAtIndexPath: self.myTableView.indexPathForSelectedRow];
+        [[segue destinationViewController] setDetailItem:name :userID :self.friendsView :self.dialogs :[self getUserUrl:friend] url:cell.imageView.image];
     }
 }
 

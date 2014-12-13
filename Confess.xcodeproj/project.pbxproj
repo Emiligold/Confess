@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C491A31B965007E3CEF /* ColorsHandler.m */; };
+		9E273C4D1A31C3D6007E3CEF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C4C1A31C3D6007E3CEF /* User.m */; };
 		9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E63D40E1A01664800CA1E3B /* GrayConfess.png */; };
 		9E994B4D19F5551C00DA5A50 /* LocalStorageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E994B4C19F5551C00DA5A50 /* LocalStorageService.m */; };
 		9E994B5019F555A300DA5A50 /* ChatService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E994B4F19F555A300DA5A50 /* ChatService.m */; };
@@ -82,6 +84,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E273C481A31B965007E3CEF /* ColorsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsHandler.h; sourceTree = "<group>"; };
+		9E273C491A31B965007E3CEF /* ColorsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorsHandler.m; sourceTree = "<group>"; };
+		9E273C4B1A31C3D6007E3CEF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		9E273C4C1A31C3D6007E3CEF /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		9E63D40E1A01664800CA1E3B /* GrayConfess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GrayConfess.png; sourceTree = "<group>"; };
 		9E994B4B19F5551C00DA5A50 /* LocalStorageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalStorageService.h; sourceTree = "<group>"; };
 		9E994B4C19F5551C00DA5A50 /* LocalStorageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalStorageService.m; sourceTree = "<group>"; };
@@ -348,6 +354,8 @@
 				9EC1B2BB1A127445004DB39B /* DateHandler.m */,
 				9EC1B2C31A127B83004DB39B /* DBServices.h */,
 				9EC1B2C41A127B83004DB39B /* DBServices.m */,
+				9E273C481A31B965007E3CEF /* ColorsHandler.h */,
+				9E273C491A31B965007E3CEF /* ColorsHandler.m */,
 			);
 			path = Confess;
 			sourceTree = "<group>";
@@ -393,6 +401,8 @@
 				9EC1B2BE1A12795F004DB39B /* CodeFriendsNoAppConfesses.m */,
 				9EC1B2C01A127AA8004DB39B /* CodeUserConfesses.h */,
 				9EC1B2C11A127AA8004DB39B /* CodeUserConfesses.m */,
+				9E273C4B1A31C3D6007E3CEF /* User.h */,
+				9E273C4C1A31C3D6007E3CEF /* User.m */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -507,6 +517,7 @@
 			files = (
 				9EC1B2B21A0E6529004DB39B /* DBManager.m in Sources */,
 				9E994B5B19F55C8900DA5A50 /* NMPaginator.m in Sources */,
+				9E273C4D1A31C3D6007E3CEF /* User.m in Sources */,
 				9E994B6719FA909600DA5A50 /* ConfessEntity.m in Sources */,
 				9E994B4D19F5551C00DA5A50 /* LocalStorageService.m in Sources */,
 				9E994B5E19F6F08000DA5A50 /* ConfessMessageViewCell.m in Sources */,
@@ -527,6 +538,7 @@
 				9EC1B2BF1A12795F004DB39B /* CodeFriendsNoAppConfesses.m in Sources */,
 				9E9A195C19E6B05600BF1C6C /* ConfessWrite.m in Sources */,
 				9EC1B2C21A127AA8004DB39B /* CodeUserConfesses.m in Sources */,
+				9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */,
 				9EE9A51119DEB14C002AD3CB /* TabController.m in Sources */,
 				9E99DD2619DB36C000A40951 /* main.m in Sources */,
 				9E9A19C819E9929D00BF1C6C /* ChatCell.m in Sources */,

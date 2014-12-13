@@ -151,23 +151,15 @@ static UIImage *confessImage;
 - (void)configureCellWithConfess:(ConfessEntity *)message
 {
     self.messageTextView.text = message.content;
-    
     CGSize textSize = { 260.0, 10000.0 };
-    
 	CGSize size = [self.messageTextView.text sizeWithFont:[UIFont boldSystemFontOfSize:13]
                                         constrainedToSize:textSize
                                             lineBreakMode:NSLineBreakByWordWrapping];
-    
-    //    NSLog(@"message: %@", message);
-    
 	size.width += 10;
-
     NSString *time = [DateHandler stringFromDate:message.date];
-    
     [self.messageTextView setFrame:CGRectMake(padding, padding+5, size.width, size.height+padding)];
     [self.messageTextView sizeToFit];
     self.messageTextView.text = message.content;
-        
     [self.backgroundImageView setFrame:CGRectMake(padding/2, padding+5,
                                                       300, self.messageTextView.frame.size.height+5)];
     self.backgroundImageView.image = [[UIImage imageNamed:@"GrayConfess"] stretchableImageWithLeftCapWidth:24  topCapHeight:15];;
@@ -175,8 +167,7 @@ static UIImage *confessImage;
     self.dateLabel.textAlignment = NSTextAlignmentLeft;
     self.messageTextView.textAlignment = NSTextAlignmentCenter;
         
-        
-    if (self.dateLabel.text == nil || ![[[self.dateLabel.text substringFromIndex:8] substringToIndex:2] isEqualToString: [[time substringFromIndex:8] substringToIndex:2]])
+    if (self.dateLabel.text == nil || (self.dateLabel.text.length > 8 && ![[[self.dateLabel.text substringFromIndex:8] substringToIndex:2] isEqualToString: [[time substringFromIndex:8] substringToIndex:2]]))
     {
         self.dateLabel.text = [NSString stringWithFormat:@"%@", time];
     }

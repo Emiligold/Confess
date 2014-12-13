@@ -13,7 +13,7 @@
 #import "DateHandler.h"
 #import "DBServices.h"
 
-@interface FriendsTab () <UITableViewDelegate, UITableViewDataSource, QBActionStatusDelegate>
+@interface FriendsTab () <UITableViewDelegate, UITableViewDataSource, QBActionStatusDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dialogs;
 @property (weak, nonatomic) IBOutlet UITableView *chatTable;
@@ -25,6 +25,7 @@
 NSString *contactName;
 id senderContact;
 NSString *phone;
+NSMutableArray *allDialogs;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,18 +55,24 @@ NSString *phone;
     self.navigationItem.leftBarButtonItem = facebookItem;
     self.tabBarController.tabBar.hidden = NO;
     self.chatTable.allowsMultipleSelectionDuringEditing = NO;
+    self.searchBar.delegate = self;
+    self.chatTable.tableHeaderView = self.searchBar;
+    self.tabBarController.tabBar.barTintColor =  [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [QBChat dialogsWithExtendedRequest:nil delegate:self];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
+    self.searchBar.text = @"";
+    
+    if (self.dialogs.count > 0)
+    {
+        [self.chatTable setContentOffset:CGPointMake(0, 44)];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,7 +102,7 @@ NSString *phone;
     if ([[segue identifier] isEqualToString:@"Chat"])
     {
         ConfessView *translationQuizAssociateVC = [segue destinationViewController];
-        [translationQuizAssociateVC setDetailItem:contactName : phone : self : self.dialogs : nil];
+        [translationQuizAssociateVC setDetailItem:contactName : phone : self : self.dialogs : nil url: nil];
     }
     else if ([[segue identifier] isEqualToString:@"Associate"])
     {
@@ -105,8 +112,10 @@ NSString *phone;
     else if ([[segue identifier] isEqualToString:@"DialogChoose"])
     {
         NSString *name = ((UITableViewCell *)sender).textLabel.text;
+        UIImage *image = ((UITableViewCell *)sender).imageView.image;
         ConfessView *destinationViewController = [segue destinationViewController];
-        [destinationViewController setDetailItem:name : nil :self :self.dialogs : nil];
+        //destinationViewController.friendImage = image
+        [destinationViewController setDetailItem:name :nil :self :self.dialogs :nil url:image];
         
         if ([self.dialogs[((UITableViewCell *)sender).tag] isKindOfClass:[QBChatDialog class]])
         {
@@ -116,7 +125,7 @@ NSString *phone;
         else
         {
             ConfessEntity *dialog = self.dialogs[((UITableViewCell *)sender).tag];
-            [destinationViewController setDetailItem:name : nil :self :self.dialogs : dialog.facebookID];
+            [destinationViewController setDetailItem:name : nil :self :self.dialogs : dialog.facebookID url: image];
         }
     }
 
@@ -212,12 +221,23 @@ NSString *phone;
         url = confess.facebookID;
     }
     
+    if (indexPath.row % 2)
+    {
+        //cell.backgroundColor = [UIColor lightGrayColor];
+        cell.backgroundColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    }
+    else
+    {
+        //cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+        //cell.textLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"GrayConfess.png"]];
+        //cell.detailTextLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"GrayConfess.png"]];
+        cell.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
+    }
+    
     NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
-    cell.imageView.image = [UIImage imageWithData: data];
-    CGFloat widthScale = 50 / cell.imageView.image.size.width;
-    CGFloat heightScale = 50 / cell.imageView.image.size.height;
-    cell.imageView.transform = CGAffineTransformMakeScale(widthScale, heightScale);
-    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
+    cell.imageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([[UIImage imageWithData: data] CGImage],CGRectMake(20, 20, 45, 45) )];
+    cell.imageView.layer.masksToBounds = YES;
+    cell.imageView.layer.cornerRadius = 20;
     
     return cell;
 }
@@ -297,8 +317,14 @@ NSString *phone;
             [LocalStorageService shared].users = users;
             
         } errorBlock:nil];
+        
+        allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
         [self.chatTable reloadData];
         
+        if (self.dialogs.count > 0)
+        {
+            [self.chatTable setContentOffset:CGPointMake(0, 44)];
+        }
     }
 }
 
@@ -322,12 +348,69 @@ NSString *phone;
         
         [self.dialogs removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.chatTable reloadData];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 55;
 }
+
+-(void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSMutableArray *mutableArray = [(NSArray*)allDialogs mutableCopy];
+    
+    for (NSObject *curr in allDialogs)
+    {
+        NSString *name;
+        
+        if ([curr isKindOfClass:[QBChatDialog class]])
+        {
+            QBChatDialog *dialog = (QBChatDialog*)curr;
+            QBUUser *recipient = [LocalStorageService shared].usersAsDictionary[@(dialog.recipientID)];
+            name = [recipient.login stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+        }
+        else
+        {
+            ConfessEntity *dialg = (ConfessEntity*)curr;
+            name = dialg.loginName;
+
+        }
+        
+        if (![searchText  isEqualToString: @""] && [[name uppercaseString] rangeOfString:[searchText uppercaseString]].location == NSNotFound)
+        {
+            [mutableArray removeObject:curr];
+        }
+    }
+    
+    self.dialogs = [NSMutableArray arrayWithArray:mutableArray];
+    [self.chatTable reloadData];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    searchBar.text = @"";
+    [searchBar setShowsCancelButton:NO animated:YES];
+    self.dialogs = allDialogs;
+    [self.chatTable reloadData];
+    
+    if (self.dialogs.count > 0)
+    {
+        //[self.chatTable setContentOffset:CGPointMake(0, 44)];
+    }
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    //self.navigationController.navigationBar.hidden=TRUE;
+    //CGRect r=self.view.frame;
+    //r.origin.y=-0.08;
+    //r.size.height+=0.08;
+    //self.view.frame=r;
+    [searchBar setShowsCancelButton:YES animated:YES];
+}
+
 
 @end

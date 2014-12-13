@@ -8,11 +8,13 @@
 
 #import "SettingsTab.h"
 
-@interface SettingsTab ()
+@interface SettingsTab ()  <UITableViewDelegate, UITableViewDataSource>
 
 @end
 
 @implementation SettingsTab
+
+NSMutableArray *settings;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +29,7 @@
 {
     [super viewDidLoad];
     self.tabBarController.tabBar.hidden = NO;
+    settings = [[NSMutableArray alloc] initWithObjects:@"Log out", nil ];
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,6 +42,19 @@
 {
     self.loginView.hidden = false;
     [self.view addSubview:self.loginView];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return 1;
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifier"];
+    cell.textLabel.text = settings[indexPath.row];
+    return cell;
 }
 
 /*

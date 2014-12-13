@@ -18,6 +18,7 @@
     [encoder encodeObject:self.content forKey:@"content"];
     [encoder encodeObject:self.date forKey:@"date"];
     [encoder encodeObject:@(self.isNew) forKey:@"isNew"];
+    [encoder encodeObject:@(self.currColor) forKey:@"currColor"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -28,6 +29,7 @@
         self.content = [decoder decodeObjectForKey:@"content"];
         self.date = [decoder decodeObjectForKey:@"date"];
         self.isNew = [[decoder decodeObjectForKey:@"isNew"] boolValue];
+        self.currColor = [[decoder decodeObjectForKey:@"currColor"] integerValue];
     }
     return self;
 }
@@ -40,6 +42,7 @@
     self.content = properties[3];
     self.date = [DateHandler dateFromString:properties[4]];
     self.isNew = [properties[5] boolValue];
+    self.currColor = [properties[6] integerValue];
     return self;
 }
 

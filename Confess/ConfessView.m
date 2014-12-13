@@ -19,10 +19,12 @@
 
 @property (nonatomic, strong) NSMutableArray *messages;
 @property (nonatomic, weak) IBOutlet UITableView *confessesTableView;
-@property (nonatomic, strong) NSString *userID;
 @property (nonatomic, strong) NSString *userUrl;
+@property (nonatomic, assign) BOOL isFullScreen;
 @property (nonatomic, weak) IBOutlet FriendsTab *friendsView;
 @property (nonatomic, strong) NSMutableArray *dialogs;
+@property (nonatomic, assign) CGRect prevFrame;
+@property (nonatomic, assign) CGRect prevFrameButton;
 
 @end
 
@@ -49,6 +51,18 @@ ConfessWrite *translationQuizAssociateVC;
     self.messages = [NSMutableArray array];
     self.confessesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.confessesTableView registerClass:[ConfessMessageViewCell class] forCellReuseIdentifier:@"ChatMessageCellIdentifier"];
+    
+    if (self.friendImage != nil)
+    {
+        UIButton *imageButton = [[UIButton alloc] init];
+        imageButton.frame = CGRectMake(0, 00, 65, 65);
+        [imageButton setBackgroundImage:self.friendImage forState:UIControlStateNormal];
+        [imageButton addTarget:self action:@selector(imageClicked:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *imageItem = [[UIBarButtonItem alloc] initWithCustomView:imageButton];
+        imageItem.customView.layer.cornerRadius = imageItem.customView.frame.size.height / 2;
+        imageItem.customView.layer.masksToBounds = YES;
+        self.navigationItem.rightBarButtonItem = imageItem;
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -94,6 +108,12 @@ ConfessWrite *translationQuizAssociateVC;
         self.messages = [[NSMutableArray alloc] initWithArray:[DBServices getMessagesByUrl:self.userUrl]];
         [self.confessesTableView reloadData];
     }
+    
+    if (self.messages.count > 0)
+    {
+        NSIndexPath* ipath = [NSIndexPath indexPathForRow: self.messages.count-1 inSection: 0];
+        [self.confessesTableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionBottom animated: YES];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -125,13 +145,14 @@ ConfessWrite *translationQuizAssociateVC;
 }
 
 -(void)setDetailItem:(NSString*) name : (NSString*) userID :
-    (FriendsTab*) view : (NSMutableArray*) dialogs : (NSString*) url;
+(FriendsTab*) view : (NSMutableArray*) dialogs : (NSString*) url url: (UIImage*) image;
 {
     self.check.title = name;
     self.userID = userID;
     self.friendsView = view;
     self.dialogs = dialogs;
     self.userUrl = url;
+    self.friendImage = image;
 }
 
 - (void)didReceiveMemoryWarning
@@ -217,7 +238,6 @@ ConfessWrite *translationQuizAssociateVC;
 
 -(void)sendConfess:(NSString*) confess
 {
-    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
     confessEntity.loginName = self.check.title;
     confessEntity.content = confess;
@@ -249,36 +269,8 @@ ConfessWrite *translationQuizAssociateVC;
         [DBServices updateConversationStatus:self.userUrl userUrl:0];
         [DBServices insertNewCodeFriends:confessID confessId:no_app_code];
         [self.messages addObject:confessEntity];
-        //NSString *key = [NSString stringWithFormat:@"%@%@", myID, @"sentConfesses"];
-        //user = [NSString stringWithFormat:@"%@,%@", myID, self.userUrl];
-        
-        //if ([defaults objectForKey:key] == nil)
-        //{
-        //    [defaults setObject:[[NSMutableArray alloc] init] forKey:key];
-        //}
-        
-        //NSMutableArray *urls = [defaults objectForKey:key];
-        //NSMutableArray *copyUrls = [NSMutableArray arrayWithArray:urls];
-        //[defaults setObject:@"" forKey:[NSString stringWithFormat:@"%@,Status", user]];
-        
-        //if (![copyUrls containsObject:self.userUrl])
-        //{
-        //    [copyUrls addObject:self.userUrl];
-        //    [defaults setObject:copyUrls forKey:key];
-        //}
     }
-    
-    //if ([defaults objectForKey:user] == nil)
-    //{
-    //    [defaults setObject:[NSMutableArray array] forKey:user];
-    //    [defaults synchronize];
-    //}
 
-   // NSMutableArray *check = (NSMutableArray*)[defaults objectForKey:user];
-    //NSMutableArray *copy = [NSMutableArray arrayWithArray:check];
-    //[copy addObject:confessEntity];
-    //[defaults setObject:copy forKey:user];
-    //[defaults synchronize];
     [self.confessesTableView reloadData];
     
     if(self.messages.count > 0){
@@ -286,27 +278,9 @@ ConfessWrite *translationQuizAssociateVC;
         [self.confessesTableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionBottom animated: YES];
        // [self.confessesTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.messages count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
-    
-    //[defaults synchronize];
 }
 
 - (void)chatDidReceiveMessageNotification:(NSNotification *)notification{
-    
-    //QBChatMessage *message = notification.userInfo[kMessage];
-    //if(message.senderID != self.dialog.recipientID){
-    //    return;
-    //}
-    
-    // save message
-    //[self.messages addObject:message];
-    
-    // Reload table
-    //[self.confessesTableView reloadData];
-    //if(self.messages.count > 0){
-    //    [self.confessesTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.messages count]-1 inSection:0]
-    //                                  atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    //}
-    
     QBChatMessage *message = notification.userInfo[kMessage];
     if(message.senderID != self.dialog.recipientID){
         return;
@@ -342,6 +316,36 @@ ConfessWrite *translationQuizAssociateVC;
             NSIndexPath* ipath = [NSIndexPath indexPathForRow: self.messages.count-1 inSection: 0];
             [self.confessesTableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionBottom animated: YES];
         }
+    }
+}
+
+- (IBAction)imageClicked:(id)sender {
+    //[self imgToFullScreen];
+}
+
+-(void)imgToFullScreen{
+    if (!self.isFullScreen) {
+        [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
+            self.prevFrame = self.navigationItem.rightBarButtonItem.customView.frame;
+            self.prevFrameButton = self.navigationItem.rightBarButtonItem.customView.frame;
+            [self.navigationItem.rightBarButtonItem.customView setFrame:[[UIScreen mainScreen] bounds]];
+            //[self.imageButton setFrame:[[UIScreen mainScreen] bounds]];
+            self.confessesTableView.hidden = YES;
+        }completion:^(BOOL finished){
+            self.isFullScreen = true;
+            self.tabBarController.tabBar.hidden = YES;
+        }];
+        return;
+    } else {
+        [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
+            [self.navigationItem.rightBarButtonItem.customView setFrame:self.prevFrame];
+            //[self.imageButton setFrame:self.prevFrameButton];
+        }completion:^(BOOL finished){
+            self.isFullScreen = false;
+            self.tabBarController.tabBar.hidden = NO;
+            self.confessesTableView.hidden = NO;
+        }];
+        return;
     }
 }
 

@@ -21,5 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *initailText;
 @property (weak, nonatomic) IBOutlet UIButton *closeButto;
 @property (weak, nonatomic) IBOutlet ConfessView *confessView;
+@property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *swipe;
+- (IBAction)swipedAction:(id)sender;
+- (IBAction)leftSwipedAction:(id)sender;
 
 @end

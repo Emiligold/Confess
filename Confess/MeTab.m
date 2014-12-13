@@ -10,12 +10,15 @@
 #import "ConfessEntity.h"
 #import "DBManager.h"
 #import "DateHandler.h"
+#import "DBServices.h"
 
 @interface MeTab () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
 @end
 
 @implementation MeTab
+
+#define padding 20
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,8 +32,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = CGPointMake(220, 72);
     spinner.hidesWhenStopped = YES;
@@ -55,26 +56,11 @@
     self.tabBarController.tabBar.hidden = NO;
     self.confesses = [NSMutableArray array];
     self.confessesTableView.delegate = self;
-    NSString *query = [NSString stringWithFormat:@"SELECT * FROM CODE_USER_CONFESSES WHERE user_id = %ld",
-                       (unsigned long)[LocalStorageService shared].currentUser.ID];
-    NSMutableArray *confesses = [[NSMutableArray alloc] initWithArray:[[DBManager shared] loadDataFromDB:query]];
-    
-    for (NSMutableArray *curr in confesses)
-    {
-        NSString *confessQuery = [NSString stringWithFormat:@"SELECT * FROM confessEntity where id = %@", curr[2]];
-        NSMutableArray *currConfess = [[NSMutableArray alloc] initWithArray:[[DBManager shared] loadDataFromDB:confessQuery]];
-        ConfessEntity *confess = [[ConfessEntity alloc] init];
-        confess.objectID = [((NSMutableArray*)currConfess[0])[0] integerValue];
-        confess.loginName = ((NSMutableArray*)currConfess[0])[2];
-        confess.content = ((NSMutableArray*)currConfess[0])[3];
-        confess.date = [DateHandler dateFromString:((NSMutableArray*)currConfess[0])[4]];
-        confess.facebookID = ((NSMutableArray*)currConfess[0])[1];
-        confess.isNew = [((NSMutableArray*)currConfess[0])[5] boolValue];
-        [self.confesses addObject:confess];
-    }
-    
+    self.confesses = [DBServices getMyConfesses];
     [self.confessesTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
     self.confessesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.view.backgroundColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    self.titleScroll.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,6 +71,13 @@
 
 -(void)initProperties
 {
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.confesses = [DBServices getMyConfesses];
+    [self.confessesTableView reloadData];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch;
@@ -148,17 +141,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CGSize textSize = { 260.0, 10000.0 };
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rowCell"];
-    //NSData *encoded = [self.confesses objectAtIndex:indexPath.row];
-    //ConfessEntity *confess = [NSKeyedUnarchiver unarchiveObjectWithData:encoded];
     ConfessEntity *confess = [self.confesses objectAtIndex:indexPath.row];
     cell.textLabel.text = confess.content;
     cell.textLabel.textColor = [UIColor whiteColor];
     //cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:confess.date
      //                                                          dateStyle:NSDateFormatterShortStyle
       //                                                         timeStyle:NSDateFormatterFullStyle];
+    CGSize size = [cell.textLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:23]
+                                        constrainedToSize:textSize
+                                            lineBreakMode:NSLineBreakByWordWrapping];
+	size.width += 10;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+    cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0]];
+    [cell.textLabel setFrame:CGRectMake(padding, padding+5, size.width, size.height+padding)];
+    [cell.backgroundView setFrame:CGRectMake(padding/2, padding+5,
+                                                  300, cell.textLabel.frame.size.height+5)];
     //cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"cell_pressed.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
     
     if (confess.isNew)
@@ -175,7 +174,7 @@
         [self.confesses removeObject:confess];
         //[self.confesses  addObject:[NSKeyedArchiver archivedDataWithRootObject:confessNew]];
         [self.confesses addObject:confessNew];
-        NSString *query = [NSString stringWithFormat:@"INSERT OR REPLACE INTO confessEntity values (%ld,'%@','%@','%@','%@', %d)", (unsigned long)confess.objectID, confess.facebookID, confess.loginName, confess.content, confess.date, [[NSNumber numberWithBool:confess.isNew]intValue]];
+        NSString *query = [NSString stringWithFormat:@"INSERT OR REPLACE INTO confessEntity values (%ld,'%@','%@','%@','%@', %d, %d)", (unsigned long)confess.objectID, confess.facebookID, confess.loginName, confess.content, confess.date, [[NSNumber numberWithBool:confess.isNew]intValue], confess.currColor];
         [[DBManager shared] executeQuery:query];
     }
     

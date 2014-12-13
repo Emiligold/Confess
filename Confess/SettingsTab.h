@@ -13,5 +13,6 @@
 
 @property (strong, nonatomic) IBOutlet FBLoginView *loginView;
 -(void)initProperties;
+@property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 
 @end

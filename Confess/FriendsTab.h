@@ -21,5 +21,6 @@
 - (IBAction)showPicker:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *facebookImage;
 - (IBAction)facebookClicked:(id)sender;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end

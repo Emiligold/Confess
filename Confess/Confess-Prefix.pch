@@ -30,3 +30,4 @@
 #define tCodeFriendsNoAppConfesses @"CODE_FRIENDS_NO_APP_CONFESSES"
 #define tConfessEntity @"confessEntity"
 #define tCodeUserConfesses @"CODE_USER_CONFESSES"
+#define tUsers @"USERS"

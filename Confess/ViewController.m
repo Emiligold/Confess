@@ -61,12 +61,16 @@ BOOL isNew;
     //self.view.backgroundColor = [UIColor colorWithRed:(214/255.0) green:(195/255.0) blue:(163/255.0) alpha:1];
     self.view.backgroundColor = [UIColor whiteColor];
     self.startButton.alpha = 0.0;
-    [self.view addSubview:self.startButton];
-    [UIView animateWithDuration:5.0
+    
+    if ([FBSession activeSession] == nil || [FBSession activeSession].state == FBSessionStateCreated)
+    {
+        [self.view addSubview:self.startButton];
+        [UIView animateWithDuration:5.0
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{self.startButton.alpha = 1.0;}
                      completion:nil];
+    }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     isNew = NO;
@@ -136,11 +140,14 @@ BOOL isNew;
 
 -(void)fadeIn:(UIView*)viewToFadeIn withDuration:(NSTimeInterval)duration andWait:(NSTimeInterval)wait
 {
-    [UIView beginAnimations:@"Fade In" context:nil];
-    [UIView setAnimationDelay:wait];
-    [UIView setAnimationDuration:duration];
-    self.startButton.alpha = 1;
-    [UIView commitAnimations];
+    if (UserPassword == nil)
+    {
+        [UIView beginAnimations:@"Fade In" context:nil];
+        [UIView setAnimationDelay:wait];
+        [UIView setAnimationDuration:duration];
+        self.startButton.alpha = 1;
+        [UIView commitAnimations];
+    }
 }
 
 -(void)toggleHiddenState:(BOOL)shouldHide{
@@ -367,6 +374,8 @@ BOOL isNew;
     // If it's nil - the user needs to sign in
     if ([defaults objectForKey:userPassword] != nil)
     {
+        if (!fetched)
+        {
         [QBRequest createSessionWithExtendedParameters:parameters successBlock:^(QBResponse *response, QBASession *session) {
             // Save current user
             QBUUser *currentUser = [QBUUser user];
@@ -393,6 +402,7 @@ BOOL isNew;
         }];} errorBlock:^(QBResponse *response)
         {
         }];
+        }
     }
     else
     {
@@ -407,6 +417,7 @@ BOOL isNew;
               {
                   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                   [defaults setObject:@(user.ID) forKey:userPassword];
+                  [DBServices insertUser:user.ID userID:userPassword];
                   isNew = YES;
                   QBUUser *login = [QBUUser user];
                   login.login = userLogin;

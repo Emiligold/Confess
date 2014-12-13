@@ -12,12 +12,15 @@
 #import "ConfessEntity.h"
 #import "CodeFriendsNoAppConfesses.h"
 #import "DateHandler.h"
+#import "User.h"
+#import "ColorsHandler.h"
 
 @implementation DBServices
 
 +(id<AbstractEntity>)getEntityById:(id<AbstractEntity>)entityClass entityClass:(NSUInteger)objectID
 {
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"id = %ld", (unsigned long)objectID], nil];
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:
+                                  [NSString stringWithFormat:@"id = %ld", (unsigned long)objectID], nil];
     return [self uniqueSelect:entityClass entityClass:parameters];
 }
 
@@ -41,8 +44,14 @@
 
 +(id<AbstractEntity>)getConversation:(NSString*)userUrl
 {
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%@'", [self myID]], [NSString stringWithFormat:@"friend_url = '%@'", userUrl], nil];
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%@'", [self myID]], [NSString stringWithFormat:@"friend_url LIKE '%%%@.jpg%%'", [DBServices getSubUrl:userUrl]], nil];
     return [self uniqueSelect:[[FriendsNoAppConfesses alloc] init] entityClass:parameters];
+}
+
++(NSString*)getSubUrl:(NSString*)userUrl
+{
+    NSString *firstPart = [userUrl substringFromIndex:[userUrl rangeOfString:@"/" options:NSBackwardsSearch].location];
+    return [firstPart substringToIndex:[firstPart rangeOfString:@".jpg"].location];
 }
 
 +(NSMutableArray*)getRecievedConversations:(NSString*)userUrl
@@ -57,7 +66,7 @@
     {
         [[DBManager shared] deleteQuery:tFriendsNoAppConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"id = %@", curr[0]], nil]];
         [[DBManager shared] deleteQuery:tCodeFriendsNoAppConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"id = %@", curr[4]], nil]];
-        [result addObject:[[NSMutableArray alloc] initWithObjects:curr[1], [[ConfessEntity alloc] initProperties:[NSMutableArray arrayWithArray:[curr subarrayWithRange:NSMakeRange(7, 13)]]], nil]];
+        [result addObject:[[NSMutableArray alloc] initWithObjects:curr[1], [[ConfessEntity alloc] initProperties:[NSMutableArray arrayWithArray:[curr subarrayWithRange:NSMakeRange(7, 5)]]], nil]];
         //[result addObject:[self getEntityById:[[ConfessEntity alloc] init] entityClass:((CodeFriendsNoAppConfesses*)[self getEntityByUniqe:[[CodeFriendsNoAppConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"no_app_code = %@", curr[0]], nil]]).confessID]];
     }
     
@@ -112,7 +121,7 @@
 {
     NSMutableArray *setParameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:
                                      @"is_deleted = %ld", (unsigned long)status], nil];
-    NSMutableArray *conditionParameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%@'", [self myID]], [NSString stringWithFormat:@"friend_url = '%@'", userUrl], nil];
+    NSMutableArray *conditionParameters = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%@'", [self myID]], [NSString stringWithFormat:@"friend_url LIKE '%%%@.jpg%%'", [DBServices getSubUrl:userUrl]], nil];
     [[DBManager shared] updateQuery:tFriendsNoAppConfesses
                               table:setParameters setParameters:conditionParameters];
     [[DBManager shared] executeExecutableQuery];
@@ -147,6 +156,47 @@
 +(NSString*)myID
 {
     return [NSString stringWithFormat:@"%ld", (unsigned long)[LocalStorageService shared].currentUser.ID];
+}
+
++(NSMutableArray*)getMyConfesses
+{
+    [[DBManager shared] joinQuery:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"%@ a", tCodeUserConfesses], [NSString stringWithFormat:@"%@ b", tConfessEntity], nil] tables:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%@'", [DBServices myID]], [NSString stringWithFormat:@"a.confess_id = b.id"], nil]];
+    [[DBManager shared] orderBy:[[NSMutableArray alloc] initWithObjects:@"b.date", nil] values:@"DESC"];
+    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
+    NSMutableArray *final = [[NSMutableArray alloc] init];
+    
+    for (NSMutableArray *curr in results)
+    {
+        [final addObject: [[ConfessEntity alloc] initProperties:[[curr subarrayWithRange:NSMakeRange(5, 7)] mutableCopy]]];
+    }
+    
+    return final;
+}
+
++(void)insertUser:(long) userID userID:(NSString*)userFB
+{
+    [[DBManager shared] mergeQuery:tUsers table:[[NSMutableArray alloc] initWithObjects:@(userID), userFB, @(-1), nil]];
+    [[DBManager shared] executeExecutableQuery];
+}
+
++(UIColor*)getNextColor:(NSUInteger)userID
+{
+    User *user = [DBServices getEntityById:[[User alloc] init] entityClass:userID];
+    NSUInteger nextIndex = (3 + ((long)(user.currColor + 1) % 3)) % 3;
+    [[DBManager shared] mergeQuery:tUsers table:[[NSMutableArray alloc] initWithObjects:
+                                                 @(user.userID), user.facebookID, @(nextIndex), nil]];
+    [[DBManager shared] executeExecutableQuery];
+    return [ColorsHandler getColorByIndex:nextIndex];
+}
+
++(UIColor*)getPreviousColor:(NSUInteger)userID
+{
+    User *user = [DBServices getEntityById:[[User alloc] init] entityClass:userID];
+    NSUInteger nextIndex = (3 + (((long)user.currColor - 1) % 3)) % 3;
+    [[DBManager shared] mergeQuery:tUsers table:[[NSMutableArray alloc] initWithObjects:
+                                                 @(user.userID), user.facebookID, @(nextIndex), nil]];
+    [[DBManager shared] executeExecutableQuery];
+    return [ColorsHandler getColorByIndex:nextIndex];
 }
 
 @end

@@ -12,12 +12,15 @@
 
 @interface ConfessView : UIViewController
 
--(void)setDetailItem:(NSString*) name : (NSString*) userID : (FriendsTab*) view : (NSMutableArray*) dialogs : (NSString*) url;
+-(void)setDetailItem:(NSString*) name : (NSString*) userID : (FriendsTab*) view :
+    (NSMutableArray*) dialogs : (NSString*) url url: (UIImage*) image;
 @property (weak, nonatomic) IBOutlet UINavigationItem *check;
 @property (weak, nonatomic) IBOutlet UIButton *confessButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *writeButton;
 @property (weak, nonatomic) IBOutlet UIView *container;
 @property (nonatomic, strong) QBChatDialog *dialog;
+@property (nonatomic, weak) IBOutlet UIImage *friendImage;
+@property (nonatomic, strong) NSString *userID;
 -(void)sendConfess:(NSString*) confess;
 
 @end
