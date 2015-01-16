@@ -22,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *facebookImage;
 - (IBAction)facebookClicked:(id)sender;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIView *container;
 
 @end

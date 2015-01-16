@@ -56,6 +56,7 @@
 		9E9A19D419EA95BF00BF1C6C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9A19D319EA95BE00BF1C6C /* AVFoundation.framework */; };
 		9E9A19D619EA95EA00BF1C6C /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9A19D519EA95EA00BF1C6C /* libresolv.dylib */; };
 		9E9A19D819EA960400BF1C6C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9A19D719EA960400BF1C6C /* libxml2.dylib */; };
+		9E9A9B371A68563C005F9E1F /* SearchFacebookContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */; };
 		9EC1B2AF1A0E6504004DB39B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EC1B2AE1A0E6504004DB39B /* libsqlite3.dylib */; };
 		9EC1B2B21A0E6529004DB39B /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1B2B11A0E6529004DB39B /* DBManager.m */; };
 		9EC1B2B91A126E81004DB39B /* FriendsNoAppConfesses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1B2B81A126E81004DB39B /* FriendsNoAppConfesses.m */; };
@@ -150,6 +151,8 @@
 		9E9A19D319EA95BE00BF1C6C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9E9A19D519EA95EA00BF1C6C /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		9E9A19D719EA960400BF1C6C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFacebookContainer.h; sourceTree = "<group>"; };
+		9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFacebookContainer.m; sourceTree = "<group>"; };
 		9EC1B2AE1A0E6504004DB39B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9EC1B2B01A0E6529004DB39B /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		9EC1B2B11A0E6529004DB39B /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
@@ -226,6 +229,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E4B27371A3C6BC100C37D4A /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				9EC1B2B01A0E6529004DB39B /* DBManager.h */,
+				9EC1B2B11A0E6529004DB39B /* DBManager.m */,
+				9EC1B2C31A127B83004DB39B /* DBServices.h */,
+				9EC1B2C41A127B83004DB39B /* DBServices.m */,
+			);
+			name = DB;
+			sourceTree = "<group>";
+		};
+		9E4B27381A3C6CBE00C37D4A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9E9A19C619E9929D00BF1C6C /* ChatCell.h */,
+				9E9A19C719E9929D00BF1C6C /* ChatCell.m */,
+				9E994B5C19F6F08000DA5A50 /* ConfessMessageViewCell.h */,
+				9E994B5D19F6F08000DA5A50 /* ConfessMessageViewCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		9E4B27391A3C6CFE00C37D4A /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				9EE9A4FE19DDEE04002AD3CB /* FriendsTab.h */,
+				9EE9A4FF19DDEE04002AD3CB /* FriendsTab.m */,
+				9EE9A50819DE9A4E002AD3CB /* MeTab.h */,
+				9EE9A50919DE9A4E002AD3CB /* MeTab.m */,
+				9EE9A50B19DE9A65002AD3CB /* SettingsTab.h */,
+				9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */,
+			);
+			name = Tabs;
+			sourceTree = "<group>";
+		};
+		9E4B273A1A3C6D2100C37D4A /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				9EC1B2BA1A127445004DB39B /* DateHandler.h */,
+				9EC1B2BB1A127445004DB39B /* DateHandler.m */,
+				9E273C481A31B965007E3CEF /* ColorsHandler.h */,
+				9E273C491A31B965007E3CEF /* ColorsHandler.m */,
+			);
+			name = Handlers;
+			sourceTree = "<group>";
+		};
 		9E994B4A19F5547100DA5A50 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +309,8 @@
 		9E99DD0D19DB36C000A40951 = {
 			isa = PBXGroup;
 			children = (
+				9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */,
+				9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */,
 				9E99DD1F19DB36C000A40951 /* Confess */,
 				9E99DD3E19DB36C000A40951 /* ConfessTests */,
 				9E99DD1819DB36C000A40951 /* Frameworks */,
@@ -312,8 +363,11 @@
 		9E99DD1F19DB36C000A40951 /* Confess */ = {
 			isa = PBXGroup;
 			children = (
+				9E4B273A1A3C6D2100C37D4A /* Handlers */,
+				9E4B27391A3C6CFE00C37D4A /* Tabs */,
+				9E4B27381A3C6CBE00C37D4A /* Cells */,
+				9E4B27371A3C6BC100C37D4A /* DB */,
 				9EC1B2B31A126E08004DB39B /* Entities */,
-				9E63D40E1A01664800CA1E3B /* GrayConfess.png */,
 				9E994B5819F55C4D00DA5A50 /* External */,
 				9E994B5419F55A1600DA5A50 /* Models */,
 				9E994B4A19F5547100DA5A50 /* Services */,
@@ -322,10 +376,8 @@
 				9E9A195819E676B600BF1C6C /* InfoView.m */,
 				9EE9A51B19E0384D002AD3CB /* SearchFacebook.h */,
 				9EE9A51C19E0384D002AD3CB /* SearchFacebook.m */,
-				9EE9A50319DDF96B002AD3CB /* Telefono.png */,
 				9EE9A50F19DEB14C002AD3CB /* TabController.h */,
 				9EE9A51019DEB14C002AD3CB /* TabController.m */,
-				9E99DD4E19DB374600A40951 /* Icondemo.png */,
 				9E99DD2819DB36C000A40951 /* AppDelegate.h */,
 				9E99DD2919DB36C000A40951 /* AppDelegate.m */,
 				9E99DD2B19DB36C000A40951 /* Main.storyboard */,
@@ -333,28 +385,10 @@
 				9E99DD2F19DB36C000A40951 /* ViewController.m */,
 				9E99DD3119DB36C000A40951 /* Images.xcassets */,
 				9E99DD2019DB36C000A40951 /* Supporting Files */,
-				9EE9A4FE19DDEE04002AD3CB /* FriendsTab.h */,
-				9EE9A4FF19DDEE04002AD3CB /* FriendsTab.m */,
-				9EE9A50819DE9A4E002AD3CB /* MeTab.h */,
-				9EE9A50919DE9A4E002AD3CB /* MeTab.m */,
-				9EE9A50B19DE9A65002AD3CB /* SettingsTab.h */,
-				9EE9A50C19DE9A65002AD3CB /* SettingsTab.m */,
 				9EE9A51519DF09EF002AD3CB /* ConfessView.h */,
 				9EE9A51619DF09EF002AD3CB /* ConfessView.m */,
 				9E9A195A19E6B05600BF1C6C /* ConfessWrite.h */,
 				9E9A195B19E6B05600BF1C6C /* ConfessWrite.m */,
-				9E9A19C619E9929D00BF1C6C /* ChatCell.h */,
-				9E9A19C719E9929D00BF1C6C /* ChatCell.m */,
-				9E994B5C19F6F08000DA5A50 /* ConfessMessageViewCell.h */,
-				9E994B5D19F6F08000DA5A50 /* ConfessMessageViewCell.m */,
-				9EC1B2B01A0E6529004DB39B /* DBManager.h */,
-				9EC1B2B11A0E6529004DB39B /* DBManager.m */,
-				9EC1B2BA1A127445004DB39B /* DateHandler.h */,
-				9EC1B2BB1A127445004DB39B /* DateHandler.m */,
-				9EC1B2C31A127B83004DB39B /* DBServices.h */,
-				9EC1B2C41A127B83004DB39B /* DBServices.m */,
-				9E273C481A31B965007E3CEF /* ColorsHandler.h */,
-				9E273C491A31B965007E3CEF /* ColorsHandler.m */,
 			);
 			path = Confess;
 			sourceTree = "<group>";
@@ -409,6 +443,9 @@
 		9EE9A50E19DE9DA0002AD3CB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9EE9A50319DDF96B002AD3CB /* Telefono.png */,
+				9E63D40E1A01664800CA1E3B /* GrayConfess.png */,
+				9E99DD4E19DB374600A40951 /* Icondemo.png */,
 				9EE9A50119DDF910002AD3CB /* Facebook_logo_(square).png */,
 			);
 			name = Images;
@@ -530,6 +567,7 @@
 				9EE9A51D19E0384D002AD3CB /* SearchFacebook.m in Sources */,
 				9EE9A50019DDEE04002AD3CB /* FriendsTab.m in Sources */,
 				9EE9A50D19DE9A65002AD3CB /* SettingsTab.m in Sources */,
+				9E9A9B371A68563C005F9E1F /* SearchFacebookContainer.m in Sources */,
 				9EE9A50A19DE9A4E002AD3CB /* MeTab.m in Sources */,
 				9EE9A51719DF09EF002AD3CB /* ConfessView.m in Sources */,
 				9EC1B2B91A126E81004DB39B /* FriendsNoAppConfesses.m in Sources */,

@@ -24,7 +24,6 @@
 
 #define dbName @"sampledb.sql"
 #define kShowChatViewControllerSegue @"ShowChatViewControllerSegue"
-#define kShowNewChatViewControllerSegue @"ShowNewChatViewControllerSegue"
 #define tDialogs @"DIALOG_STATUS"
 #define tFriendsNoAppConfesses @"FRIENDS_NO_APP_CONFESSES"
 #define tCodeFriendsNoAppConfesses @"CODE_FRIENDS_NO_APP_CONFESSES"

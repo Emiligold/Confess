@@ -10,7 +10,7 @@
 #import "ConfessView.h"
 #import "FriendsTab.h"
 
-@interface SearchFacebook : UIViewController <UITableViewDelegate, UITableViewDataSource>;
+@interface SearchFacebook : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchField;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;

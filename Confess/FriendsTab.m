@@ -12,11 +12,15 @@
 #import "ConfessEntity.h"
 #import "DateHandler.h"
 #import "DBServices.h"
+#import "SearchFacebookContainer.h"
+//#import "FacebookSearchContainer.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface FriendsTab () <UITableViewDelegate, UITableViewDataSource, QBActionStatusDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dialogs;
 @property (weak, nonatomic) IBOutlet UITableView *chatTable;
+@property (nonatomic, strong) NSMutableArray *allDialogs;
 
 @end
 
@@ -25,7 +29,7 @@
 NSString *contactName;
 id senderContact;
 NSString *phone;
-NSMutableArray *allDialogs;
+SearchFacebookContainer *containerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -96,19 +100,18 @@ NSMutableArray *allDialogs;
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
+    // TODO: Fix this
     if ([[segue identifier] isEqualToString:@"Chat"])
     {
         ConfessView *translationQuizAssociateVC = [segue destinationViewController];
         [translationQuizAssociateVC setDetailItem:contactName : phone : self : self.dialogs : nil url: nil];
     }
-    else if ([[segue identifier] isEqualToString:@"Associate"])
-    {
-        SearchFacebook *translationQuizAssociateVC = [segue destinationViewController];
-        [translationQuizAssociateVC setDetailItem: self : self.dialogs];
-    }
+    // TODO: Remove this segue
+    //else if ([[segue identifier] isEqualToString:@"Associate"])
+    //{
+    //    SearchFacebook *translationQuizAssociateVC = [segue destinationViewController];
+    //    [translationQuizAssociateVC setDetailItem: self : self.dialogs];
+    //}
     else if ([[segue identifier] isEqualToString:@"DialogChoose"])
     {
         NSString *name = ((UITableViewCell *)sender).textLabel.text;
@@ -128,7 +131,11 @@ NSMutableArray *allDialogs;
             [destinationViewController setDetailItem:name : nil :self :self.dialogs : dialog.facebookID url: image];
         }
     }
-
+    else if ([[segue identifier] isEqualToString:@"Container"])
+    {
+        containerView = [segue destinationViewController];
+        [containerView setDetailItem:self view:self.dialogs];
+    }
 }
 
 - (IBAction)showPicker:(id)sender
@@ -191,7 +198,15 @@ NSMutableArray *allDialogs;
 }
 
 - (IBAction)facebookClicked:(id)sender {
-    [self performSegueWithIdentifier:@"Associate" sender:sender];
+    self.container.hidden = NO;
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+    self.searchBar.showsCancelButton = YES;
+    self.searchBar.placeholder = @"Confess a Facebook friend";
+    //[self.dialogs removeAllObjects];
+    self.chatTable.alwaysBounceVertical = NO;
+    //[self.chatTable reloadData];
+    self.chatTable.scrollEnabled = NO;
+    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -318,10 +333,10 @@ NSMutableArray *allDialogs;
             
         } errorBlock:nil];
         
-        allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
+        _allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
         [self.chatTable reloadData];
         
-        if (self.dialogs.count > 0)
+        if (self.dialogs.count > 0 && self.container.hidden)
         {
             [self.chatTable setContentOffset:CGPointMake(0, 44)];
         }
@@ -359,57 +374,88 @@ NSMutableArray *allDialogs;
 
 -(void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSMutableArray *mutableArray = [(NSArray*)allDialogs mutableCopy];
-    
-    for (NSObject *curr in allDialogs)
+    if (searchBar.placeholder == nil || [searchBar.placeholder isEqualToString:@""])
     {
-        NSString *name;
-        
-        if ([curr isKindOfClass:[QBChatDialog class]])
-        {
-            QBChatDialog *dialog = (QBChatDialog*)curr;
-            QBUUser *recipient = [LocalStorageService shared].usersAsDictionary[@(dialog.recipientID)];
-            name = [recipient.login stringByReplacingOccurrencesOfString:@"_" withString:@" "];
-        }
-        else
-        {
-            ConfessEntity *dialg = (ConfessEntity*)curr;
-            name = dialg.loginName;
-
-        }
-        
-        if (![searchText  isEqualToString: @""] && [[name uppercaseString] rangeOfString:[searchText uppercaseString]].location == NSNotFound)
-        {
-            [mutableArray removeObject:curr];
-        }
-    }
+        NSMutableArray *mutableArray = [(NSArray*)_allDialogs mutableCopy];
     
-    self.dialogs = [NSMutableArray arrayWithArray:mutableArray];
-    [self.chatTable reloadData];
+        for (NSObject *curr in _allDialogs)
+        {
+            NSString *name;
+        
+            if ([curr isKindOfClass:[QBChatDialog class]])
+            {
+                QBChatDialog *dialog = (QBChatDialog*)curr;
+                QBUUser *recipient = [LocalStorageService shared].usersAsDictionary[@(dialog.recipientID)];
+                name = [recipient.login stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+            }
+            else
+            {
+                ConfessEntity *dialg = (ConfessEntity*)curr;
+                name = dialg.loginName;
+
+            }
+        
+            if (![searchText  isEqualToString: @""] && [[name uppercaseString] rangeOfString:[searchText uppercaseString]].location == NSNotFound)
+            {
+                [mutableArray removeObject:curr];
+            }
+        }
+    
+        self.dialogs = [NSMutableArray arrayWithArray:mutableArray];
+        [self.chatTable reloadData];
+    }
+    else
+    {
+        //FacebookSearchContainer *container = (FacebookSearchContainer*)self.container;
+        NSMutableArray *mutableArray = [(NSArray*)containerView.allFriends mutableCopy];
+        
+        for (NSDictionary<FBGraphUser> *curr in containerView.allFriends)
+        {
+            if ([[curr.name uppercaseString] rangeOfString:[searchText uppercaseString]].location == NSNotFound)
+            {
+                [mutableArray removeObject:curr];
+            }
+        }
+        
+        containerView.currData = [NSArray arrayWithArray:mutableArray];
+        [containerView.myTableView reloadData];
+    }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    searchBar.text = @"";
     [searchBar setShowsCancelButton:NO animated:YES];
-    self.dialogs = allDialogs;
-    [self.chatTable reloadData];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    self.searchBar.placeholder = @"";
+    self.container.hidden = YES;
+    self.searchBar.text = @"";
+    self.chatTable.hidden = NO;
+    self.chatTable.alwaysBounceVertical = YES;
+    self.chatTable.scrollEnabled = YES;
     
     if (self.dialogs.count > 0)
     {
-        //[self.chatTable setContentOffset:CGPointMake(0, 44)];
+        [self.chatTable setContentOffset:CGPointMake(0, 44)];
     }
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     //self.navigationController.navigationBar.hidden=TRUE;
     //CGRect r=self.view.frame;
     //r.origin.y=-0.08;
     //r.size.height+=0.08;
     //self.view.frame=r;
     [searchBar setShowsCancelButton:YES animated:YES];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGRect rect = self.searchBar.frame;
+    rect.origin.y = MIN(0, scrollView.contentOffset.y);
+    self.searchBar.frame = rect;
 }
 
 

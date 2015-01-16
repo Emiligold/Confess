@@ -9,7 +9,7 @@
             <objects>
                 <viewController storyboardIdentifier="FirstScreen" id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SME-1d-SqE">
@@ -72,7 +72,7 @@
             <objects>
                 <viewController id="3KG-lr-JKB" customClass="MeTab" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="72P-U8-0oT">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="__________" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fu7-F0-VkT">
@@ -97,7 +97,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="AXy-Zq-5Bp">
-                                <rect key="frame" x="0.0" y="53" width="320" height="36"/>
+                                <rect key="frame" x="0.0" y="53" width="320" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V6M-sS-LgY">
@@ -111,7 +111,7 @@
                                 <color key="backgroundColor" red="0.9331581739" green="0.95205081160000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                             <view contentMode="scaleToFill" id="6KI-Bd-lDp" customClass="FBProfilePictureView">
-                                <rect key="frame" x="9" y="38" width="68" height="68"/>
+                                <rect key="frame" x="9" y="38" width="68" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sKR-0h-Dd4">
@@ -128,7 +128,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="YaI-7Y-CvW">
-                                <rect key="frame" x="0.0" y="121" width="320" height="400"/>
+                                <rect key="frame" x="0.0" y="121" width="320" height="312"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -161,7 +161,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hpa-N6-oZ8">
-                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
+                                <rect key="frame" x="1" y="460" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <gestureRecognizers/>
                                 <items>
@@ -176,15 +176,8 @@
                                     <outletCollection property="gestureRecognizers" destination="i9H-xw-7Bu" appends="YES" id="TKe-ae-4jR"/>
                                 </connections>
                             </toolbar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q0v-CT-Z3O">
-                                <rect key="frame" x="143" y="531" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Confess">
-                                    <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L90-VN-VA0">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="459"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -192,56 +185,47 @@
                                     <outlet property="delegate" destination="vfS-UX-nSC" id="Qtb-pc-dAr"/>
                                 </connections>
                             </tableView>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="center" id="diu-At-Mwy">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pKw-iy-r2W">
+                                <rect key="frame" x="146" y="531" width="57" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.7256818639" green="0.7256818639" blue="0.7256818639" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
-                            </textView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confess" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e6w-l3-6z8">
-                                <rect key="frame" x="150" y="471" width="64" height="21"/>
+                                <state key="normal" title="Confess">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7gI-It-fSs">
+                                <rect key="frame" x="147" y="468" width="57" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <containerView hidden="YES" contentMode="scaleToFill" id="Ru2-ql-bH5">
-                                <rect key="frame" x="0.0" y="227" width="320" height="277"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="p1P-5X-xTL" kind="embed" id="o9r-9B-ssI"/>
-                                </connections>
-                            </containerView>
+                                <state key="normal" title="Confess">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Friend's Name" id="TwA-Ly-g1P"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="check" destination="TwA-Ly-g1P" id="BFl-WY-C38"/>
-                        <outlet property="confessButton" destination="q0v-CT-Z3O" id="J7J-D3-7Ge"/>
+                        <outlet property="confessButton" destination="7gI-It-fSs" id="sLh-b3-nc0"/>
                         <outlet property="confessesTableView" destination="L90-VN-VA0" id="I05-tN-ewx"/>
-                        <outlet property="container" destination="Ru2-ql-bH5" id="CQM-1P-znm"/>
                         <outlet property="writeButton" destination="N6a-kI-WaZ" id="2bo-wP-ax7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o1H-ii-dk1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="i9H-xw-7Bu">
                     <connections>
-                        <outlet property="delegate" destination="Ru2-ql-bH5" id="BIy-lc-BKw"/>
                         <segue destination="p1P-5X-xTL" kind="modal" identifier="Write" id="fCP-Bt-qwe"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2020" y="-1388"/>
+            <point key="canvasLocation" x="2036" y="-1388"/>
         </scene>
         <!--Confess Write-->
         <scene sceneID="zpI-r7-dYG">
             <objects>
                 <viewController storyboardIdentifier="ConfessWrite" id="p1P-5X-xTL" customClass="ConfessWrite" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DFo-bc-dq0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="277"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" id="RkO-gL-Xd0">
@@ -329,14 +313,14 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2474" y="-1388"/>
+            <point key="canvasLocation" x="2523" y="-1382"/>
         </scene>
         <!--Info View-->
         <scene sceneID="lVW-m6-Ub7">
             <objects>
                 <viewController id="7b6-Fn-B35" customClass="InfoView" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TlE-dG-Tfy">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your friend can not know who this confession from, he will only know you are his friend" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8jT-pR-5ew">
@@ -481,6 +465,14 @@
                                             <outlet property="delegate" destination="I8C-3P-cTe" id="PYw-PW-qUm"/>
                                         </connections>
                                     </tableView>
+                                    <containerView hidden="YES" contentMode="scaleToFill" id="GOa-KD-Gb9">
+                                        <rect key="frame" x="0.0" y="40" width="320" height="412"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="fI4-MC-Oir" kind="embed" identifier="Container" id="0Ao-65-8MJ"/>
+                                        </connections>
+                                    </containerView>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -495,13 +487,14 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="     " id="qnB-9V-siy"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="chatTable" destination="0Z3-jP-pLO" id="gIy-j6-yrO"/>
+                        <outlet property="container" destination="GOa-KD-Gb9" id="0Tt-1i-qBR"/>
                         <outlet property="searchBar" destination="maq-he-FAC" id="Saz-U8-m58"/>
                         <outlet property="tabBarItem" destination="eY5-5o-LhT" id="eWW-Ga-10j"/>
                         <segue destination="I4x-zj-Hjg" kind="push" identifier="Associate" id="iWl-d9-cCj"/>
                         <segue destination="vfS-UX-nSC" kind="push" identifier="Chat" id="ZUf-6E-tGE"/>
-                        <segue destination="vfS-UX-nSC" kind="push" identifier="ShowNewChatViewControllerSegue" id="MNi-eL-n61"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wZ6-fG-9g1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -550,7 +543,7 @@
                                                     </subviews>
                                                 </tableViewCellContentView>
                                                 <connections>
-                                                    <segue destination="vfS-UX-nSC" kind="push" identifier="ChooseRow" id="njD-of-kvt"/>
+                                                    <segue destination="vfS-UX-nSC" kind="push" identifier="" id="njD-of-kvt"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -579,11 +572,11 @@
             <objects>
                 <viewController id="BBg-5g-7h7" customClass="SettingsTab" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vn9-zQ-TfR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2Yk-wM-jcB">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="430"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -612,6 +605,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Bu-cv-jFK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="958" y="-712"/>
+        </scene>
+        <!--Search Facebook Container-->
+        <scene sceneID="HQI-UN-nIy">
+            <objects>
+                <tableViewController id="fI4-MC-Oir" customClass="SearchFacebookContainer" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VKh-9K-8Mm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="412"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="cmw-gj-0WK" style="IBUITableViewCellStyleDefault" id="fat-Vw-cjC">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fat-Vw-cjC" id="4kM-bS-Bzu">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cmw-gj-0WK">
+                                            <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="fI4-MC-Oir" id="jyq-oC-tXR"/>
+                            <outlet property="delegate" destination="fI4-MC-Oir" id="vQu-Ow-fYU"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="myTableView" destination="VKh-9K-8Mm" id="Rdt-uX-amf"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uay-Xs-CBX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1482" y="-949"/>
         </scene>
         <!--Navigation Controller - Friends-->
         <scene sceneID="LyK-ij-nUh">
@@ -657,11 +690,11 @@
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="Lrk-GR-3Yr" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Dqe-Yb-93r">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="i1S-eQ-h0X">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.2117647231" green="0.57647061349999995" blue="0.92549026010000002" alpha="1" colorSpace="deviceRGB"/>
                             </view>
@@ -679,7 +712,7 @@
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="1aC-je-A9E" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="rqA-09-JNo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confess" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XqI-01-QbA">
@@ -717,10 +750,9 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="MNi-eL-n61"/>
-        <segue reference="fCP-Bt-qwe"/>
+        <segue reference="ZUf-6E-tGE"/>
     </inferredMetricsTieBreakers>
 </document>

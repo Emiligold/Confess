@@ -28,7 +28,9 @@ static UIImage *confessImage;
         [self.dateLabel setFrame:CGRectMake(10, 5, 300, 20)];
         [self.dateLabel setFont:[UIFont systemFontOfSize:11.0]];
         [self.dateLabel setTextColor:[UIColor lightGrayColor]];
-        [self.contentView addSubview:self.dateLabel];
+        self.dateLabel.textColor = [UIColor whiteColor];
+       // self.dateLabel.center = self.contentView.center;
+        //[self.contentView addSubview:self.dateLabel];
         
         confessImage = [[UIImage imageNamed:@"GrayConfess"] stretchableImageWithLeftCapWidth:24  topCapHeight:15];
         self.backgroundImageView = [[UIImageView alloc] init];
@@ -42,6 +44,7 @@ static UIImage *confessImage;
 		[self.messageTextView sizeToFit];
         [self.messageTextView setTextColor:[UIColor whiteColor]];
         self.messageTextView.textAlignment = NSTextAlignmentCenter;
+        [self.messageTextView addSubview:self.dateLabel];
         [self.contentView addSubview:self.messageTextView];
     }
     return self;
@@ -169,7 +172,7 @@ static UIImage *confessImage;
         
     if (self.dateLabel.text == nil || (self.dateLabel.text.length > 8 && ![[[self.dateLabel.text substringFromIndex:8] substringToIndex:2] isEqualToString: [[time substringFromIndex:8] substringToIndex:2]]))
     {
-        self.dateLabel.text = [NSString stringWithFormat:@"%@", time];
+        self.dateLabel.text = [NSString stringWithFormat:@"\n\n%@", time];
     }
     else
     {
