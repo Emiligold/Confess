@@ -14,6 +14,7 @@
 #import "DateHandler.h"
 #import "User.h"
 #import "ColorsHandler.h"
+#import "UserSentConfesses.h"
 
 @implementation DBServices
 
@@ -37,9 +38,21 @@
 
 +(id<AbstractEntity>)uniqueSelect:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters
 {
+    return [DBServices select:entityClass entityClass:parameters][0];
+}
+
++(NSMutableArray*)select:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters
+{
     [[DBManager shared] selectQuery:[entityClass tableName] table:parameters];
     NSMutableArray *values = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
-    return values.count > 0 ? [entityClass initProperties:values[0]] : nil;
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    for (NSMutableArray *curr in values)
+    {
+        [result addObject:[entityClass initProperties:curr]];
+    }
+    
+    return result;
 }
 
 +(id<AbstractEntity>)getConversation:(NSString*)userUrl
@@ -197,6 +210,11 @@
                                                  @(user.userID), user.facebookID, @(nextIndex), nil]];
     [[DBManager shared] executeExecutableQuery];
     return [ColorsHandler getColorByIndex:nextIndex];
+}
+
++(NSMutableArray*)getSentConfesses:(NSString*)userID
+{
+    return [DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]];
 }
 
 @end

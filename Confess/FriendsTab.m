@@ -59,10 +59,10 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     [facebookButton addTarget:self action:@selector(facebookClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *facebookItem = [[UIBarButtonItem alloc] initWithCustomView:facebookButton];
     self.navigationItem.rightBarButtonItem = contactItem;
-    self.navigationItem.leftBarButtonItem = facebookItem;
-    //UISearchBar *searchBar = [[UISearchBar alloc] init];
-    //searchBar.placeholder = @"Find Facebook friends";
-    //self.navigationItem.titleView = searchBar;
+    //self.navigationItem.leftBarButtonItem = facebookItem;
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    searchBar.placeholder = @"Find Facebook friends";
+    self.navigationItem.titleView = searchBar;
     
     
     self.tabBarController.tabBar.hidden = NO;
@@ -71,6 +71,7 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     //self.chatTable.tableHeaderView = self.searchBar;
     self.tabBarController.tabBar.barTintColor =  [UIColor whiteColor];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
     self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
 }
 
@@ -83,7 +84,8 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     
     if (self.dialogs.count > 0)
     {
-        [self.chatTable setContentOffset:CGPointMake(0, 40)];
+        //[self.chatTable setContentOffset:CGPointMake(0, 40)];
+        [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
 }
 
@@ -491,7 +493,8 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     //r.origin.y=-0.08;
     //r.size.height+=0.08;
     //self.view.frame=r;
-    //[searchBar setShowsCancelButton:YES animated:YES];
+    [searchBar setShowsCancelButton:YES animated:YES];
+    self.navigationController.navigationItem.leftBarButtonItem = nil;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

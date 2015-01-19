@@ -30,3 +30,4 @@
 #define tConfessEntity @"confessEntity"
 #define tCodeUserConfesses @"CODE_USER_CONFESSES"
 #define tUsers @"USERS"
+#define tUserSentConfesses @"VIEW_USER_SENT_CONFESSES"

@@ -30,5 +30,6 @@
 +(void)insertUser:(long) userID userID:(NSString*)userFB;
 +(UIColor*)getPreviousColor:(NSUInteger)userID;
 +(UIColor*)getNextColor:(NSUInteger)userID;
++(NSMutableArray*)getSentConfesses:(NSString*)userID;
 
 @end
