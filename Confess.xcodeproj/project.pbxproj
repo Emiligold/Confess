@@ -151,8 +151,8 @@
 		9E9A19D319EA95BE00BF1C6C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9E9A19D519EA95EA00BF1C6C /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		9E9A19D719EA960400BF1C6C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFacebookContainer.h; sourceTree = "<group>"; };
-		9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFacebookContainer.m; sourceTree = "<group>"; };
+		9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchFacebookContainer.h; path = ../SearchFacebookContainer.h; sourceTree = "<group>"; };
+		9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchFacebookContainer.m; path = ../SearchFacebookContainer.m; sourceTree = "<group>"; };
 		9EC1B2AE1A0E6504004DB39B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9EC1B2B01A0E6529004DB39B /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		9EC1B2B11A0E6529004DB39B /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
@@ -309,8 +309,6 @@
 		9E99DD0D19DB36C000A40951 = {
 			isa = PBXGroup;
 			children = (
-				9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */,
-				9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */,
 				9E99DD1F19DB36C000A40951 /* Confess */,
 				9E99DD3E19DB36C000A40951 /* ConfessTests */,
 				9E99DD1819DB36C000A40951 /* Frameworks */,
@@ -363,6 +361,8 @@
 		9E99DD1F19DB36C000A40951 /* Confess */ = {
 			isa = PBXGroup;
 			children = (
+				9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */,
+				9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */,
 				9E4B273A1A3C6D2100C37D4A /* Handlers */,
 				9E4B27391A3C6CFE00C37D4A /* Tabs */,
 				9E4B27381A3C6CBE00C37D4A /* Cells */,

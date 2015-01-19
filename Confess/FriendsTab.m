@@ -16,7 +16,7 @@
 //#import "FacebookSearchContainer.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface FriendsTab () <UITableViewDelegate, UITableViewDataSource, QBActionStatusDelegate, UISearchBarDelegate>
+@interface FriendsTab () <QBActionStatusDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dialogs;
 @property (weak, nonatomic) IBOutlet UITableView *chatTable;
@@ -29,7 +29,8 @@
 NSString *contactName;
 id senderContact;
 NSString *phone;
-SearchFacebookContainer *containerView;
+//SearchFacebookContainer *containerView;
+NSString *cellIdentifier = @"ChatRoomCellIdentifier";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +42,8 @@ SearchFacebookContainer *containerView;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Navigation Initialize
     [self.navigationItem setHidesBackButton:YES animated:YES];
     UIButton *contactButton = [[UIButton alloc] init];
     contactButton.frame=CGRectMake(0,0,30,30);
@@ -57,10 +60,15 @@ SearchFacebookContainer *containerView;
     UIBarButtonItem *facebookItem = [[UIBarButtonItem alloc] initWithCustomView:facebookButton];
     self.navigationItem.rightBarButtonItem = contactItem;
     self.navigationItem.leftBarButtonItem = facebookItem;
+    //UISearchBar *searchBar = [[UISearchBar alloc] init];
+    //searchBar.placeholder = @"Find Facebook friends";
+    //self.navigationItem.titleView = searchBar;
+    
+    
     self.tabBarController.tabBar.hidden = NO;
     self.chatTable.allowsMultipleSelectionDuringEditing = NO;
-    self.searchBar.delegate = self;
-    self.chatTable.tableHeaderView = self.searchBar;
+    //self.searchBar.delegate = self;
+    //self.chatTable.tableHeaderView = self.searchBar;
     self.tabBarController.tabBar.barTintColor =  [UIColor whiteColor];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
     self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
@@ -71,11 +79,11 @@ SearchFacebookContainer *containerView;
     [super viewWillAppear:animated];
     [QBChat dialogsWithExtendedRequest:nil delegate:self];
     self.tabBarController.tabBar.hidden = NO;
-    self.searchBar.text = @"";
+    //self.searchBar.text = @"";
     
     if (self.dialogs.count > 0)
     {
-        [self.chatTable setContentOffset:CGPointMake(0, 44)];
+        [self.chatTable setContentOffset:CGPointMake(0, 40)];
     }
 }
 
@@ -133,8 +141,8 @@ SearchFacebookContainer *containerView;
     }
     else if ([[segue identifier] isEqualToString:@"Container"])
     {
-        containerView = [segue destinationViewController];
-        [containerView setDetailItem:self view:self.dialogs];
+        //containerView = [segue destinationViewController];
+        //[containerView setDetailItem:self view:self.dialogs];
     }
 }
 
@@ -198,25 +206,58 @@ SearchFacebookContainer *containerView;
 }
 
 - (IBAction)facebookClicked:(id)sender {
-    self.container.hidden = NO;
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
-    self.searchBar.showsCancelButton = YES;
-    self.searchBar.placeholder = @"Confess a Facebook friend";
+    //[self.searchBar resignFirstResponder];
+    //[self performSelector:@selector(callSearchBar) withObject:NULL afterDelay:0];
+    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItem = nil;
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    searchBar.placeholder = @"Find Facebook friends";
+    self.navigationItem.titleView = searchBar;
+    [searchBar resignFirstResponder];
+    [searchBar becomeFirstResponder];
+    searchBar.showsCancelButton = YES;
+    self.searchBar.hidden = YES;
+    [self.dialogs removeAllObjects];
+    [self.allDialogs removeAllObjects];
+    [self.chatTable reloadData];
+    //self.container.hidden = NO;
+    //[[self navigationController] setNavigationBarHidden:YES animated:YES];
+    //self.searchBar.showsCancelButton = YES;
+    //self.searchBar.placeholder = @"Confess a Facebook friend";
     //[self.dialogs removeAllObjects];
-    self.chatTable.alwaysBounceVertical = NO;
+    //self.chatTable.alwaysBounceVertical = NO;
     //[self.chatTable reloadData];
-    self.chatTable.scrollEnabled = NO;
+    //self.chatTable.scrollEnabled = NO;
     
+}
+
+-(void)callSearchBar{
+    [self.searchDisplayController setActive: YES animated: YES];
+    self.searchDisplayController.searchBar.hidden = NO;
+    [self.searchDisplayController.searchBar becomeFirstResponder];
+    self.searchDisplayController.searchBar.placeholder = @"Confess Facebook friends";
+    //[self.dialogs removeAllObjects];
+    //[self.chatTable reloadData];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [self.dialogs count];
+    //if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [self.dialogs count];
+        
+    //} else {
+    //    return [self.allDialogs count];
+    //}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatRoomCellIdentifier"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    }
+    
     cell.tag  = indexPath.row;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     NSString *url;
@@ -236,18 +277,18 @@ SearchFacebookContainer *containerView;
         url = confess.facebookID;
     }
     
-    if (indexPath.row % 2)
-    {
+    //if (indexPath.row % 2)
+    //{
         //cell.backgroundColor = [UIColor lightGrayColor];
         cell.backgroundColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
-    }
-    else
-    {
+    //}
+    //else
+    //{
         //cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
         //cell.textLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"GrayConfess.png"]];
         //cell.detailTextLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"GrayConfess.png"]];
-        cell.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
-    }
+        //cell.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
+    //}
     
     NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
     cell.imageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([[UIImage imageWithData: data] CGImage],CGRectMake(20, 20, 45, 45) )];
@@ -257,10 +298,11 @@ SearchFacebookContainer *containerView;
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[self performSegueWithIdentifier:@"DialogChoose" sender:sender];
+//}
 
 - (void)completedWithResult:(Result *)result{
     if (result.success && [result isKindOfClass:[QBDialogsPagedResult class]]) {
@@ -336,9 +378,9 @@ SearchFacebookContainer *containerView;
         _allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
         [self.chatTable reloadData];
         
-        if (self.dialogs.count > 0 && self.container.hidden)
+        if (self.dialogs.count > 0 /* TODO: && self.container.hidden*/)
         {
-            [self.chatTable setContentOffset:CGPointMake(0, 44)];
+            //[self.chatTable setContentOffset:CGPointMake(0, 40)];
         }
     }
 }
@@ -347,32 +389,32 @@ SearchFacebookContainer *containerView;
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if ([self.dialogs[indexPath.row] isKindOfClass:[QBChatDialog class]])
-        {
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        if ([self.dialogs[indexPath.row] isKindOfClass:[QBChatDialog class]])
+//        {
             //TODO: Check if works
-            QBChatDialog *dialog = self.dialogs[indexPath.row];
-            [DBServices updateDialogStatus:dialog.ID dialogId:1];
-        }
-        else
-        {
-            ConfessEntity *dialog = self.dialogs[indexPath.row];
-            [DBServices updateConversationStatus:dialog.facebookID userUrl:1];
-        }
+//            QBChatDialog *dialog = self.dialogs[indexPath.row];
+//            [DBServices updateDialogStatus:dialog.ID dialogId:1];
+//        }
+//        else
+//        {
+//            ConfessEntity *dialog = self.dialogs[indexPath.row];
+//            [DBServices updateConversationStatus:dialog.facebookID userUrl:1];
+//        }
         
-        [self.dialogs removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.chatTable reloadData];
-    }
-}
+//        [self.dialogs removeObjectAtIndex:indexPath.row];
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [self.chatTable reloadData];
+//    }
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 55;
+    return 60;
 }
 
--(void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+/*-(void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if (searchBar.placeholder == nil || [searchBar.placeholder isEqualToString:@""])
     {
@@ -407,56 +449,96 @@ SearchFacebookContainer *containerView;
     else
     {
         //FacebookSearchContainer *container = (FacebookSearchContainer*)self.container;
-        NSMutableArray *mutableArray = [(NSArray*)containerView.allFriends mutableCopy];
+        //NSMutableArray *mutableArray = [(NSArray*)containerView.allFriends mutableCopy];
         
-        for (NSDictionary<FBGraphUser> *curr in containerView.allFriends)
-        {
-            if ([[curr.name uppercaseString] rangeOfString:[searchText uppercaseString]].location == NSNotFound)
-            {
-                [mutableArray removeObject:curr];
-            }
-        }
+        //for (NSDictionary<FBGraphUser> *curr in containerView.allFriends)
+        //{
+        //    if ([[curr.name uppercaseString] rangeOfString:[searchText uppercaseString]].location == NSNotFound)
+        //    {
+        //        [mutableArray removeObject:curr];
+        //    }
+        //}
         
-        containerView.currData = [NSArray arrayWithArray:mutableArray];
-        [containerView.myTableView reloadData];
+        //containerView.currData = [NSArray arrayWithArray:mutableArray];
+        //[containerView.myTableView reloadData];
     }
-}
+}*/
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [searchBar resignFirstResponder];
-    [searchBar setShowsCancelButton:NO animated:YES];
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
-    self.searchBar.placeholder = @"";
-    self.container.hidden = YES;
-    self.searchBar.text = @"";
-    self.chatTable.hidden = NO;
-    self.chatTable.alwaysBounceVertical = YES;
-    self.chatTable.scrollEnabled = YES;
+    self.searchDisplayController.searchBar.placeholder = @"Search";
+   // [searchBar resignFirstResponder];
+    //[searchBar setShowsCancelButton:NO animated:YES];
+    //[[self navigationController] setNavigationBarHidden:NO animated:YES];
+    //self.searchBar.placeholder = @"";
+    //self.container.hidden = YES;
+    //self.searchBar.text = @"";
+    //self.chatTable.hidden = NO;
+    //self.chatTable.alwaysBounceVertical = YES;
+    //self.chatTable.scrollEnabled = YES;
     
     if (self.dialogs.count > 0)
     {
-        [self.chatTable setContentOffset:CGPointMake(0, 44)];
+        //[self.chatTable setContentOffset:CGPointMake(0, 44)];
     }
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+   // [[self navigationController] setNavigationBarHidden:YES animated:YES];
     //self.navigationController.navigationBar.hidden=TRUE;
     //CGRect r=self.view.frame;
     //r.origin.y=-0.08;
     //r.size.height+=0.08;
     //self.view.frame=r;
-    [searchBar setShowsCancelButton:YES animated:YES];
+    //[searchBar setShowsCancelButton:YES animated:YES];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGRect rect = self.searchBar.frame;
-    rect.origin.y = MIN(0, scrollView.contentOffset.y);
-    self.searchBar.frame = rect;
+    //CGRect rect = self.searchBar.frame;
+    //rect.origin.y = MIN(0, scrollView.contentOffset.y);
+    //self.searchBar.frame = rect;
 }
 
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSMutableArray *mutableArray = [(NSArray*)_allDialogs mutableCopy];
+    
+    for (NSObject *curr in _allDialogs)
+    {
+        NSString *name;
+        
+        if ([curr isKindOfClass:[QBChatDialog class]])
+        {
+            QBChatDialog *dialog = (QBChatDialog*)curr;
+            QBUUser *recipient = [LocalStorageService shared].usersAsDictionary[@(dialog.recipientID)];
+            name = [recipient.login stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+        }
+        else
+        {
+            ConfessEntity *dialg = (ConfessEntity*)curr;
+            name = dialg.loginName;
+            
+        }
+        
+        if (![searchText  isEqualToString: @""] && [[name uppercaseString] rangeOfString:[searchText uppercaseString]].location == NSNotFound)
+        {
+            [mutableArray removeObject:curr];
+        }
+    }
+    
+    self.dialogs = [NSMutableArray arrayWithArray:mutableArray];
+}
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    return YES;
+}
 
 @end
