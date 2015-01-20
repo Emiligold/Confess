@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9E1129EB1A6DAE0C00DE3BED /* UserSentConfesses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129EA1A6DAE0C00DE3BED /* UserSentConfesses.m */; };
+		9E1129EE1A6ED8A700DE3BED /* CodeUrls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */; };
 		9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C491A31B965007E3CEF /* ColorsHandler.m */; };
 		9E273C4D1A31C3D6007E3CEF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C4C1A31C3D6007E3CEF /* User.m */; };
 		9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E63D40E1A01664800CA1E3B /* GrayConfess.png */; };
@@ -88,6 +89,8 @@
 /* Begin PBXFileReference section */
 		9E1129E91A6DAE0C00DE3BED /* UserSentConfesses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSentConfesses.h; sourceTree = "<group>"; };
 		9E1129EA1A6DAE0C00DE3BED /* UserSentConfesses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSentConfesses.m; sourceTree = "<group>"; };
+		9E1129EC1A6ED8A700DE3BED /* CodeUrls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeUrls.h; sourceTree = "<group>"; };
+		9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeUrls.m; sourceTree = "<group>"; };
 		9E273C481A31B965007E3CEF /* ColorsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsHandler.h; sourceTree = "<group>"; };
 		9E273C491A31B965007E3CEF /* ColorsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorsHandler.m; sourceTree = "<group>"; };
 		9E273C4B1A31C3D6007E3CEF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -441,6 +444,8 @@
 				9E273C4C1A31C3D6007E3CEF /* User.m */,
 				9E1129E91A6DAE0C00DE3BED /* UserSentConfesses.h */,
 				9E1129EA1A6DAE0C00DE3BED /* UserSentConfesses.m */,
+				9E1129EC1A6ED8A700DE3BED /* CodeUrls.h */,
+				9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -561,6 +566,7 @@
 				9E994B5B19F55C8900DA5A50 /* NMPaginator.m in Sources */,
 				9E273C4D1A31C3D6007E3CEF /* User.m in Sources */,
 				9E994B6719FA909600DA5A50 /* ConfessEntity.m in Sources */,
+				9E1129EE1A6ED8A700DE3BED /* CodeUrls.m in Sources */,
 				9E994B4D19F5551C00DA5A50 /* LocalStorageService.m in Sources */,
 				9E994B5E19F6F08000DA5A50 /* ConfessMessageViewCell.m in Sources */,
 				9E994B5019F555A300DA5A50 /* ChatService.m in Sources */,

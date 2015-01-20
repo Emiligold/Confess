@@ -13,6 +13,7 @@
 
 @property (nonatomic, assign) NSUInteger objectID;
 @property (nonatomic, retain) NSString *facebookID;
+@property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *loginName;
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, retain) NSDate *date;

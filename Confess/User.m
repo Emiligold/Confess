@@ -23,4 +23,9 @@
     return self;
 }
 
+-(id<AbstractEntity>)initialize
+{
+    return [[User alloc] init];
+}
+
 @end

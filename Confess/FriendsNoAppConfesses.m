@@ -24,4 +24,9 @@
     return tFriendsNoAppConfesses;
 }
 
+-(id<AbstractEntity>)initialize
+{
+    return [[FriendsNoAppConfesses alloc] init];
+}
+
 @end

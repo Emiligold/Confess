@@ -25,4 +25,9 @@
     return tUserSentConfesses;
 }
 
+-(id<AbstractEntity>)initialize
+{
+    return [[UserSentConfesses alloc] init];
+}
+
 @end

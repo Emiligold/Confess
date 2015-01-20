@@ -46,10 +46,10 @@
     [[DBManager shared] selectQuery:[entityClass tableName] table:parameters];
     NSMutableArray *values = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
     NSMutableArray *result = [[NSMutableArray alloc] init];
-    
+
     for (NSMutableArray *curr in values)
     {
-        [result addObject:[entityClass initProperties:curr]];
+        [result addObject:[[entityClass initialize] initProperties:curr]];
     }
     
     return result;

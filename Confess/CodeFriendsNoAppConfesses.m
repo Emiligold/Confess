@@ -23,4 +23,9 @@
     return tCodeFriendsNoAppConfesses;
 }
 
+-(id<AbstractEntity>)initialize
+{
+    return [[CodeFriendsNoAppConfesses alloc] init];
+}
+
 @end

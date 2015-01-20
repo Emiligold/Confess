@@ -24,4 +24,9 @@
     return tCodeUserConfesses;
 }
 
+-(id<AbstractEntity>)initialize
+{
+    return [[CodeUserConfesses alloc] init];
+}
+
 @end

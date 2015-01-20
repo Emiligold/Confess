@@ -8,10 +8,18 @@
 
 #import "ConfessEntity.h"
 #import "DateHandler.h"
+#import "DBServices.h"
+#import "CodeUrls.h"
 
 @implementation ConfessEntity
 
-- (void)encodeWithCoder:(NSCoder *)encoder {
+-(id<AbstractEntity>)initialize
+{
+    return [[ConfessEntity alloc] init];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
     [encoder encodeObject:@(self.objectID) forKey:@"objectID"];
     [encoder encodeObject:self.facebookID forKey:@"facebookID"];
     [encoder encodeObject:self.loginName forKey:@"loginName"];
@@ -21,8 +29,10 @@
     [encoder encodeObject:@(self.currColor) forKey:@"currColor"];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
-    if((self = [super init])) {
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if((self = [super init]))
+    {
         self.objectID = [[decoder decodeObjectForKey:@"objectID"] integerValue];
         self.facebookID = [decoder decodeObjectForKey:@"facebookID"];
         self.loginName = [decoder decodeObjectForKey:@"loginName"];
@@ -31,6 +41,7 @@
         self.isNew = [[decoder decodeObjectForKey:@"isNew"] boolValue];
         self.currColor = [[decoder decodeObjectForKey:@"currColor"] integerValue];
     }
+    
     return self;
 }
 
@@ -38,11 +49,14 @@
 {
     self.objectID = [properties[0] integerValue];
     self.loginName = properties[2];
-    self.facebookID = properties[1];
+    self.url = ((CodeUrls*)[DBServices getEntityById:[[CodeUrls alloc] init]
+                                       entityClass:[properties[1] integerValue]]).url;
     self.content = properties[3];
     self.date = [DateHandler dateFromString:properties[4]];
     self.isNew = [properties[5] boolValue];
     self.currColor = [properties[6] integerValue];
+    self.facebookID = properties.count == 8 ? properties[7] : nil;
+    
     return self;
 }
 
