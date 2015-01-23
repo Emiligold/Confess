@@ -31,5 +31,6 @@
 +(UIColor*)getPreviousColor:(NSUInteger)userID;
 +(UIColor*)getNextColor:(NSUInteger)userID;
 +(NSMutableArray*)getSentConfesses:(NSString*)userID;
++(NSMutableArray*)select:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters;
 
 @end

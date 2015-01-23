@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9E1129EB1A6DAE0C00DE3BED /* UserSentConfesses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129EA1A6DAE0C00DE3BED /* UserSentConfesses.m */; };
 		9E1129EE1A6ED8A700DE3BED /* CodeUrls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */; };
+		9E1129F21A6EEDC800DE3BED /* ConfessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129F01A6EEDC800DE3BED /* ConfessCell.m */; };
 		9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C491A31B965007E3CEF /* ColorsHandler.m */; };
 		9E273C4D1A31C3D6007E3CEF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C4C1A31C3D6007E3CEF /* User.m */; };
 		9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E63D40E1A01664800CA1E3B /* GrayConfess.png */; };
@@ -91,6 +92,8 @@
 		9E1129EA1A6DAE0C00DE3BED /* UserSentConfesses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSentConfesses.m; sourceTree = "<group>"; };
 		9E1129EC1A6ED8A700DE3BED /* CodeUrls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeUrls.h; sourceTree = "<group>"; };
 		9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeUrls.m; sourceTree = "<group>"; };
+		9E1129EF1A6EEDC800DE3BED /* ConfessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfessCell.h; sourceTree = "<group>"; };
+		9E1129F01A6EEDC800DE3BED /* ConfessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfessCell.m; sourceTree = "<group>"; };
 		9E273C481A31B965007E3CEF /* ColorsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsHandler.h; sourceTree = "<group>"; };
 		9E273C491A31B965007E3CEF /* ColorsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorsHandler.m; sourceTree = "<group>"; };
 		9E273C4B1A31C3D6007E3CEF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -249,6 +252,8 @@
 		9E4B27381A3C6CBE00C37D4A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				9E1129EF1A6EEDC800DE3BED /* ConfessCell.h */,
+				9E1129F01A6EEDC800DE3BED /* ConfessCell.m */,
 				9E9A19C619E9929D00BF1C6C /* ChatCell.h */,
 				9E9A19C719E9929D00BF1C6C /* ChatCell.m */,
 				9E994B5C19F6F08000DA5A50 /* ConfessMessageViewCell.h */,
@@ -590,6 +595,7 @@
 				9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */,
 				9EE9A51119DEB14C002AD3CB /* TabController.m in Sources */,
 				9E99DD2619DB36C000A40951 /* main.m in Sources */,
+				9E1129F21A6EEDC800DE3BED /* ConfessCell.m in Sources */,
 				9E1129EB1A6DAE0C00DE3BED /* UserSentConfesses.m in Sources */,
 				9E9A19C819E9929D00BF1C6C /* ChatCell.m in Sources */,
 			);

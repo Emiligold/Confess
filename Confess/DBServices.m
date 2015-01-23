@@ -214,7 +214,7 @@
 
 +(NSMutableArray*)getSentConfesses:(NSString*)userID
 {
-    return [DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]];
+    return [[[DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO], nil]] mutableCopy];
 }
 
 @end

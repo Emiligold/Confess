@@ -12,12 +12,12 @@
 #import "ConfessEntity.h"
 #import "DateHandler.h"
 #import "DBServices.h"
-#import "SearchFacebookContainer.h"
-//#import "FacebookSearchContainer.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "UserSentConfesses.h"
+#import "ConfessCell.h"
+#import "ConfessCell.h"
 
-@interface FriendsTab () <QBActionStatusDelegate>
+@interface FriendsTab () <QBActionStatusDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dialogs;
 @property (weak, nonatomic) IBOutlet UITableView *chatTable;
@@ -30,8 +30,8 @@
 NSString *contactName;
 id senderContact;
 NSString *phone;
-//SearchFacebookContainer *containerView;
 NSString *cellIdentifier = @"ChatRoomCellIdentifier";
+UIBarButtonItem *contactItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,7 +52,7 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
                        forState:UIControlStateNormal];
     [contactButton addTarget:self action:@selector(showPicker:)
       forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *contactItem = [[UIBarButtonItem alloc]
+    contactItem = [[UIBarButtonItem alloc]
                                initWithCustomView:contactButton];
     UIButton *facebookButton = [[UIButton alloc] init];
     facebookButton.frame = CGRectMake(0, 0, 24, 24);
@@ -64,7 +64,7 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     searchBar.placeholder = @"Find Facebook friends";
     self.navigationItem.titleView = searchBar;
-    
+    searchBar.delegate = self;
     
     self.tabBarController.tabBar.hidden = NO;
     self.chatTable.allowsMultipleSelectionDuringEditing = NO;
@@ -81,13 +81,6 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     [super viewWillAppear:animated];
     [QBChat dialogsWithExtendedRequest:nil delegate:self];
     self.tabBarController.tabBar.hidden = NO;
-    //self.searchBar.text = @"";
-    
-    if (self.dialogs.count > 0)
-    {
-        //[self.chatTable setContentOffset:CGPointMake(0, 40)];
-        [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -255,16 +248,16 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    ConfessCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     cell.tag  = indexPath.row;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     NSString *url;
-    
+
     if ([self.dialogs[indexPath.row] isKindOfClass:[QBChatDialog class]])
     {
         QBChatDialog *chatDialog = self.dialogs[indexPath.row];
@@ -275,9 +268,10 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     else
     {
         ConfessEntity *confess = self.dialogs[indexPath.row];
-        cell.textLabel.text = confess.loginName;
-        cell.detailTextLabel.text = confess.content;
-        url = confess.facebookID;
+        //cell.textLabel.text = confess.loginName;
+        //cell.content.text = confess.content;
+        url = confess.url;
+        [cell configureCellWithConfess:confess];
     }
     
     //if (indexPath.row % 2)
@@ -293,10 +287,7 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
         //cell.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
     //}
     
-    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
-    cell.imageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([[UIImage imageWithData: data] CGImage],CGRectMake(20, 20, 45, 45) )];
-    cell.imageView.layer.masksToBounds = YES;
-    cell.imageView.layer.cornerRadius = 20;
+    //cell.content.editable = NO;
     
     return cell;
 }
@@ -389,17 +380,12 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
         
         _allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
         [self.chatTable reloadData];
-        
-        if (self.dialogs.count > 0 /* TODO: && self.container.hidden*/)
-        {
-            //[self.chatTable setContentOffset:CGPointMake(0, 40)];
-        }
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return YES;
+//}
 
 //- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 //    if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -423,7 +409,17 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    //NSString *str = ((ConfessEntity*)[self.dialogs objectAtIndex:indexPath.row]).content;
+    //CGSize size = [str sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17] constrainedToSize:CGSizeMake(280, 999) lineBreakMode:NSLineBreakByWordWrapping];
+    //NSLog(@"%f",size.height);
+    //return size.height + 10;
+    
+    //if ([self.dialogs[indexPath.row] isKindOfClass:[ConfessEntity class]])
+    //{
+    //    return [ConfessCell heightForCellWithConfess:self.dialogs[indexPath.row]];
+    //}
+    
+    return [ConfessCell heightForCellWithConfess:self.dialogs[indexPath.row]];
 }
 
 /*-(void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -478,9 +474,13 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    self.searchDisplayController.searchBar.placeholder = @"Search";
+    //self.searchDisplayController.searchBar.placeholder = @"Search";
    // [searchBar resignFirstResponder];
-    //[searchBar setShowsCancelButton:NO animated:YES];
+    [searchBar setShowsCancelButton:NO animated:YES];
+    self.navigationItem.rightBarButtonItem = contactItem;
+    [searchBar resignFirstResponder];
+    self.dialogs = [self.allDialogs mutableCopy];
+    [self.chatTable reloadData];
     //[[self navigationController] setNavigationBarHidden:NO animated:YES];
     //self.searchBar.placeholder = @"";
     //self.container.hidden = YES;
@@ -488,11 +488,6 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     //self.chatTable.hidden = NO;
     //self.chatTable.alwaysBounceVertical = YES;
     //self.chatTable.scrollEnabled = YES;
-    
-    if (self.dialogs.count > 0)
-    {
-        //[self.chatTable setContentOffset:CGPointMake(0, 44)];
-    }
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
@@ -503,15 +498,10 @@ NSString *cellIdentifier = @"ChatRoomCellIdentifier";
     //r.origin.y=-0.08;
     //r.size.height+=0.08;
     //self.view.frame=r;
+    self.navigationItem.rightBarButtonItem = nil;
     [searchBar setShowsCancelButton:YES animated:YES];
-    self.navigationController.navigationItem.leftBarButtonItem = nil;
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    //CGRect rect = self.searchBar.frame;
-    //rect.origin.y = MIN(0, scrollView.contentOffset.y);
-    //self.searchBar.frame = rect;
+    [self.dialogs removeAllObjects];
+    [self.chatTable reloadData];
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope

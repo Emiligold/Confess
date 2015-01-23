@@ -11,6 +11,7 @@
 #import "DBManager.h"
 #import "DateHandler.h"
 #import "DBServices.h"
+#import "CodeUrls.h"
 
 @interface MeTab () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
@@ -54,7 +55,6 @@
     self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgToFullScreen)];
     self.tap.delegate = self;
     self.tabBarController.tabBar.hidden = NO;
-    self.confesses = [NSMutableArray array];
     self.confessesTableView.delegate = self;
     self.confesses = [DBServices getMyConfesses];
     [self.confessesTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
@@ -162,20 +162,20 @@
     
     if (confess.isNew)
     {
-        //TODO: Check
         ConfessEntity *confessNew = [[ConfessEntity alloc] init];
         confessNew.objectID = confess.objectID;
         confessNew.loginName = confess.loginName;
-        confessNew.facebookID = confess.facebookID;
+        confessNew.url = confess.url;
         confessNew.content = confess.content;
         confessNew.date = confess.date;
         confessNew.isNew = NO;
-        //[self.confesses removeObject:encoded];
+        confessNew.facebookID = confess.facebookID;
+        NSString *confessId = [NSString stringWithFormat:@"%lu", (unsigned long)confess.objectID];
+        NSString *urlId = [NSString stringWithFormat:@"%d", ((CodeUrls*)[[DBServices select:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confess.url], nil]] objectAtIndex:0]).objectID];
+        [[DBManager shared] mergeQuery:tConfessEntity table:
+         [[NSMutableArray alloc] initWithObjects:confessId, confess.loginName, urlId, confess.content, [DateHandler stringFromDate:confess.date], @"0", @"", nil]];
         [self.confesses removeObject:confess];
-        //[self.confesses  addObject:[NSKeyedArchiver archivedDataWithRootObject:confessNew]];
         [self.confesses addObject:confessNew];
-        NSString *query = [NSString stringWithFormat:@"INSERT OR REPLACE INTO confessEntity values (%ld,'%@','%@','%@','%@', %d, %d)", (unsigned long)confess.objectID, confess.facebookID, confess.loginName, confess.content, confess.date, [[NSNumber numberWithBool:confess.isNew]intValue], confess.currColor];
-        [[DBManager shared] executeQuery:query];
     }
     
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
