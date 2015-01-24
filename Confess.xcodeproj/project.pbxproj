@@ -10,6 +10,7 @@
 		9E1129EB1A6DAE0C00DE3BED /* UserSentConfesses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129EA1A6DAE0C00DE3BED /* UserSentConfesses.m */; };
 		9E1129EE1A6ED8A700DE3BED /* CodeUrls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */; };
 		9E1129F21A6EEDC800DE3BED /* ConfessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129F01A6EEDC800DE3BED /* ConfessCell.m */; };
+		9E1129F61A72F6AC00DE3BED /* FacebookHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129F51A72F6AC00DE3BED /* FacebookHandler.m */; };
 		9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C491A31B965007E3CEF /* ColorsHandler.m */; };
 		9E273C4D1A31C3D6007E3CEF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C4C1A31C3D6007E3CEF /* User.m */; };
 		9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E63D40E1A01664800CA1E3B /* GrayConfess.png */; };
@@ -94,6 +95,8 @@
 		9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeUrls.m; sourceTree = "<group>"; };
 		9E1129EF1A6EEDC800DE3BED /* ConfessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfessCell.h; sourceTree = "<group>"; };
 		9E1129F01A6EEDC800DE3BED /* ConfessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfessCell.m; sourceTree = "<group>"; };
+		9E1129F41A72F6AC00DE3BED /* FacebookHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookHandler.h; sourceTree = "<group>"; };
+		9E1129F51A72F6AC00DE3BED /* FacebookHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookHandler.m; sourceTree = "<group>"; };
 		9E273C481A31B965007E3CEF /* ColorsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsHandler.h; sourceTree = "<group>"; };
 		9E273C491A31B965007E3CEF /* ColorsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorsHandler.m; sourceTree = "<group>"; };
 		9E273C4B1A31C3D6007E3CEF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -282,6 +285,8 @@
 				9EC1B2BB1A127445004DB39B /* DateHandler.m */,
 				9E273C481A31B965007E3CEF /* ColorsHandler.h */,
 				9E273C491A31B965007E3CEF /* ColorsHandler.m */,
+				9E1129F41A72F6AC00DE3BED /* FacebookHandler.h */,
+				9E1129F51A72F6AC00DE3BED /* FacebookHandler.m */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -571,6 +576,7 @@
 				9E994B5B19F55C8900DA5A50 /* NMPaginator.m in Sources */,
 				9E273C4D1A31C3D6007E3CEF /* User.m in Sources */,
 				9E994B6719FA909600DA5A50 /* ConfessEntity.m in Sources */,
+				9E1129F61A72F6AC00DE3BED /* FacebookHandler.m in Sources */,
 				9E1129EE1A6ED8A700DE3BED /* CodeUrls.m in Sources */,
 				9E994B4D19F5551C00DA5A50 /* LocalStorageService.m in Sources */,
 				9E994B5E19F6F08000DA5A50 /* ConfessMessageViewCell.m in Sources */,

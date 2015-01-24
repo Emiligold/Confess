@@ -11,7 +11,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "DBManager.h"
 
-@interface FriendsTab : UITableViewController <ABPeoplePickerNavigationControllerDelegate>
+@interface FriendsTab : UIViewController <ABPeoplePickerNavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *phoneImage;
 @property (nonatomic, assign) BOOL hideFacebook;

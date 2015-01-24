@@ -403,56 +403,30 @@
             </objects>
             <point key="canvasLocation" x="-152" y="-1388"/>
         </scene>
-        <!--View Controller -      -->
+        <!--Friends Tab -      -->
         <scene sceneID="TsL-xv-TLn">
             <objects>
-                <viewController storyboardIdentifier="Friends" id="I8C-3P-cTe" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Friends" id="I8C-3P-cTe" customClass="FriendsTab" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MqZ-Cl-YwV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Z3-jP-pLO">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="521"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Z3-jP-pLO">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="prominent" text="" id="mni-Nd-bKH">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="barTintColor" red="0.78823536630000002" green="0.90980398650000005" blue="0.94901967050000002" alpha="1" colorSpace="deviceRGB"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="I8C-3P-cTe" id="etj-ax-hwG"/>
-                                    </connections>
-                                </searchBar>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ChatRoomCellIdentifier" textLabel="V37-td-ywq" detailTextLabel="Jld-xI-zRx" rowHeight="66" style="IBUITableViewCellStyleSubtitle" id="oAg-cw-8la">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="66"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oAg-cw-8la" id="kJR-Hg-OGa">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="65"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V37-td-ywq">
-                                                    <rect key="frame" x="15" y="14" width="34" height="22"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jld-xI-zRx">
-                                                    <rect key="frame" x="15" y="36" width="43" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="I8C-3P-cTe" id="t2c-pu-bs7"/>
                                     <outlet property="delegate" destination="I8C-3P-cTe" id="PYw-PW-qUm"/>
+                                </connections>
+                            </tableView>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2k2-E0-Ftk">
+                                <rect key="frame" x="0.0" y="65" width="320" height="458"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="I8C-3P-cTe" id="Hz4-HY-5Iz"/>
+                                    <outlet property="delegate" destination="I8C-3P-cTe" id="VIK-ON-LZC"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -469,7 +443,8 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="chatTable" destination="0Z3-jP-pLO" id="gIy-j6-yrO"/>
+                        <outlet property="chatTable" destination="0Z3-jP-pLO" id="QV9-yy-cgX"/>
+                        <outlet property="facebookTable" destination="2k2-E0-Ftk" id="ttU-yo-uTO"/>
                         <outlet property="searchDisplayController" destination="Sy8-I2-ahx" id="C2H-fq-51J"/>
                         <segue destination="I4x-zj-Hjg" kind="push" identifier="Associate" id="iWl-d9-cCj"/>
                     </connections>
@@ -478,7 +453,6 @@
                 <searchDisplayController id="Sy8-I2-ahx">
                     <connections>
                         <outlet property="delegate" destination="I8C-3P-cTe" id="b3p-T0-diA"/>
-                        <outlet property="searchBar" destination="mni-Nd-bKH" id="NAb-5W-iK1"/>
                         <outlet property="searchContentsController" destination="I8C-3P-cTe" id="O5j-mr-UtH"/>
                         <outlet property="searchResultsDataSource" destination="I8C-3P-cTe" id="ykf-Fm-c6b"/>
                         <outlet property="searchResultsDelegate" destination="I8C-3P-cTe" id="j9O-wt-a3r"/>
@@ -487,7 +461,7 @@
             </objects>
             <point key="canvasLocation" x="958" y="-1920"/>
         </scene>
-        <!--Search Facebook - Confess a Facebook friend-->
+        <!--Search Facebook-->
         <scene sceneID="LGl-JJ-jzT">
             <objects>
                 <viewController id="I4x-zj-Hjg" customClass="SearchFacebook" sceneMemberID="viewController">
@@ -495,16 +469,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" id="XNu-WV-etD">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="I4x-zj-Hjg" id="OSu-nA-kBB"/>
-                                </connections>
-                            </searchBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="L4V-Vk-4uv">
-                                <rect key="frame" x="0.0" y="108" width="320" height="413"/>
+                                <rect key="frame" x="0.0" y="65" width="320" height="413"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Cgn-Ka-VqK">
@@ -540,15 +506,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Confess a Facebook friend" id="d0X-Nh-JoH"/>
+                    <navigationItem key="navigationItem" id="d0X-Nh-JoH"/>
                     <connections>
                         <outlet property="myTableView" destination="Cgn-Ka-VqK" id="zpz-Kr-JMr"/>
-                        <outlet property="searchField" destination="XNu-WV-etD" id="3lr-62-4j7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HwS-tN-VD1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1551" y="-1942"/>
+            <point key="canvasLocation" x="1405" y="-1611"/>
         </scene>
         <!--Navigation Controller - Friends-->
         <scene sceneID="8a5-YH-JUe">
@@ -559,17 +524,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="jL4-bt-kIS" kind="relationship" relationship="rootViewController" id="Wlw-aS-0BK"/>
+                        <segue destination="I8C-3P-cTe" kind="relationship" relationship="rootViewController" id="CHA-7b-Nuc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8PL-Sy-ExA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="424" y="-1388"/>
         </scene>
-        <!--Friends Tab-->
+        <!--Table View Controller-->
         <scene sceneID="rft-fC-0zW">
             <objects>
-                <tableViewController id="jL4-bt-kIS" customClass="FriendsTab" sceneMemberID="viewController">
+                <tableViewController id="jL4-bt-kIS" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" id="K3a-2r-Fjp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -590,8 +555,8 @@
                     <navigationItem key="navigationItem" id="gZR-hB-L2s"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="chatTable" destination="K3a-2r-Fjp" id="A9t-Ww-VlF"/>
                         <outlet property="searchDisplayController" destination="cww-WR-EPF" id="df7-gp-rYB"/>
+                        <segue destination="I4x-zj-Hjg" kind="push" identifier="FacebookChoose" id="QUy-4t-zvN"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w8j-CN-I3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -604,7 +569,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="952" y="-1234"/>
+            <point key="canvasLocation" x="897" y="-1232"/>
         </scene>
         <!--Navigation Controller - Settings-->
         <scene sceneID="Et4-2W-3jN">
@@ -777,4 +742,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="iWl-d9-cCj"/>
+    </inferredMetricsTieBreakers>
 </document>
