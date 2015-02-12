@@ -32,5 +32,6 @@
 +(UIColor*)getNextColor:(NSUInteger)userID;
 +(NSMutableArray*)getSentConfesses:(NSString*)userID;
 +(NSMutableArray*)select:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters;
++(void)insertFacebookUrl:(NSString*)url name:(NSString*)name;
 
 @end

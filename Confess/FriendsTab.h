@@ -23,5 +23,7 @@
 - (IBAction)facebookClicked:(id)sender;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *container;
+-(void)facebookLoadCompleted;
+-(void)friendClicked:(NSUInteger)index;
 
 @end

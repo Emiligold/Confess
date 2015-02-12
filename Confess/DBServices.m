@@ -15,6 +15,7 @@
 #import "User.h"
 #import "ColorsHandler.h"
 #import "UserSentConfesses.h"
+#import "CodeUrls.h"
 
 @implementation DBServices
 
@@ -215,6 +216,14 @@
 +(NSMutableArray*)getSentConfesses:(NSString*)userID
 {
     return [[[DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO], nil]] mutableCopy];
+}
+
++(void)insertFacebookUrl:(NSString*)url name:(NSString*)name
+{
+    NSMutableArray *result = [DBServices select:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"name = \"%@\"", name], nil]];
+    NSUInteger objectID = [result count] == 0 ? -1 : [((CodeUrls*)result[0]) objectID];
+    [[DBManager shared] mergeQuery:tCodeUrls table:[[NSMutableArray alloc] initWithObjects:objectID == -1 ? @"null" : @(objectID), [NSString stringWithFormat:@"\"%@\"", url], [NSString stringWithFormat:@"\"%@\"", name], nil]];
+    [[DBManager shared] executeExecutableQuery];
 }
 
 @end

@@ -30,4 +30,9 @@ BOOL initialized;
     return [arrColors objectAtIndex:index];
 }
 
++(UIColor*)lightBlueColor
+{
+    return [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+}
+
 @end

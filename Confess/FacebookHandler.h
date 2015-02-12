@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "FriendsTab.h"
 @interface FacebookHandler : NSObject
 
 +(instancetype)instance;
 -(NSMutableArray*)getAllFriends;
+-(void)setFriendsView:(FriendsTab*)view;
 
 @end

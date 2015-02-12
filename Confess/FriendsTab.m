@@ -17,6 +17,8 @@
 #import "ConfessCell.h"
 #import "ConfessCell.h"
 #import "FacebookHandler.h"
+#import "FacebookCell.h"
+#import "ColorsHandler.h"
 
 @interface FriendsTab () <QBActionStatusDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -72,12 +74,13 @@ UIBarButtonItem *contactItem;
     
     self.tabBarController.tabBar.hidden = NO;
     self.chatTable.allowsMultipleSelectionDuringEditing = NO;
+    self.chatTable.backgroundColor = [ColorsHandler lightBlueColor];
     //self.searchBar.delegate = self;
     //self.chatTable.tableHeaderView = self.searchBar;
     self.tabBarController.tabBar.barTintColor =  [UIColor whiteColor];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    self.navigationController.navigationBar.barTintColor = [ColorsHandler lightBlueColor];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
-    self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    self.tabBarController.tabBar.barTintColor = [ColorsHandler lightBlueColor];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -255,13 +258,13 @@ UIBarButtonItem *contactItem;
     
         if (cell == nil)
         {
-            cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier isMine:NO friendsTab:self];
         }
     
         cell.tag  = indexPath.row;
         //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         NSString *url;
-        cell.backgroundColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+        cell.backgroundColor = [ColorsHandler lightBlueColor];
 
         if ([self.dialogs[indexPath.row] isKindOfClass:[QBChatDialog class]])
         {
@@ -280,21 +283,34 @@ UIBarButtonItem *contactItem;
         return cell;
     }
 
-    UITableViewCell *cell = [self.facebookTable dequeueReusableCellWithIdentifier:cellIdentifier];
+    FacebookCell *cell = [self.facebookTable dequeueReusableCellWithIdentifier:cellIdentifier];
         
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[FacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
         
-    NSDictionary<FBGraphUser> *friend = [self.friends objectAtIndex:indexPath.row];
-    cell.textLabel.text = friend.name;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:[self getUserUrl:friend]]];
-    cell.imageView.image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([[UIImage imageWithData: data] CGImage],CGRectMake(20, 20, 60, 60) )];
-    cell.imageView.layer.masksToBounds = YES;
-    cell.imageView.layer.cornerRadius = 20;
-    cell.backgroundColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    [cell configureCellWithFriend:[self.friends objectAtIndex:indexPath.row]];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //cell.textLabel.text = friend.name;
+    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    //NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:[self getUserUrl:[self.friends objectAtIndex:indexPath.row]]]];
+    //cell.imageView.bounds = CGRectMake(0,0,120,120);
+    //cell.imageView.frame = CGRectMake(0,0,120,120);
+    //UIImage *image = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([[UIImage imageWithData: data] CGImage],CGRectMake(0, 0, 120, 120))];
+    //cell.imageView.image = image;
+    //cell.imageView.image = [UIImage imageWithData:data];
+    //cell.imageView.layer.masksToBounds = YES;
+    //cell.imageView.layer.cornerRadius = 20;
+    //cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    //cell.imageView.frame = CGRectMake(0,0,500,500);
+    //self.rowWidth is the desired Width
+    //self.rowHeight is the desired height
+    //CGFloat widthScale = 70 / image.size.width;
+    //CGFloat heightScale = 70 / image.size.height;
+    //this line will do it!
+    //cell.imageView.transform = CGAffineTransformMakeScale(widthScale, heightScale);
+    cell.backgroundColor = [ColorsHandler lightBlueColor];
     
     //if (indexPath.row % 2)
     //{
@@ -405,10 +421,15 @@ UIBarButtonItem *contactItem;
         } errorBlock:nil];
         
         self.allFriends = [[[FacebookHandler instance] getAllFriends] mutableCopy];
+        [[FacebookHandler instance] setFriendsView:self];
         self.friends = [NSMutableArray arrayWithArray:self.allFriends];
-        _allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
-        [self.chatTable reloadData];
     }
+}
+
+-(void)facebookLoadCompleted
+{
+    _allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
+    [self.chatTable reloadData];
 }
 
 //- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -437,25 +458,13 @@ UIBarButtonItem *contactItem;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //NSString *str = ((ConfessEntity*)[self.dialogs objectAtIndex:indexPath.row]).content;
-    //CGSize size = [str sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17] constrainedToSize:CGSizeMake(280, 999) lineBreakMode:NSLineBreakByWordWrapping];
-    //NSLog(@"%f",size.height);
-    //return size.height + 10;
-    
-    //if ([self.dialogs[indexPath.row] isKindOfClass:[ConfessEntity class]])
-    //{
-    //    return [ConfessCell heightForCellWithConfess:self.dialogs[indexPath.row]];
-    //}
-    
     if (self.facebookTable.hidden)
-        return [ConfessCell heightForCellWithConfess:self.dialogs[indexPath.row]];
-    return 150;
+        return [ConfessCell heightForCellWithConfess:self.dialogs[indexPath.row] isMine:NO];
+    return 120;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    //self.searchDisplayController.searchBar.placeholder = @"Search";
-   // [searchBar resignFirstResponder];
     [searchBar setShowsCancelButton:NO animated:YES];
     self.navigationItem.rightBarButtonItem = contactItem;
     searchBar.text = @"";
@@ -466,26 +475,10 @@ UIBarButtonItem *contactItem;
     self.chatTable.hidden = NO;
     self.chatTable.delegate = self;
     self.chatTable.dataSource = self;
-    //[self.dialogs removeAllObjects];
-    //[self.chatTable reloadData];
-    //self.dialogs = [self.allDialogs mutableCopy];
-    //[self.chatTable reloadData];
-    //[[self navigationController] setNavigationBarHidden:NO animated:YES];
-    //self.searchBar.placeholder = @"";
-    //self.container.hidden = YES;
-    //self.searchBar.text = @"";
-    //self.chatTable.hidden = NO;
-    //self.chatTable.alwaysBounceVertical = YES;
-    //self.chatTable.scrollEnabled = YES;
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-   // [[self navigationController] setNavigationBarHidden:YES animated:YES];
-    //CGRect r=self.view.frame;
-    //r.origin.y=-0.08;
-    //r.size.height+=0.08;
-    //self.view.frame=r;
     self.navigationItem.rightBarButtonItem = nil;
     [searchBar setShowsCancelButton:YES animated:YES];
     self.chatTable.hidden = YES;
@@ -518,6 +511,28 @@ UIBarButtonItem *contactItem;
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.searchBar resignFirstResponder];
+}
+
+-(void)friendClicked:(NSUInteger)index
+{
+    UIView *modalView =
+    [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    modalView.opaque = NO;
+    modalView.backgroundColor =
+    [[UIColor blackColor] colorWithAlphaComponent:0.5f];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"Modal View";
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.opaque = NO;
+    [label sizeToFit];
+    [label setCenter:CGPointMake(modalView.frame.size.width / 2,
+                                 modalView.frame.size.height / 2)];
+    [modalView addSubview:label];
+    
+    [self.view addSubview:modalView];
+
 }
 
 @end

@@ -8,10 +8,13 @@
 
 #import "FacebookHandler.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "DBServices.h"
+#import "FacebookCell.h"
 
 @interface FacebookHandler ()
 
 @property(nonatomic, strong) NSMutableArray* allFriends;
+@property(nonatomic, strong) FriendsTab *friendsTab;
 
 @end
 
@@ -30,6 +33,10 @@
     
 }
 
+-(void)setFriendsView:(FriendsTab*)view
+{
+    self.friendsTab = view;
+}
 
 -(NSMutableArray*)getAllFriends
 {
@@ -74,11 +81,13 @@
          {
              if (![mutableArray containsObject:friend])
              {
+                 [DBServices insertFacebookUrl:[FacebookCell getUserUrl:friend] name:friend.name];
                  [mutableArray addObject:friend];
              }
          }
          
          self.allFriends = [NSMutableArray arrayWithArray:mutableArray];
+         [self.friendsTab facebookLoadCompleted];
      }];
     
     return self.allFriends;

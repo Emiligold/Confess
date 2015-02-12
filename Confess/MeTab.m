@@ -12,6 +12,8 @@
 #import "DateHandler.h"
 #import "DBServices.h"
 #import "CodeUrls.h"
+#import "ConfessCell.h"
+#import "ColorsHandler.h"
 
 @interface MeTab () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
@@ -57,10 +59,11 @@
     self.tabBarController.tabBar.hidden = NO;
     self.confessesTableView.delegate = self;
     self.confesses = [DBServices getMyConfesses];
-    [self.confessesTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
-    self.confessesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.view.backgroundColor = [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
+    //[self.confessesTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
+    //self.confessesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.view.backgroundColor = [ColorsHandler lightBlueColor];
     self.titleScroll.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
+    self.confessesTableView.backgroundColor = [ColorsHandler lightBlueColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -88,6 +91,11 @@
         shouldReceiveTouch = (touch.view == self.profilePicture);
     }
     return shouldReceiveTouch;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [ConfessCell heightForCellWithConfess:self.confesses[indexPath.row] isMine:YES];
 }
 
 -(void)imgToFullScreen{
@@ -141,11 +149,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *cellIdentifier = @"rowCell";
     CGSize textSize = { 260.0, 10000.0 };
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rowCell"];
+    ConfessCell *cell = [self.confessesTableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil)
+    {
+        cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier isMine:YES friendsTab:nil];
+    }
+    
     ConfessEntity *confess = [self.confesses objectAtIndex:indexPath.row];
-    cell.textLabel.text = confess.content;
-    cell.textLabel.textColor = [UIColor whiteColor];
+    [cell configureCellWithConfess:confess];
+    //cell.textLabel.text = confess.content;
+    //cell.textLabel.textColor = [UIColor whiteColor];
     //cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:confess.date
      //                                                          dateStyle:NSDateFormatterShortStyle
       //                                                         timeStyle:NSDateFormatterFullStyle];
@@ -153,11 +169,11 @@
                                         constrainedToSize:textSize
                                             lineBreakMode:NSLineBreakByWordWrapping];
 	size.width += 10;
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0]];
-    [cell.textLabel setFrame:CGRectMake(padding, padding+5, size.width, size.height+padding)];
-    [cell.backgroundView setFrame:CGRectMake(padding/2, padding+5,
-                                                  300, cell.textLabel.frame.size.height+5)];
+    //cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    //cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0]];
+    //[cell.textLabel setFrame:CGRectMake(padding, padding+5, size.width, size.height+padding)];
+    //[cell.backgroundView setFrame:CGRectMake(padding/2, padding+5,
+    //                                              300, cell.textLabel.frame.size.height+5)];
     //cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"cell_pressed.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
     
     if (confess.isNew)
@@ -180,6 +196,7 @@
     
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [ColorsHandler lightBlueColor];
     return cell;
 }
 

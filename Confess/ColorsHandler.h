@@ -11,5 +11,6 @@
 @interface ColorsHandler : NSObject
 
 +(UIColor*)getColorByIndex:(NSUInteger) index;
++(UIColor*)lightBlueColor;
 
 @end
