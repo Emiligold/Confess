@@ -429,6 +429,13 @@
                                     <outlet property="delegate" destination="I8C-3P-cTe" id="VIK-ON-LZC"/>
                                 </connections>
                             </tableView>
+                            <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" id="RPP-rz-PnQ">
+                                <rect key="frame" x="27" y="147" width="266" height="277"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <segue destination="CU6-gS-SHF" kind="embed" id="cZl-H4-e3b"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -444,6 +451,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="chatTable" destination="0Z3-jP-pLO" id="QV9-yy-cgX"/>
+                        <outlet property="container" destination="RPP-rz-PnQ" id="uXc-9b-Ysl"/>
                         <outlet property="facebookTable" destination="2k2-E0-Ftk" id="ttU-yo-uTO"/>
                         <outlet property="searchDisplayController" destination="Sy8-I2-ahx" id="C2H-fq-51J"/>
                         <segue destination="I4x-zj-Hjg" kind="push" identifier="Associate" id="iWl-d9-cCj"/>
@@ -732,6 +740,32 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fbp-13-9eD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--View Controller - Title-->
+        <scene sceneID="f6J-fq-UAd">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="CU6-gS-SHF" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="kmB-kc-iFr">
+                        <rect key="frame" x="0.0" y="0.0" width="266" height="277"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="faW-eJ-XjB">
+                                <rect key="frame" x="9" y="7" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="X">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="WhV-6O-CpO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4xl-jg-Fj1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1432" y="-2018"/>
         </scene>
     </scenes>
     <resources>

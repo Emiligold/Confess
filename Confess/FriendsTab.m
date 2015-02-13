@@ -521,6 +521,11 @@ UIBarButtonItem *contactItem;
     modalView.backgroundColor =
     [[UIColor blackColor] colorWithAlphaComponent:0.5f];
     
+    UIView *view =
+    [[UIView alloc] initWithFrame:CGRectMake(50, 50, 50, 50)];
+    view.opaque = NO;
+    view.backgroundColor = [UIColor redColor];
+    
     UILabel *label = [[UILabel alloc] init];
     label.text = @"Modal View";
     label.textColor = [UIColor whiteColor];
@@ -529,9 +534,14 @@ UIBarButtonItem *contactItem;
     [label sizeToFit];
     [label setCenter:CGPointMake(modalView.frame.size.width / 2,
                                  modalView.frame.size.height / 2)];
-    [modalView addSubview:label];
+    self.container.hidden = NO;
+    [modalView addSubview:self.container];
     
+     //self.container.hidden = NO;
+    //[self.view addSubview:self.container];
+    //self.modalPresentationStyle = UIModalPresentationCurrentContext;
     [self.view addSubview:modalView];
+    
 
 }
 
