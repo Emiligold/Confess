@@ -245,7 +245,7 @@ ConfessWrite *translationQuizAssociateVC;
     confessEntity.date = currDate;
     confessEntity.isNew = YES;
     confessEntity.facebookID = self.userID != nil ? self.userID : self.userUrl;
-    long long confessID = [DBServices insertNewConfess:confessEntity];
+    [DBServices insertNewConfess:confessEntity];
     
     if (self.userID != nil)
     {
@@ -258,7 +258,7 @@ ConfessWrite *translationQuizAssociateVC;
         message.recipientID = [self.userID integerValue];
         message.senderID = [LocalStorageService shared].currentUser.ID;
         [[ChatService instance] sendMessage:message];
-         [DBServices insertCodeUserConfesses:self.userID userId:confessID confessId:self.userID];
+        // [DBServices insertCodeUserConfesses:self.userID userId:confessID confessId:self.userID];
         [self.messages addObject:message];
         [DBServices updateDialogStatus:self.dialog.ID dialogId:0];
     }
@@ -267,7 +267,7 @@ ConfessWrite *translationQuizAssociateVC;
         FriendsNoAppConfesses *result = [DBServices getConversation:self.userUrl];
         long long no_app_code = result == nil ? [DBServices insertNewConversation:self.userUrl] : result.objectID;
         [DBServices updateConversationStatus:self.userUrl userUrl:0];
-        [DBServices insertNewCodeFriends:confessID confessId:no_app_code];
+        //[DBServices insertNewCodeFriends:confessID confessId:no_app_code];
         [self.messages addObject:confessEntity];
     }
 

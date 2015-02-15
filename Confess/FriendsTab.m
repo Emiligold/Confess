@@ -19,15 +19,21 @@
 #import "FacebookHandler.h"
 #import "FacebookCell.h"
 #import "ColorsHandler.h"
+#import "ConfessFriend.h"
+#import "ReturnButtonContainer.h"
+#import "ConfessButtonContainer.h"
 
 @interface FriendsTab () <QBActionStatusDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dialogs;
 @property (nonatomic, strong) NSMutableArray *friends;
 @property (nonatomic, strong) NSMutableArray *allFriends;
-@property (weak, nonatomic) IBOutlet UITableView *chatTable;
 @property (weak, nonatomic) IBOutlet UITableView *facebookTable;
 @property (nonatomic, strong) NSMutableArray *allDialogs;
+@property (nonatomic, strong) UIView *modalView;
+@property (nonatomic, strong) ConfessFriend *confessFriend;
+@property (nonatomic, strong) ConfessButtonContainer *confessButton;
+@property (nonatomic, strong) ReturnButtonContainer *returnButton;
 
 @end
 
@@ -146,6 +152,35 @@ UIBarButtonItem *contactItem;
     {
         //containerView = [segue destinationViewController];
         //[containerView setDetailItem:self view:self.dialogs];
+    }
+    else if ([[segue identifier] isEqualToString:@"ConfessFriendSegue"])
+    {
+        self.confessFriend = [segue destinationViewController];
+        
+        if (self.returnButton != nil)
+        {
+            self.returnButton.confessFriend = self.confessFriend;
+        }
+        if (self.confessButton != nil)
+        {
+            self.confessButton.confessFriend = self.confessFriend;
+        }
+    }
+    else if ([[segue identifier] isEqualToString:@"ReturnContainerSegue"])
+    {
+        if (self.confessFriend != nil)
+        {
+            self.returnButton = [segue destinationViewController];
+            self.returnButton.confessFriend = self.confessFriend;
+        }
+    }
+    else  if ([[segue identifier] isEqualToString:@"ConfessContainerSegue"])
+    {
+        if (self.confessFriend != nil)
+        {
+            self.confessButton = [segue destinationViewController];
+            self.confessButton.confessFriend = self.confessFriend;
+        }
     }
 }
 
@@ -513,36 +548,48 @@ UIBarButtonItem *contactItem;
     [self.searchBar resignFirstResponder];
 }
 
--(void)friendClicked:(NSUInteger)index
+-(void)friendClicked:(UITableViewCell*)cell
 {
-    UIView *modalView =
-    [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    modalView.opaque = NO;
-    modalView.backgroundColor =
+    self.modalView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.modalView.opaque = NO;
+    self.modalView.backgroundColor =
     [[UIColor blackColor] colorWithAlphaComponent:0.5f];
-    
-    UIView *view =
-    [[UIView alloc] initWithFrame:CGRectMake(50, 50, 50, 50)];
-    view.opaque = NO;
-    view.backgroundColor = [UIColor redColor];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"Modal View";
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.opaque = NO;
-    [label sizeToFit];
-    [label setCenter:CGPointMake(modalView.frame.size.width / 2,
-                                 modalView.frame.size.height / 2)];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    self.container.layer.cornerRadius = 25;
+    self.container.layer.masksToBounds = YES;
+    self.buttonsContainer.layer.cornerRadius = 15;
+    self.buttonsContainer.layer.masksToBounds = YES;
+    self.returnContainer.layer.cornerRadius = 15;
+    self.returnContainer.layer.masksToBounds = YES;
+    [self.modalView addSubview:self.container];
+    [self.modalView addSubview:self.buttonsContainer];
+    [self.modalView addSubview:self.returnContainer];
+    [self.view addSubview:self.modalView];
+    NSString *name = ((ConfessCell *)cell).name.titleLabel.text;
+    UIImage *image = ((ConfessCell *)cell).profileImage.image;
+    if ([self.dialogs[((UITableViewCell *)cell).tag] isKindOfClass:[QBChatDialog class]])
+    {
+        QBChatDialog *dialog = self.dialogs[((ConfessCell *)cell).tag];
+        self.confessFriend.dialog = dialog;
+        [self.confessFriend setDetailItem:name :[NSString stringWithFormat:@"%d", dialog.recipientID] :self :self.dialogs :nil url:image];
+    }
+    else
+    {
+        ConfessEntity *dialog = self.dialogs[((ConfessCell *)cell).tag];
+        [self.confessFriend setDetailItem:name : nil :self :self.dialogs : dialog.url url: image];
+    }
     self.container.hidden = NO;
-    [modalView addSubview:self.container];
-    
-     //self.container.hidden = NO;
-    //[self.view addSubview:self.container];
-    //self.modalPresentationStyle = UIModalPresentationCurrentContext;
-    [self.view addSubview:modalView];
-    
+    self.buttonsContainer.hidden = NO;
+    self.returnContainer.hidden = NO;
+}
 
+-(void)exitFriendClicked
+{
+    self.container.hidden = YES;
+    self.buttonsContainer.hidden = YES;
+    self.returnContainer.hidden = YES;
+    [self.modalView removeFromSuperview];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 @end

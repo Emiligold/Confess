@@ -62,6 +62,9 @@
 		9E9A19D619EA95EA00BF1C6C /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9A19D519EA95EA00BF1C6C /* libresolv.dylib */; };
 		9E9A19D819EA960400BF1C6C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9A19D719EA960400BF1C6C /* libxml2.dylib */; };
 		9E9A9B371A68563C005F9E1F /* SearchFacebookContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */; };
+		9EA2D3B61A8E413A00BF24F7 /* ConfessFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA2D3B51A8E413A00BF24F7 /* ConfessFriend.m */; };
+		9EA2D3B91A8FD10E00BF24F7 /* ConfessButtonContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA2D3B81A8FD10E00BF24F7 /* ConfessButtonContainer.m */; };
+		9EA2D3BC1A8FD15800BF24F7 /* ReturnButtonContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA2D3BB1A8FD15800BF24F7 /* ReturnButtonContainer.m */; };
 		9EC1B2AF1A0E6504004DB39B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EC1B2AE1A0E6504004DB39B /* libsqlite3.dylib */; };
 		9EC1B2B21A0E6529004DB39B /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1B2B11A0E6529004DB39B /* DBManager.m */; };
 		9EC1B2B91A126E81004DB39B /* FriendsNoAppConfesses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1B2B81A126E81004DB39B /* FriendsNoAppConfesses.m */; };
@@ -168,6 +171,12 @@
 		9E9A19D719EA960400BF1C6C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchFacebookContainer.h; path = ../SearchFacebookContainer.h; sourceTree = "<group>"; };
 		9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchFacebookContainer.m; path = ../SearchFacebookContainer.m; sourceTree = "<group>"; };
+		9EA2D3B41A8E413A00BF24F7 /* ConfessFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfessFriend.h; sourceTree = "<group>"; };
+		9EA2D3B51A8E413A00BF24F7 /* ConfessFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfessFriend.m; sourceTree = "<group>"; };
+		9EA2D3B71A8FD10E00BF24F7 /* ConfessButtonContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfessButtonContainer.h; sourceTree = "<group>"; };
+		9EA2D3B81A8FD10E00BF24F7 /* ConfessButtonContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfessButtonContainer.m; sourceTree = "<group>"; };
+		9EA2D3BA1A8FD15800BF24F7 /* ReturnButtonContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnButtonContainer.h; sourceTree = "<group>"; };
+		9EA2D3BB1A8FD15800BF24F7 /* ReturnButtonContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReturnButtonContainer.m; sourceTree = "<group>"; };
 		9EC1B2AE1A0E6504004DB39B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9EC1B2B01A0E6529004DB39B /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		9EC1B2B11A0E6529004DB39B /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
@@ -410,6 +419,12 @@
 				9EE9A51619DF09EF002AD3CB /* ConfessView.m */,
 				9E9A195A19E6B05600BF1C6C /* ConfessWrite.h */,
 				9E9A195B19E6B05600BF1C6C /* ConfessWrite.m */,
+				9EA2D3B41A8E413A00BF24F7 /* ConfessFriend.h */,
+				9EA2D3B51A8E413A00BF24F7 /* ConfessFriend.m */,
+				9EA2D3B71A8FD10E00BF24F7 /* ConfessButtonContainer.h */,
+				9EA2D3B81A8FD10E00BF24F7 /* ConfessButtonContainer.m */,
+				9EA2D3BA1A8FD15800BF24F7 /* ReturnButtonContainer.h */,
+				9EA2D3BB1A8FD15800BF24F7 /* ReturnButtonContainer.m */,
 			);
 			path = Confess;
 			sourceTree = "<group>";
@@ -583,12 +598,14 @@
 				9E994B6719FA909600DA5A50 /* ConfessEntity.m in Sources */,
 				9E1129F61A72F6AC00DE3BED /* FacebookHandler.m in Sources */,
 				9E1129EE1A6ED8A700DE3BED /* CodeUrls.m in Sources */,
+				9EA2D3B91A8FD10E00BF24F7 /* ConfessButtonContainer.m in Sources */,
 				9E1129F91A73C46F00DE3BED /* FacebookCell.m in Sources */,
 				9E994B4D19F5551C00DA5A50 /* LocalStorageService.m in Sources */,
 				9E994B5E19F6F08000DA5A50 /* ConfessMessageViewCell.m in Sources */,
 				9E994B5019F555A300DA5A50 /* ChatService.m in Sources */,
 				9E994B5719F55B6300DA5A50 /* UsersPaginator.m in Sources */,
 				9EC1B2BC1A127445004DB39B /* DateHandler.m in Sources */,
+				9EA2D3BC1A8FD15800BF24F7 /* ReturnButtonContainer.m in Sources */,
 				9EC1B2C51A127B83004DB39B /* DBServices.m in Sources */,
 				9E9A195919E676B600BF1C6C /* InfoView.m in Sources */,
 				9E99DD3019DB36C000A40951 /* ViewController.m in Sources */,
@@ -608,6 +625,7 @@
 				9EE9A51119DEB14C002AD3CB /* TabController.m in Sources */,
 				9E99DD2619DB36C000A40951 /* main.m in Sources */,
 				9E1129F21A6EEDC800DE3BED /* ConfessCell.m in Sources */,
+				9EA2D3B61A8E413A00BF24F7 /* ConfessFriend.m in Sources */,
 				9E1129EB1A6DAE0C00DE3BED /* UserSentConfesses.m in Sources */,
 				9E9A19C819E9929D00BF1C6C /* ChatCell.m in Sources */,
 			);

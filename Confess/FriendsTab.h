@@ -24,6 +24,11 @@
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *container;
 -(void)facebookLoadCompleted;
--(void)friendClicked:(NSUInteger)index;
+-(void)friendClicked:(UITableViewCell*)cell;
+-(void)exitFriendClicked;
+@property (weak, nonatomic) IBOutlet UIView *buttonsContainer;
+@property (weak, nonatomic) IBOutlet UIView *returnContainer;
+@property (weak, nonatomic) IBOutlet UITableView *chatTable;
+
 
 @end

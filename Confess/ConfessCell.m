@@ -107,7 +107,7 @@
 
 - (IBAction)friendClicked:(id)sender
 {
-    [self.friendsTab friendClicked:self.tag];
+    [self.friendsTab friendClicked:self];
 }
 
 @end

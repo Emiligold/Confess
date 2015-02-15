@@ -19,7 +19,7 @@
 +(id<AbstractEntity>)getConversation:(NSString*)userUrl;
 +(NSMutableArray*)getConfessesOfConversation:(NSUInteger)noAppCode;
 +(NSMutableArray*)getMessagesByUrl:(NSString*)userUrl;
-+(long long)insertNewConfess:(ConfessEntity*)confessEntity;
++(void)insertNewConfess:(ConfessEntity*)confessEntity;
 +(long long)insertNewConversation:(NSString*)userUrl;
 +(long long)insertCodeUserConfesses:(NSString*)userId userId:(long long)confessId confessId:(NSString*)facebookId;
 +(long long)insertNewCodeFriends:(long long)confessId confessId:(long long)noAppCode;

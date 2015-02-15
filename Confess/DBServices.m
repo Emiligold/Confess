@@ -115,12 +115,21 @@
     return [[NSMutableArray alloc] init];
 }
 
-+(long long)insertNewConfess:(ConfessEntity*)confessEntity
++(void)insertNewConfess:(ConfessEntity*)confessEntity
 {
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:@"null", [NSString stringWithFormat:@"'%@'",confessEntity.facebookID], [NSString stringWithFormat:@"'%@'", confessEntity.loginName], [NSString stringWithFormat:@"'%@'", confessEntity.content], [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.date]], [NSString stringWithFormat:@"%@", [NSNumber numberWithBool: confessEntity.isNew]], @(-1), nil];
+    NSString *date = [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.date]];
+    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:
+            @"null",
+            confessEntity.url == nil ? @"null" : [NSString stringWithFormat:@"'%@'", ((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confessEntity.url], nil]]).url],
+            [NSString stringWithFormat:@"'%@'", confessEntity.loginName],
+            [NSString stringWithFormat:@"'%@'", confessEntity.content],
+            date,
+            [NSString stringWithFormat:@"%@", [NSNumber numberWithBool: confessEntity.isNew]],
+            confessEntity.facebookID == nil ? @"null" : [NSString stringWithFormat:@"'%@'", confessEntity.facebookID], nil];
     [[DBManager shared] mergeQuery:tConfessEntity table:parameters];
     [[DBManager shared] executeExecutableQuery];
-    return [[DBManager shared] lastInsertedRowID];
+    [[DBManager shared] mergeQuery:tUserSentConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"'%d'", [[LocalStorageService shared] currentUser].ID], confessEntity.facebookID != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.facebookID] : @"null", confessEntity.url != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.url] : @"null", date, @([[DBManager shared] lastInsertedRowID]), @(0), nil]];
+    //return [[DBManager shared] lastInsertedRowID];
 }
 
 +(long long)insertNewConversation:(NSString*)userUrl

@@ -18,6 +18,6 @@
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, assign) BOOL isNew;
-@property (nonatomic, assign) NSUInteger currColor;
+//@property (nonatomic, assign) NSUInteger currColor;
 
 @end

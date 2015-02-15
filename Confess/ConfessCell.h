@@ -18,6 +18,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *date;
 + (CGFloat)heightForCellWithConfess:(ConfessEntity *)message isMine:(BOOL)isMine;
 - (void)configureCellWithConfess:(ConfessEntity *)message;
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier isMine:(BOOL)mine friendsTab:(FriendsTab*)friendsTab;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:
+    (NSString *)reuseIdentifier isMine:(BOOL)mine friendsTab:(FriendsTab*)friendsTab;
 
 @end
