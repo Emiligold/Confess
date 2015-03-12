@@ -13,5 +13,8 @@
 
 @property(nonatomic, strong) ConfessFriend *confessFriend;
 - (IBAction)returnClicked:(id)sender;
+- (IBAction)returnTouchDown:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *returnButton;
+- (IBAction)returnTouchOut:(id)sender;
 
 @end

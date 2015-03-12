@@ -57,10 +57,12 @@
                                               )
      {
          NSArray* friends = [result objectForKey:@"data"];
+         self.haveApp = [[NSMutableDictionary alloc] init];
          
          for (NSDictionary<FBGraphUser>* friend in friends)
          {
              [mutableArray addObject:friend];
+             [self.haveApp setObject:friend forKey:[FacebookCell getUserUrl:friend]];
          }
          
          self.allFriends = [NSMutableArray arrayWithArray:mutableArray];
@@ -79,9 +81,10 @@
          
          for (NSDictionary<FBGraphUser>* friend in friends)
          {
-             if (![mutableArray containsObject:friend])
+             if ([self.haveApp objectForKey:[FacebookCell getUserUrl:friend]] == nil)
              {
-                 [DBServices insertFacebookUrl:[FacebookCell getUserUrl:friend] name:friend.name];
+                 NSString *url = [FacebookCell getUserUrl:friend];
+                 [DBServices insertFacebookUrl:url name:friend.name];
                  [mutableArray addObject:friend];
              }
          }

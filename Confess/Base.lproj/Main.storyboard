@@ -211,7 +211,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1718" y="-1270"/>
+            <point key="canvasLocation" x="1974" y="-1382"/>
         </scene>
         <!--Confess Write-->
         <scene sceneID="zpI-r7-dYG">
@@ -452,6 +452,14 @@
                                     <segue destination="cvn-Sb-G2T" kind="embed" identifier="ReturnContainerSegue" id="hnn-bV-HVe"/>
                                 </connections>
                             </containerView>
+                            <containerView hidden="YES" opaque="NO" alpha="0.84999999999999987" contentMode="scaleToFill" id="Mpa-kA-zLX">
+                                <rect key="frame" x="44" y="297" width="45" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="wPQ-IJ-Jn3" kind="embed" id="bE1-Xu-q12"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -470,6 +478,7 @@
                         <outlet property="chatTable" destination="0Z3-jP-pLO" id="QV9-yy-cgX"/>
                         <outlet property="container" destination="RPP-rz-PnQ" id="uXc-9b-Ysl"/>
                         <outlet property="facebookTable" destination="2k2-E0-Ftk" id="ttU-yo-uTO"/>
+                        <outlet property="infoContainer" destination="Mpa-kA-zLX" id="zmR-zz-Dyu"/>
                         <outlet property="returnContainer" destination="9kn-Fx-y3B" id="U78-HB-2eo"/>
                         <outlet property="searchDisplayController" destination="Sy8-I2-ahx" id="C2H-fq-51J"/>
                         <segue destination="I4x-zj-Hjg" kind="push" identifier="Associate" id="iWl-d9-cCj"/>
@@ -539,7 +548,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HwS-tN-VD1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1405" y="-1611"/>
+            <point key="canvasLocation" x="1480" y="-1551"/>
         </scene>
         <!--Navigation Controller - Friends-->
         <scene sceneID="8a5-YH-JUe">
@@ -595,7 +604,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="897" y="-1232"/>
+            <point key="canvasLocation" x="934" y="-1216"/>
         </scene>
         <!--Navigation Controller - Settings-->
         <scene sceneID="Et4-2W-3jN">
@@ -650,7 +659,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Bu-cv-jFK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="958" y="-460"/>
+            <point key="canvasLocation" x="934" y="-516"/>
         </scene>
         <!--Search Facebook Container-->
         <scene sceneID="HQI-UN-nIy">
@@ -699,7 +708,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1336" y="-895"/>
+            <point key="canvasLocation" x="1480" y="-831"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="FdS-EF-7b9">
@@ -758,6 +767,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fbp-13-9eD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1974" y="-660"/>
         </scene>
         <!--Confess Friend - Title-->
         <scene sceneID="f6J-fq-UAd">
@@ -828,7 +838,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4xl-jg-Fj1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480" y="-2199"/>
+            <point key="canvasLocation" x="1480" y="-2309"/>
         </scene>
         <!--Confess Button Container-->
         <scene sceneID="S7f-ax-Yrp">
@@ -838,24 +848,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="107" height="32"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Wwy-Xl-Pnp">
-                                <rect key="frame" x="25" y="1" width="57" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="p5U-dH-gIn">
+                                <rect key="frame" x="-6" y="-4" width="118" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Confess">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="confessClicked:" destination="8KD-3q-rtB" eventType="touchUpInside" id="AXh-8V-LI6"/>
+                                    <action selector="confessClicked:" destination="8KD-3q-rtB" eventType="touchUpInside" id="a6A-sb-Rgm"/>
+                                    <action selector="confessTouchDown:" destination="8KD-3q-rtB" eventType="touchDown" id="M1a-uD-e6Z"/>
+                                    <action selector="confessTouchOut:" destination="8KD-3q-rtB" eventType="touchUpOutside" id="Qu6-YS-UQ7"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.2117647231" green="0.57647061349999995" blue="0.92549026010000002" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <toolbarItems/>
+                    <connections>
+                        <outlet property="confessButton" destination="p5U-dH-gIn" id="gyl-rB-zfX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NmU-57-bxg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480" y="-1861"/>
+            <point key="canvasLocation" x="1480" y="-1968"/>
         </scene>
         <!--Return Button Container-->
         <scene sceneID="wjx-9J-8Pa">
@@ -865,25 +882,67 @@
                         <rect key="frame" x="0.0" y="0.0" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5mn-th-h4H">
-                                <rect key="frame" x="10" y="0.0" width="41" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="5mn-th-h4H">
+                                <rect key="frame" x="0.0" y="-3" width="61" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="return">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="returnClicked:" destination="cvn-Sb-G2T" eventType="touchUpInside" id="7Ba-3f-vcd"/>
+                                    <action selector="returnTouchDown:" destination="cvn-Sb-G2T" eventType="touchDown" id="rAC-wJ-GmR"/>
+                                    <action selector="returnTouchOut:" destination="cvn-Sb-G2T" eventType="touchUpOutside" id="Z8r-tu-xjh"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.2117647231" green="0.57647061349999995" blue="0.92549026010000002" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <toolbarItems/>
+                    <connections>
+                        <outlet property="returnButton" destination="5mn-th-h4H" id="eMN-S6-y7k"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H9e-iF-1rz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480" y="-1746"/>
+            <point key="canvasLocation" x="1480" y="-1850"/>
+        </scene>
+        <!--Info Button Container - Title-->
+        <scene sceneID="bzg-1S-6I9">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="wPQ-IJ-Jn3" customClass="InfoButtonContainer" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Y9T-fr-aHH">
+                        <rect key="frame" x="0.0" y="0.0" width="45" height="32"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="xdV-xp-1Bs">
+                                <rect key="frame" x="0.0" y="-7" width="45" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="20"/>
+                                <state key="normal" title="i">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="infoButtonTouchDown:" destination="wPQ-IJ-Jn3" eventType="touchDown" id="vyZ-fa-IpI"/>
+                                    <action selector="infoButtonTouchOut:" destination="wPQ-IJ-Jn3" eventType="touchUpOutside" id="wUO-rM-ZDA"/>
+                                    <action selector="infoClicked:" destination="wPQ-IJ-Jn3" eventType="touchUpInside" id="pIT-33-lRM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="t5h-7i-zTL">
+                        <barButtonItem key="backBarButtonItem" title="fcfcf" id="ETX-1P-caI"/>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tt9-Jd-Dgh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1480" y="-1719"/>
         </scene>
     </scenes>
     <resources>

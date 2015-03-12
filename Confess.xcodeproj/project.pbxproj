@@ -65,6 +65,7 @@
 		9EA2D3B61A8E413A00BF24F7 /* ConfessFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA2D3B51A8E413A00BF24F7 /* ConfessFriend.m */; };
 		9EA2D3B91A8FD10E00BF24F7 /* ConfessButtonContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA2D3B81A8FD10E00BF24F7 /* ConfessButtonContainer.m */; };
 		9EA2D3BC1A8FD15800BF24F7 /* ReturnButtonContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA2D3BB1A8FD15800BF24F7 /* ReturnButtonContainer.m */; };
+		9EB3B9021A91304B003F6979 /* InfoButtonContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB3B9011A91304B003F6979 /* InfoButtonContainer.m */; };
 		9EC1B2AF1A0E6504004DB39B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EC1B2AE1A0E6504004DB39B /* libsqlite3.dylib */; };
 		9EC1B2B21A0E6529004DB39B /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1B2B11A0E6529004DB39B /* DBManager.m */; };
 		9EC1B2B91A126E81004DB39B /* FriendsNoAppConfesses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1B2B81A126E81004DB39B /* FriendsNoAppConfesses.m */; };
@@ -177,6 +178,8 @@
 		9EA2D3B81A8FD10E00BF24F7 /* ConfessButtonContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfessButtonContainer.m; sourceTree = "<group>"; };
 		9EA2D3BA1A8FD15800BF24F7 /* ReturnButtonContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnButtonContainer.h; sourceTree = "<group>"; };
 		9EA2D3BB1A8FD15800BF24F7 /* ReturnButtonContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReturnButtonContainer.m; sourceTree = "<group>"; };
+		9EB3B9001A91304B003F6979 /* InfoButtonContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoButtonContainer.h; sourceTree = "<group>"; };
+		9EB3B9011A91304B003F6979 /* InfoButtonContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoButtonContainer.m; sourceTree = "<group>"; };
 		9EC1B2AE1A0E6504004DB39B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9EC1B2B01A0E6529004DB39B /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		9EC1B2B11A0E6529004DB39B /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
@@ -425,6 +428,8 @@
 				9EA2D3B81A8FD10E00BF24F7 /* ConfessButtonContainer.m */,
 				9EA2D3BA1A8FD15800BF24F7 /* ReturnButtonContainer.h */,
 				9EA2D3BB1A8FD15800BF24F7 /* ReturnButtonContainer.m */,
+				9EB3B9001A91304B003F6979 /* InfoButtonContainer.h */,
+				9EB3B9011A91304B003F6979 /* InfoButtonContainer.m */,
 			);
 			path = Confess;
 			sourceTree = "<group>";
@@ -616,6 +621,7 @@
 				9EE9A50A19DE9A4E002AD3CB /* MeTab.m in Sources */,
 				9EE9A51719DF09EF002AD3CB /* ConfessView.m in Sources */,
 				9EC1B2B91A126E81004DB39B /* FriendsNoAppConfesses.m in Sources */,
+				9EB3B9021A91304B003F6979 /* InfoButtonContainer.m in Sources */,
 				9E99DD2A19DB36C000A40951 /* AppDelegate.m in Sources */,
 				9E994B5319F5569300DA5A50 /* CharactersEscapeService.m in Sources */,
 				9EC1B2BF1A12795F004DB39B /* CodeFriendsNoAppConfesses.m in Sources */,

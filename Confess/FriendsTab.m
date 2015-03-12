@@ -25,11 +25,9 @@
 
 @interface FriendsTab () <QBActionStatusDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *dialogs;
+@property (weak, nonatomic) IBOutlet UITableView *facebookTable;
 @property (nonatomic, strong) NSMutableArray *friends;
 @property (nonatomic, strong) NSMutableArray *allFriends;
-@property (weak, nonatomic) IBOutlet UITableView *facebookTable;
-@property (nonatomic, strong) NSMutableArray *allDialogs;
 @property (nonatomic, strong) UIView *modalView;
 @property (nonatomic, strong) ConfessFriend *confessFriend;
 @property (nonatomic, strong) ConfessButtonContainer *confessButton;
@@ -123,12 +121,6 @@ UIBarButtonItem *contactItem;
         ConfessView *translationQuizAssociateVC = [segue destinationViewController];
         [translationQuizAssociateVC setDetailItem:contactName : phone : self : self.dialogs : nil url: nil];
     }
-    // TODO: Remove this segue
-    //else if ([[segue identifier] isEqualToString:@"Associate"])
-    //{
-    //    SearchFacebook *translationQuizAssociateVC = [segue destinationViewController];
-    //    [translationQuizAssociateVC setDetailItem: self : self.dialogs];
-    //}
     else if ([[segue identifier] isEqualToString:@"DialogChoose"])
     {
         NSString *name = ((UITableViewCell *)sender).textLabel.text;
@@ -322,7 +314,7 @@ UIBarButtonItem *contactItem;
         
     if (cell == nil)
     {
-        cell = [[FacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[FacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier friendsTab:self];
     }
         
     [cell configureCellWithFriend:[self.friends objectAtIndex:indexPath.row]];
@@ -368,18 +360,12 @@ UIBarButtonItem *contactItem;
     //[self performSegueWithIdentifier:@"DialogChoose" sender:sender];
 //}
 
--(NSString*)getUserUrl:(NSDictionary<FBGraphUser>*)user
-{
-    FBGraphObject *picture = [user objectForKey:@"picture"];
-    FBGraphObject *check = [picture objectForKey:@"data"];
-    return [check objectForKey:@"url"];
-}
-
 - (void)completedWithResult:(Result *)result{
     if (result.success && [result isKindOfClass:[QBDialogsPagedResult class]]) {
         QBDialogsPagedResult *pagedResult = (QBDialogsPagedResult *)result;
         NSArray *dialogs = pagedResult.dialogs;
         NSMutableArray *dialogsFilter = [dialogs mutableCopy];
+        self.urlOrIdToDialog = [[NSMutableDictionary alloc] init];
         
         for (QBChatDialog *dialog in dialogs)
         {
@@ -393,8 +379,12 @@ UIBarButtonItem *contactItem;
             {
                 [dialogsFilter removeObject:dialog];
             }
+            else
+            {
+                [self.urlOrIdToDialog setObject:dialog forKey:[NSString stringWithFormat:@"%d", dialog.recipientID]];
+            }
         }
-        
+
         NSString *myID = [NSString stringWithFormat:@"%ld", (unsigned long)[LocalStorageService shared].currentUser.ID];
         self.dialogs = [dialogsFilter mutableCopy];
         
@@ -408,7 +398,9 @@ UIBarButtonItem *contactItem;
         
         for (UserSentConfesses *curr in sentConfesses)
         {
-            [self.dialogs addObject:[DBServices getEntityById:[[ConfessEntity alloc] init] entityClass:curr.confessID]];
+            ConfessEntity *confess = [DBServices getEntityById:[[ConfessEntity alloc] init] entityClass:curr.confessID];
+            [self.dialogs addObject:confess];
+            [self.urlOrIdToDialog setObject:confess forKey:confess.url];
         }
         
         
@@ -418,7 +410,6 @@ UIBarButtonItem *contactItem;
         //NSMutableArray *resultFirst = [[NSMutableArray alloc]
         //                               initWithArray:[[DBManager shared] executeNonExecutableQuery]];
         
-        //TODO: Improve this shit
         //for (NSMutableArray *curr in resultFirst)
         //{
             // The dialog is not deleted
@@ -505,11 +496,8 @@ UIBarButtonItem *contactItem;
     searchBar.text = @"";
     [searchBar resignFirstResponder];
     self.facebookTable.hidden = YES;
-    self.facebookTable.delegate = nil;
-    self.facebookTable.dataSource = nil;
     self.chatTable.hidden = NO;
-    self.chatTable.delegate = self;
-    self.chatTable.dataSource = self;
+    
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
@@ -518,10 +506,6 @@ UIBarButtonItem *contactItem;
     [searchBar setShowsCancelButton:YES animated:YES];
     self.chatTable.hidden = YES;
     self.facebookTable.hidden = NO;
-    self.chatTable.delegate = nil;
-    self.chatTable.dataSource = nil;
-    self.facebookTable.delegate = self;
-    self.facebookTable.dataSource = self;
     self.friends = [[FacebookHandler instance] getAllFriends];
 }
 
@@ -561,26 +545,43 @@ UIBarButtonItem *contactItem;
     self.buttonsContainer.layer.masksToBounds = YES;
     self.returnContainer.layer.cornerRadius = 15;
     self.returnContainer.layer.masksToBounds = YES;
+    self.infoContainer.layer.cornerRadius = 15;
+    self.infoContainer.layer.masksToBounds = YES;
     [self.modalView addSubview:self.container];
     [self.modalView addSubview:self.buttonsContainer];
     [self.modalView addSubview:self.returnContainer];
+    [self.modalView addSubview:self.infoContainer];
     [self.view addSubview:self.modalView];
-    NSString *name = ((ConfessCell *)cell).name.titleLabel.text;
-    UIImage *image = ((ConfessCell *)cell).profileImage.image;
-    if ([self.dialogs[((UITableViewCell *)cell).tag] isKindOfClass:[QBChatDialog class]])
+
+    if ([cell isKindOfClass:[ConfessCell class]])
     {
-        QBChatDialog *dialog = self.dialogs[((ConfessCell *)cell).tag];
-        self.confessFriend.dialog = dialog;
-        [self.confessFriend setDetailItem:name :[NSString stringWithFormat:@"%d", dialog.recipientID] :self :self.dialogs :nil url:image];
+        NSString *name = ((ConfessCell *)cell).name.titleLabel.text;
+        UIImage *image = ((ConfessCell *)cell).profileImage.image;
+        
+        if ([self.dialogs[((UITableViewCell *)cell).tag] isKindOfClass:[QBChatDialog class]])
+        {
+            QBChatDialog *dialog = self.dialogs[((ConfessCell *)cell).tag];
+            self.confessFriend.dialog = dialog;
+            [self.confessFriend setDetailItem:name :[NSString stringWithFormat:@"%d", dialog.recipientID] :self :self.dialogs :nil url:image];
+        }
+        else
+        {
+            ConfessEntity *dialog = self.dialogs[((ConfessCell *)cell).tag];
+            [self.confessFriend setDetailItem:name : nil :self :self.dialogs : dialog.url url: image];
+        }
     }
     else
     {
-        ConfessEntity *dialog = self.dialogs[((ConfessCell *)cell).tag];
-        [self.confessFriend setDetailItem:name : nil :self :self.dialogs : dialog.url url: image];
+        NSString *name = ((FacebookCell *)cell).name.titleLabel.text;
+        UIImage *image = ((FacebookCell *)cell).profileImage.image;
+        NSDictionary<FBGraphUser> *friend = self.friends[cell.tag];
+        [self.confessFriend setDetailItem:name :[[[FacebookHandler instance] haveApp] valueForKey:[FacebookCell getUserUrl:friend]] :self :self.dialogs :[FacebookCell getUserUrl:friend] url:image];
     }
+    
     self.container.hidden = NO;
     self.buttonsContainer.hidden = NO;
     self.returnContainer.hidden = NO;
+    self.infoContainer.hidden = NO;
 }
 
 -(void)exitFriendClicked
@@ -588,6 +589,7 @@ UIBarButtonItem *contactItem;
     self.container.hidden = YES;
     self.buttonsContainer.hidden = YES;
     self.returnContainer.hidden = YES;
+    self.infoContainer.hidden = YES;
     [self.modalView removeFromSuperview];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }

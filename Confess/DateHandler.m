@@ -28,7 +28,7 @@ NSDateFormatter *dateFormatter;
     {
         dateFormatter = [[NSDateFormatter alloc]init];
         [dateFormatter setDateFormat:@"yyyy-mm-dd HH:mm"];
-        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     }
     
     return dateFormatter;

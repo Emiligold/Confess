@@ -13,5 +13,6 @@
 +(instancetype)instance;
 -(NSMutableArray*)getAllFriends;
 -(void)setFriendsView:(FriendsTab*)view;
+@property(nonatomic, strong) NSMutableDictionary *haveApp;
 
 @end

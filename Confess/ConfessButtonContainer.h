@@ -12,6 +12,9 @@
 @interface ConfessButtonContainer : UIViewController
 
 @property(nonatomic, strong) ConfessFriend *confessFriend;
-- (IBAction)confessClicked:(id)sender;
+- (IBAction)confessClicked:(UIButton*)sender;
+- (IBAction)confessTouchDown:(UIButton*)sender;
+@property (weak, nonatomic) IBOutlet UIButton *confessButton;
+- (IBAction)confessTouchOut:(id)sender;
 
 @end

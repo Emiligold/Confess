@@ -1,18 +1,18 @@
 //
-//  ReturnButtonContainer.m
+//  InfoButtonContainer.m
 //  Confess
 //
-//  Created by Noga badhav on 14/02/15.
+//  Created by Noga badhav on 15/02/15.
 //  Copyright (c) 2015 Noga badhav. All rights reserved.
 //
 
-#import "ReturnButtonContainer.h"
+#import "InfoButtonContainer.h"
 
-@interface ReturnButtonContainer ()
+@interface InfoButtonContainer ()
 
 @end
 
-@implementation ReturnButtonContainer
+@implementation InfoButtonContainer
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,23 +46,19 @@
 }
 */
 
-- (IBAction)returnClicked:(UIButton*)sender
+- (IBAction)infoClicked:(UIButton*)sender
 {
     sender.backgroundColor = [UIColor whiteColor];
     [sender setTitleColor:[sender tintColor] forState:UIControlStateNormal];
-    NSRange cursorPosition = [self.confessFriend.content selectedRange];
-    NSMutableString *tfContent = [[NSMutableString alloc] initWithString:self.confessFriend.content.text];
-    [tfContent insertString:@"\n" atIndex:cursorPosition.location];
-    [self.confessFriend.content setText:tfContent];
 }
 
-- (IBAction)returnTouchDown:(UIButton*)sender
+- (IBAction)infoButtonTouchDown:(UIButton*)sender
 {
     sender.backgroundColor = [sender tintColor];
     [sender setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
-- (IBAction)returnTouchOut:(UIButton*)sender
+- (IBAction)infoButtonTouchOut:(UIButton*)sender
 {
     sender.backgroundColor = [UIColor whiteColor];
     [sender setTitleColor:[sender tintColor] forState:UIControlStateNormal];

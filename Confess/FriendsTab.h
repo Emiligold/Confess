@@ -29,6 +29,9 @@
 @property (weak, nonatomic) IBOutlet UIView *buttonsContainer;
 @property (weak, nonatomic) IBOutlet UIView *returnContainer;
 @property (weak, nonatomic) IBOutlet UITableView *chatTable;
-
+@property (weak, nonatomic) IBOutlet UIView *infoContainer;
+@property (nonatomic, strong) NSMutableArray *allDialogs;
+@property (nonatomic, strong) NSMutableArray *dialogs;
+@property(nonatomic, strong) NSMutableDictionary *urlOrIdToDialog;
 
 @end

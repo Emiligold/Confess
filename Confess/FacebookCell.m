@@ -7,14 +7,23 @@
 //
 
 #import "FacebookCell.h"
+#import "ConfessEntity.h"
+
+@interface FacebookCell()
+
+@property (nonatomic, strong) FriendsTab *friendsTab;
+
+@end
 
 @implementation FacebookCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier friendsTab:(FriendsTab *)friendsTab;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
+        self.friendsTab = friendsTab;
+        
         // Image initialize
         self.profileImage = [[UIImageView alloc] init];
         self.profileImage.layer.masksToBounds = YES;
@@ -48,13 +57,18 @@
 {
     [self.name setTitle: facebookFriend.name forState: UIControlStateNormal];
     [self.name sizeToFit];
+    NSString *url = [FacebookCell getUserUrl:facebookFriend];
+    ConfessEntity *confess = [self.friendsTab.urlOrIdToDialog objectForKey:url];
     self.profileImage.bounds = CGRectMake(0,0,50,50);
     self.profileImage.frame = CGRectMake(20,20,50,50);
-    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:[FacebookCell getUserUrl:facebookFriend]]];
+    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
     UIImage *image = [UIImage imageWithData:data];
     self.name.center = CGPointMake(self.contentView.frame.size.width / 2, 85);
     self.profileImage.image = image;
     self.profileImage.center = CGPointMake(self.contentView.frame.size.width / 2, 50);
+    [self.name addTarget:self
+                  action:@selector(friendClicked:)
+        forControlEvents:UIControlEventTouchUpInside];
     //cell.imageView.image = [UIImage imageWithData:data];
     //CGRect bounds;
     //bounds.origin = CGPointZero;
@@ -89,6 +103,11 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
+}
+
+- (IBAction)friendClicked:(id)sender
+{
+    [self.friendsTab friendClicked:self];
 }
 
 @end

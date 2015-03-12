@@ -118,9 +118,9 @@
 +(void)insertNewConfess:(ConfessEntity*)confessEntity
 {
     NSString *date = [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.date]];
+    NSObject *url = confessEntity.url == nil ? @"null" : @(((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confessEntity.url], nil]]).objectID);
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:
-            @"null",
-            confessEntity.url == nil ? @"null" : [NSString stringWithFormat:@"'%@'", ((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confessEntity.url], nil]]).url],
+            @"null", url,
             [NSString stringWithFormat:@"'%@'", confessEntity.loginName],
             [NSString stringWithFormat:@"'%@'", confessEntity.content],
             date,
@@ -128,8 +128,8 @@
             confessEntity.facebookID == nil ? @"null" : [NSString stringWithFormat:@"'%@'", confessEntity.facebookID], nil];
     [[DBManager shared] mergeQuery:tConfessEntity table:parameters];
     [[DBManager shared] executeExecutableQuery];
-    [[DBManager shared] mergeQuery:tUserSentConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"'%d'", [[LocalStorageService shared] currentUser].ID], confessEntity.facebookID != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.facebookID] : @"null", confessEntity.url != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.url] : @"null", date, @([[DBManager shared] lastInsertedRowID]), @(0), nil]];
-    //return [[DBManager shared] lastInsertedRowID];
+    [[DBManager shared] mergeQuery:tUserSentConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"'%d'", [[LocalStorageService shared] currentUser].ID], confessEntity.facebookID != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.facebookID] : @"null", url, date, @([[DBManager shared] lastInsertedRowID]), @(0), nil]];
+    [[DBManager shared] executeExecutableQuery];
 }
 
 +(long long)insertNewConversation:(NSString*)userUrl

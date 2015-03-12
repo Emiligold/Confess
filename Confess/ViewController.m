@@ -119,7 +119,6 @@ BOOL isNew;
                 [alert show];
             }];
         
-        //TODO: Get name
         self.tbc.nameText = self.nameText;
         [self.tbc initProperties];
     }

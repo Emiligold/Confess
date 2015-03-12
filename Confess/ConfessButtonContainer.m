@@ -49,8 +49,11 @@
 }
 */
 
-- (IBAction)confessClicked:(id)sender
+- (IBAction)confessClicked:(UIButton*)sender
 {
+    self.confessButton.backgroundColor = [sender tintColor];
+    [self.confessButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
     if (![[self.confessFriend.content.text stringByTrimmingCharactersInSet:
           [NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""])
     {
@@ -87,9 +90,25 @@
             //[DBServices insertNewCodeFriends:confessID confessId:no_app_code];
             //[self.messages addObject:confessEntity];
         }
-
+    
+        [self.confessFriend.friendsView.dialogs insertObject:confessEntity atIndex:0];
+        [self.confessFriend.friendsView.allDialogs insertObject:confessEntity atIndex:0];
+        [self.confessFriend.friendsView.urlOrIdToDialog setObject:confessEntity forKey:confessEntity.url];
         [self.confessFriend.friendsView.chatTable reloadData];
         [self.confessFriend exitClicked:nil];
     }
 }
+
+- (IBAction)confessTouchDown:(UIButton*)sender
+{
+    self.confessButton.backgroundColor = [UIColor whiteColor];
+    [self.confessButton setTitleColor:[sender tintColor] forState:UIControlStateNormal];
+}
+
+- (IBAction)confessTouchOut:(id)sender
+{
+    self.confessButton.backgroundColor = [sender tintColor];
+    [self.confessButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
 @end
