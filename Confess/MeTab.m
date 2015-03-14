@@ -183,13 +183,13 @@
         confessNew.loginName = confess.loginName;
         confessNew.url = confess.url;
         confessNew.content = confess.content;
-        confessNew.date = confess.date;
+        confessNew.lastMessageDate = confess.lastMessageDate;
         confessNew.isNew = NO;
         confessNew.facebookID = confess.facebookID;
         NSString *confessId = [NSString stringWithFormat:@"%lu", (unsigned long)confess.objectID];
         NSString *urlId = [NSString stringWithFormat:@"%d", ((CodeUrls*)[[DBServices select:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confess.url], nil]] objectAtIndex:0]).objectID];
         [[DBManager shared] mergeQuery:tConfessEntity table:
-         [[NSMutableArray alloc] initWithObjects:confessId, confess.loginName, urlId, confess.content, [DateHandler stringFromDate:confess.date], @"0", @"", nil]];
+         [[NSMutableArray alloc] initWithObjects:confessId, confess.loginName, urlId, confess.content, [DateHandler stringFromDate:confess.lastMessageDate], @"0", @"", nil]];
         [self.confesses removeObject:confess];
         [self.confesses addObject:confessNew];
     }

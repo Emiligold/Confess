@@ -40,7 +40,8 @@
 NSString *contactName;
 id senderContact;
 NSString *phone;
-NSString *cellIdentifier = @"ChatRoomCellIdentifier";
+NSString *chatCellIdentifier = @"ChatRoomCellIdentifier";
+NSString *fbCellIdentifier = @"FbRoomCellIdentifier";
 UIBarButtonItem *contactItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -64,13 +65,11 @@ UIBarButtonItem *contactItem;
       forControlEvents:UIControlEventTouchUpInside];
     contactItem = [[UIBarButtonItem alloc]
                                initWithCustomView:contactButton];
-    UIButton *facebookButton = [[UIButton alloc] init];
-    facebookButton.frame = CGRectMake(0, 0, 24, 24);
-    [facebookButton setBackgroundImage:[UIImage imageNamed:@"Facebook_logo_(square).png"] forState:UIControlStateNormal];
-    [facebookButton addTarget:self action:@selector(facebookClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *facebookItem = [[UIBarButtonItem alloc] initWithCustomView:facebookButton];
+    //UIButton *facebookButton = [[UIButton alloc] init];
+    //facebookButton.frame = CGRectMake(0, 0, 24, 24);
+    //[facebookButton setBackgroundImage:[UIImage imageNamed:@"Facebook_logo_(square).png"] forState:UIControlStateNormal];
+    //[facebookButton addTarget:self action:@selector(facebookClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = contactItem;
-    //self.navigationItem.leftBarButtonItem = facebookItem;
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.placeholder = @"Confess Facebook friends";
     self.navigationItem.titleView = self.searchBar;
@@ -281,11 +280,11 @@ UIBarButtonItem *contactItem;
 {
     if (self.facebookTable.hidden)
     {
-        ConfessCell *cell = [self.chatTable dequeueReusableCellWithIdentifier:cellIdentifier];
+        ConfessCell *cell = [self.chatTable dequeueReusableCellWithIdentifier:chatCellIdentifier];
     
         if (cell == nil)
         {
-            cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier isMine:NO friendsTab:self];
+            cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:chatCellIdentifier isMine:NO friendsTab:self];
         }
     
         cell.tag  = indexPath.row;
@@ -310,14 +309,15 @@ UIBarButtonItem *contactItem;
         return cell;
     }
 
-    FacebookCell *cell = [self.facebookTable dequeueReusableCellWithIdentifier:cellIdentifier];
-        
+    FacebookCell *cell = [self.facebookTable dequeueReusableCellWithIdentifier:fbCellIdentifier];
+
     if (cell == nil)
     {
-        cell = [[FacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier friendsTab:self];
+        cell = [[FacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:fbCellIdentifier friendsTab:self];
     }
-        
-    [cell configureCellWithFriend:[self.friends objectAtIndex:indexPath.row]];
+    
+    NSDictionary<FBGraphUser> *user = [self.friends objectAtIndex:indexPath.row];
+    [cell configureCellWithFriend:user];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     //cell.textLabel.text = friend.name;
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -366,6 +366,13 @@ UIBarButtonItem *contactItem;
         NSArray *dialogs = pagedResult.dialogs;
         NSMutableArray *dialogsFilter = [dialogs mutableCopy];
         self.urlOrIdToDialog = [[NSMutableDictionary alloc] init];
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"lastMessageDate" ascending:NO];
+        NSArray *descriptors = [NSArray arrayWithObject:descriptor];
+        
+        if (dialogs != nil && dialogs.count > 0)
+        {
+            dialogs = [[dialogs sortedArrayUsingDescriptors:descriptors] mutableCopy];
+        }
         
         for (QBChatDialog *dialog in dialogs)
         {
@@ -381,7 +388,12 @@ UIBarButtonItem *contactItem;
             }
             else
             {
-                [self.urlOrIdToDialog setObject:dialog forKey:[NSString stringWithFormat:@"%d", dialog.recipientID]];
+                NSString *recipientID = [NSString stringWithFormat:@"%d", dialog.recipientID];
+                
+                if ([self.urlOrIdToDialog objectForKey:recipientID] == nil)
+                {
+                    [self.urlOrIdToDialog setObject:dialog forKey:recipientID];
+                }
             }
         }
 
@@ -393,17 +405,20 @@ UIBarButtonItem *contactItem;
             self.dialogs = [[NSMutableArray alloc] init];
         }
         
-        
         NSMutableArray *sentConfesses = [DBServices getSentConfesses:myID];
         
         for (UserSentConfesses *curr in sentConfesses)
         {
             ConfessEntity *confess = [DBServices getEntityById:[[ConfessEntity alloc] init] entityClass:curr.confessID];
             [self.dialogs addObject:confess];
-            [self.urlOrIdToDialog setObject:confess forKey:confess.url];
+            
+            if ([self.urlOrIdToDialog objectForKey:confess.url] == nil)
+            {
+                [self.urlOrIdToDialog setObject:confess forKey:confess.url];
+            }
         }
         
-        
+        self.dialogs = [[self.dialogs sortedArrayUsingDescriptors:descriptors] mutableCopy];
         //NSMutableArray *parameters = [[NSMutableArray alloc] init];
         //[parameters addObject:[NSString stringWithFormat:@"user_id = '%@'", myID]];
         //[[DBManager shared] selectQuery:tFriendsNoAppConfesses table:parameters];
@@ -486,6 +501,13 @@ UIBarButtonItem *contactItem;
 {
     if (self.facebookTable.hidden)
         return [ConfessCell heightForCellWithConfess:self.dialogs[indexPath.row] isMine:NO];
+    NSDictionary<FBGraphUser> *user = self.friends[indexPath.row];
+    
+    if ([self.urlOrIdToDialog objectForKey:user.objectID] != nil || [self.urlOrIdToDialog objectForKey:[FacebookCell getUserUrl:user]] != nil)
+    {
+        return 250;
+    }
+    
     return 120;
 }
 
@@ -497,6 +519,7 @@ UIBarButtonItem *contactItem;
     [searchBar resignFirstResponder];
     self.facebookTable.hidden = YES;
     self.chatTable.hidden = NO;
+    [self.chatTable reloadData];
     
 }
 
@@ -575,7 +598,8 @@ UIBarButtonItem *contactItem;
         NSString *name = ((FacebookCell *)cell).name.titleLabel.text;
         UIImage *image = ((FacebookCell *)cell).profileImage.image;
         NSDictionary<FBGraphUser> *friend = self.friends[cell.tag];
-        [self.confessFriend setDetailItem:name :[[[FacebookHandler instance] haveApp] valueForKey:[FacebookCell getUserUrl:friend]] :self :self.dialogs :[FacebookCell getUserUrl:friend] url:image];
+        NSString *url = [FacebookCell getUserUrl:friend];
+        [self.confessFriend setDetailItem:name :[[[FacebookHandler instance] haveApp] valueForKey:url] :self :self.dialogs :url url:image];
     }
     
     self.container.hidden = NO;

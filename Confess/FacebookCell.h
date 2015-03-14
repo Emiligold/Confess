@@ -13,6 +13,7 @@
 
 @interface FacebookCell : UITableViewCell
 
+@property (nonatomic, strong) UITextView  *content;
 @property (nonatomic, strong) UIImageView *profileImage;
 @property (nonatomic, strong) IBOutlet UIButton *name;
 - (void)configureCellWithFriend:(NSDictionary<FBGraphUser> *)facebookFriend;

@@ -179,7 +179,7 @@ BOOL isNew;
 }
 
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
-    NSLog(@"%@", user);
+    //NSLog(@"%@", user);
     self.profileID = user.objectID;
     self.nameText = user.name;
     // Create session with user
@@ -267,7 +267,7 @@ BOOL isNew;
 
 
 -(void)loginView:(FBLoginView *)loginView handleError:(NSError *)error{
-    NSLog(@"%@", [error localizedDescription]);
+    //NSLog(@"%@", [error localizedDescription]);
 }
 
 - (IBAction)continueWithoutFacebookClicked:(id)sender {

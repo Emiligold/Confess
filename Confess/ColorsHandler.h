@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ColorsHandler : NSObject
+@interface ColorsHandler : UIColor
 
 +(UIColor*)getColorByIndex:(NSUInteger) index;
 +(UIColor*)lightBlueColor;

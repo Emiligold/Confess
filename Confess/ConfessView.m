@@ -242,7 +242,7 @@ ConfessWrite *translationQuizAssociateVC;
     confessEntity.loginName = self.check.title;
     confessEntity.content = confess;
     NSDate *currDate = [NSDate date];
-    confessEntity.date = currDate;
+    confessEntity.lastMessageDate = currDate;
     confessEntity.isNew = YES;
     confessEntity.facebookID = self.userID != nil ? self.userID : self.userUrl;
     [DBServices insertNewConfess:confessEntity];

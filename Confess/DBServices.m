@@ -117,7 +117,7 @@
 
 +(void)insertNewConfess:(ConfessEntity*)confessEntity
 {
-    NSString *date = [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.date]];
+    NSString *date = [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.lastMessageDate]];
     NSObject *url = confessEntity.url == nil ? @"null" : @(((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confessEntity.url], nil]]).objectID);
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:
             @"null", url,
@@ -224,7 +224,7 @@
 
 +(NSMutableArray*)getSentConfesses:(NSString*)userID
 {
-    return [[[DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO], nil]] mutableCopy];
+    return [[[DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"lastMessageDate" ascending:NO], nil]] mutableCopy];
 }
 
 +(void)insertFacebookUrl:(NSString*)url name:(NSString*)name

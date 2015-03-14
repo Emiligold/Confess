@@ -159,7 +159,7 @@ static UIImage *confessImage;
                                         constrainedToSize:textSize
                                             lineBreakMode:NSLineBreakByWordWrapping];
 	size.width += 10;
-    NSString *time = [DateHandler stringFromDate:message.date];
+    NSString *time = [DateHandler stringFromDate:message.lastMessageDate];
     [self.messageTextView setFrame:CGRectMake(padding, padding+5, size.width, size.height+padding)];
     [self.messageTextView sizeToFit];
     self.messageTextView.text = message.content;

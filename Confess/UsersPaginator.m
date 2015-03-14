@@ -25,7 +25,7 @@
         [self receivedResults:users total:page.totalEntries];
         
     } errorBlock:^(QBResponse *response) {
-        NSLog(@"%@", response.error);
+        //NSLog(@"%@", response.error);
     }];
 }
 

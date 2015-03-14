@@ -13,9 +13,11 @@
 -(id)initProperties:(NSMutableArray*)properties
 {
     self.fromUserID = properties[0];
-    self.toUserID = properties[1];
-    self.date = properties[2];
-    self.confessID = [properties[3] integerValue];
+    self.toUserID = properties[1] == [NSNull null] ? nil : properties[1];
+    self.toUrlCcode = properties[2];
+    self.lastMessageDate = properties[3];
+    self.confessID = [properties[4] integerValue];
+    self.isDeleted = [properties[5] boolValue];
     
     return self;
 }

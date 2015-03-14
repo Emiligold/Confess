@@ -38,6 +38,10 @@
         //self.name.textAlignment = NSTextAlignmentCenter;
         [self.name setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [self.contentView addSubview:self.name];
+        
+        // Text initialize
+        self.content = [[UITextView alloc] init];
+        [self.contentView addSubview:self.content];
 
     }
     return self;
@@ -55,10 +59,33 @@
 
 - (void)configureCellWithFriend:(NSDictionary<FBGraphUser> *)facebookFriend
 {
-    [self.name setTitle: facebookFriend.name forState: UIControlStateNormal];
-    [self.name sizeToFit];
     NSString *url = [FacebookCell getUserUrl:facebookFriend];
     ConfessEntity *confess = [self.friendsTab.urlOrIdToDialog objectForKey:url];
+    
+    if (confess != nil)
+    {
+        NSInteger ySize = 20 + 70;
+        //self.content.center = CGPointMake(self.contentView.frame.size.width / 2, 100);
+        self.content.text = confess.content;
+        self.content.textAlignment = NSTextAlignmentCenter;
+        self.content.scrollEnabled = NO;
+        self.content.backgroundColor = [UIColor clearColor];
+        self.content.editable = NO;
+        CGSize textSize = { 260.0, 10000.0 };
+        CGSize size = [self.content.text sizeWithFont:[UIFont boldSystemFontOfSize:13]
+                                constrainedToSize:textSize
+                                    lineBreakMode:NSLineBreakByWordWrapping];
+        size.width += 10;
+        [self.content sizeToFit];
+        [self.content setFrame:CGRectMake(20 / 2, ySize, 300, size.height + 15)];
+    }
+    else
+    {
+        self.content.text = @"";
+    }
+    
+    [self.name setTitle: facebookFriend.name forState: UIControlStateNormal];
+    [self.name sizeToFit];
     self.profileImage.bounds = CGRectMake(0,0,50,50);
     self.profileImage.frame = CGRectMake(20,20,50,50);
     NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];

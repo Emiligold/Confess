@@ -13,7 +13,9 @@
 
 @property (nonatomic, retain) NSString *fromUserID;
 @property (nonatomic, retain) NSString *toUserID;
-@property (nonatomic, retain) NSDate *date;
+@property (nonatomic, retain) NSString *toUrlCcode;
+@property (nonatomic, retain) NSDate *lastMessageDate;
 @property (nonatomic, assign) NSUInteger confessID;
+@property (nonatomic, assign) BOOL isDeleted;
 
 @end

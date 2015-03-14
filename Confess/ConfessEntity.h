@@ -16,7 +16,7 @@
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *loginName;
 @property (nonatomic, retain) NSString *content;
-@property (nonatomic, retain) NSDate *date;
+@property (nonatomic, retain) NSDate *lastMessageDate;
 @property (nonatomic, assign) BOOL isNew;
 //@property (nonatomic, assign) NSUInteger currColor;
 

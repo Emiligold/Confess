@@ -10,6 +10,7 @@
 #import "ConfessEntity.h"
 #import "DBServices.h"
 #import "FriendsNoAppConfesses.h"
+#import "DateHandler.h"
 
 @interface ConfessButtonContainer ()
 
@@ -60,8 +61,7 @@
         ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
         confessEntity.loginName = self.confessFriend.name.text;
         confessEntity.content = self.confessFriend.content.text;
-        NSDate *currDate = [NSDate date];
-        confessEntity.date = currDate;
+        confessEntity.lastMessageDate = [NSDate date];
         confessEntity.isNew = YES;
         confessEntity.url = self.confessFriend.userUrl;
         confessEntity.facebookID = self.confessFriend.userID;
@@ -91,8 +91,17 @@
             //[self.messages addObject:confessEntity];
         }
     
-        [self.confessFriend.friendsView.dialogs insertObject:confessEntity atIndex:0];
-        [self.confessFriend.friendsView.allDialogs insertObject:confessEntity atIndex:0];
+        if (self.confessFriend.friendsView.dialogs.count > 0)
+        {
+            [self.confessFriend.friendsView.dialogs insertObject:confessEntity atIndex:0];
+            [self.confessFriend.friendsView.allDialogs insertObject:confessEntity atIndex:0];
+        }
+        else
+        {
+            [self.confessFriend.friendsView.dialogs addObject:confessEntity];
+            [self.confessFriend.friendsView.allDialogs addObject:confessEntity];
+        }
+        
         [self.confessFriend.friendsView.urlOrIdToDialog setObject:confessEntity forKey:confessEntity.url];
         [self.confessFriend.friendsView.chatTable reloadData];
         [self.confessFriend exitClicked:nil];

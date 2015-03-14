@@ -123,6 +123,8 @@ NSString* preparedQuery;
                         if (dbDataAsChars != NULL) {
                             // Convert the characters to string.
                             [arrDataRow addObject:[NSString  stringWithUTF8String:dbDataAsChars]];
+                        }else{
+                            [arrDataRow addObject:[NSNull null]];
                         }
                         
                         // Keep the current column name.

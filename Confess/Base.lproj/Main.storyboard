@@ -411,7 +411,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Z3-jP-pLO">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Z3-jP-pLO">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -429,7 +429,7 @@
                                     <outlet property="delegate" destination="I8C-3P-cTe" id="VIK-ON-LZC"/>
                                 </connections>
                             </tableView>
-                            <containerView hidden="YES" opaque="NO" alpha="0.84999999999999987" contentMode="scaleToFill" id="RPP-rz-PnQ">
+                            <containerView hidden="YES" opaque="NO" alpha="0.74999999999999978" contentMode="scaleToFill" id="RPP-rz-PnQ">
                                 <rect key="frame" x="27" y="37" width="266" height="252"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
@@ -472,7 +472,8 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="     " id="qnB-9V-siy"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="568"/>
                     <connections>
                         <outlet property="buttonsContainer" destination="BUQ-s2-8Fw" id="g4B-ry-GHn"/>
                         <outlet property="chatTable" destination="0Z3-jP-pLO" id="QV9-yy-cgX"/>
@@ -782,7 +783,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="X">
-                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>

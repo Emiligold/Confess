@@ -15,7 +15,10 @@
 @property (nonatomic, strong) UITextView  *content;
 @property (nonatomic, strong) UIButton     *name;
 @property (nonatomic, strong) UIImageView *profileImage;
+@property (nonatomic, strong) UIView *view;
+@property (nonatomic, strong) UIButton *exit;
 @property (nonatomic, strong) IBOutlet UILabel *date;
+@property (nonatomic, strong) ConfessEntity *confess;
 + (CGFloat)heightForCellWithConfess:(ConfessEntity *)message isMine:(BOOL)isMine;
 - (void)configureCellWithConfess:(ConfessEntity *)message;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:
