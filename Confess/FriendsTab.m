@@ -223,8 +223,30 @@ UIBarButtonItem *contactItem;
     }
     CFRelease(phoneNumbers);
     [self dismissViewControllerAnimated:NO completion:nil];
-    [self performSegueWithIdentifier:@"Chat" sender:senderContact];
+    //[self performSegueWithIdentifier:@"Chat" sender:senderContact];
 
+    ABMultiValueRef instantMessage = ABRecordCopyValue(person, kABPersonInstantMessageProperty);
+    
+    BOOL returnValue = NO;
+    
+    if (instantMessage)
+    {
+        for (NSInteger i=0 ; i < ABMultiValueGetCount(instantMessage); i++)
+        {
+            CFDictionaryRef instantMessageValue = ABMultiValueCopyValueAtIndex(instantMessage, i);
+            CFStringRef instantMessageString = CFDictionaryGetValue(instantMessageValue, kABPersonInstantMessageServiceKey);
+
+            if (CFStringCompare(instantMessageString, kABPersonInstantMessageServiceFacebook, 0) == kCFCompareEqualTo)
+            {
+                returnValue = YES;
+            }
+            
+            CFRelease(instantMessageString);
+            CFRelease(instantMessageValue);
+        }
+    }
+
+    
     //self.phoneNumber.text = phone;
     
 }

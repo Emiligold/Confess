@@ -21,7 +21,6 @@
 +(id<AbstractEntity>)getConversation:(NSString*)userUrl;
 +(NSMutableArray*)getConfessesOfConversation:(NSUInteger)noAppCode;
 +(NSMutableArray*)getMessagesByUrl:(NSString*)userUrl;
-+(void)insertNewConfess:(ConfessEntity*)confessEntity;
 +(long long)insertNewConversation:(NSString*)userUrl;
 +(long long)insertCodeUserConfesses:(NSString*)userId userId:(long long)confessId confessId:(NSString*)facebookId;
 +(long long)insertNewCodeFriends:(long long)confessId confessId:(long long)noAppCode;
@@ -29,7 +28,7 @@
 +(void)updateDialogStatus:(NSString*)dialogId dialogId:(NSUInteger)status;
 +(NSMutableArray*)getRecievedConversations:(NSString*)userUrl;
 +(NSMutableArray*)getMyConfesses;
-+(void)insertUser:(long) userID userID:(NSString*)userFB;
+//+(void)insertUser:(long) userID userID:(NSString*)userFB;
 +(UIColor*)getPreviousColor:(NSUInteger)userID;
 +(UIColor*)getNextColor:(NSUInteger)userID;
 +(NSMutableArray*)getSentConfesses:(NSString*)userID;

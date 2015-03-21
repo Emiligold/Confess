@@ -59,6 +59,7 @@
           [NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""])
     {
         ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
+        confessEntity.objectID = -1;
         confessEntity.toName = self.confessFriend.name.text;
         confessEntity.content = self.confessFriend.content.text;
         confessEntity.lastMessageDate = [NSDate date];
@@ -66,7 +67,7 @@
         confessEntity.url = self.confessFriend.userUrl;
         confessEntity.toFacebookID = self.confessFriend.userID != nil ? ((User*)[DBServices getEntityById:[[User alloc] init] entityClass:[self.confessFriend.userID integerValue]]).facebookID : nil;
         confessEntity.fromFacebookID = [[DBServices getCurrFacebookUser] objectID];
-        [DBServices insertNewConfess:confessEntity];
+        [DBServices mergeEntity:confessEntity];
     
         if (self.confessFriend.userID != nil)
         {

@@ -11,10 +11,13 @@
 @interface DateHandler : NSObject
 
 +(NSString*)stringFromDate:(NSDate*)date;
+
 +(NSDate*)dateFromString:(NSString*)date;
-+(BOOL)isDateInToday:(NSDate*)date;
-+(BOOL)isDateInYesterday:(NSDate*)date;
+
 +(NSString*)dayStringOfWeek:(NSDate*)date;
+
 +(NSString*)hourOfDay:(NSDate*)date;
+
++(NSString*)getDateMessageString:(NSDate*)date;
 
 @end

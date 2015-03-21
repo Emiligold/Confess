@@ -115,25 +115,6 @@
     return [[NSMutableArray alloc] init];
 }
 
-+(void)insertNewConfess:(ConfessEntity*)confessEntity
-{
-    NSString *date = [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.lastMessageDate]];
-    //NSObject *url = confessEntity.url == nil ? @"null" : @(((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confessEntity.url], nil]]).objectID);
-    NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:
-                                  @"null", confessEntity.url == nil ? @"null" : [NSString stringWithFormat:@"%d", confessEntity.url.objectID],
-            [NSString stringWithFormat:@"'%@'", confessEntity.toName],
-            [NSString stringWithFormat:@"'%@'", confessEntity.content],
-            date,
-            [NSString stringWithFormat:@"%@", [NSNumber numberWithBool: confessEntity.isNew]],
-            confessEntity.toFacebookID == nil ? @"null" : [NSString stringWithFormat:@"'%@'", confessEntity.toFacebookID],
-                                  [NSString stringWithFormat:@"'%@'", [[DBServices getCurrFacebookUser] objectID]],
-                                  @"0", nil];
-    [[DBManager shared] mergeQuery:tConfessEntity table:parameters];
-    [[DBManager shared] executeExecutableQuery];
-    //[[DBManager shared] mergeQuery:tUserSentConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"'%d'", [[LocalStorageService shared] currentUser].ID], confessEntity.toFacebookID != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.toFacebookID] : @"null", url, date, @([[DBManager shared] lastInsertedRowID]), @(0), nil]];
-    //[[DBManager shared] executeExecutableQuery];
-}
-
 +(long long)insertNewConversation:(NSString*)userUrl
 {
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:@"null", [NSString stringWithFormat:@"'%@'",[self myID]], [NSString stringWithFormat:@"'%@'", userUrl], @"0", nil];
@@ -197,12 +178,6 @@
     }
     
     return final;
-}
-
-+(void)insertUser:(long) userID userID:(NSString*)userFB
-{
-    [[DBManager shared] mergeQuery:tUsers table:[[NSMutableArray alloc] initWithObjects:@(userID), userFB, @(-1), nil]];
-    [[DBManager shared] executeExecutableQuery];
 }
 
 +(UIColor*)getNextColor:(NSUInteger)userID

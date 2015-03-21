@@ -49,13 +49,12 @@
 -(id)initProperties:(NSMutableArray*)properties
 {
     self.objectID = [properties[0] integerValue];
-    self.toName = properties[2];
     self.url = ((CodeUrls*)[DBServices getEntityById:[[CodeUrls alloc] init]
-                                       entityClass:[properties[1] integerValue]]);
+                                         entityClass:[properties[1] integerValue]]);
+    self.toName = properties[2];
     self.content = properties[3];
     self.lastMessageDate = [DateHandler dateFromString:properties[4]];
     self.isNew = [properties[5] boolValue];
-    //self.currColor = [properties[6] integerValue];
     self.toFacebookID = properties[6] == [NSNull null] ? nil : properties[6];
     self.fromFacebookID = properties[7];
     self.isDeleted = [properties[8] boolValue];
@@ -71,11 +70,11 @@
 -(NSMutableArray*)properties
 {
     return [[NSMutableArray alloc] initWithObjects:
-            [NSString stringWithFormat:@"%d", self.objectID],
-            [NSString stringWithFormat:@"'%@'", self.toName],
+            (self.objectID == -1 ? @"null": [NSString stringWithFormat:@"%d", self.objectID]),
             [NSString stringWithFormat:@"%d", self.url.objectID],
+            [NSString stringWithFormat:@"'%@'", self.toName],
             [NSString stringWithFormat:@"'%@'", self.content],
-            [NSString stringWithFormat:@"'%@'", self.lastMessageDate],
+            [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:self.lastMessageDate]],
             @(self.isNew),
             [NSString stringWithFormat:@"'%@'", self.toFacebookID],
             [NSString stringWithFormat:@"'%@'", self.fromFacebookID],

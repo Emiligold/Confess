@@ -22,24 +22,22 @@ NSDateFormatter *dateFormatter;
     return [[self getDateFormater] dateFromString:date];
 }
 
-+(BOOL)isDateInToday:(NSDate*)date
++(BOOL)isDateInYear:(NSDate*)date
 {
-    return [DateHandler isEqual:date second:[NSDate date]];
+    return [DateHandler isEqual:[NSDate date] second:date year:YES month:NO week:NO day:NO hour:NO minute:NO];
 }
 
-+(BOOL)isDateInYesterday:(NSDate*)date
++(BOOL)isEqual:(NSDate*)firstDate second:(NSDate*)secondDate year:(BOOL)year month:(BOOL)month week:(BOOL)week day:(BOOL)day hour:(BOOL)hour minute:(BOOL)minute
 {
-    return [DateHandler isEqual:[[NSDate date] dateByAddingTimeInterval: -86400.0] second:date];
-}
-
-+(BOOL)isEqual:(NSDate*)firstDate second:(NSDate*)secondDate
-{
-    NSDateComponents *first = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:firstDate];
-    NSDateComponents *second = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:secondDate];
+    NSDateComponents *first = [DateHandler getDateComponent:firstDate];
+    NSDateComponents *second = [DateHandler getDateComponent:secondDate];
     
-    return [first day] == [second day] &&
-           [first month] == [second month] &&
-           [first year] == [second year] &&
+    return (!minute || [first minute] == [second minute]) &&
+           (!hour || [first hour] == [second hour]) &&
+           (!week || [first week] == [second week]) &&
+           (!day || [first day] == [second day]) &&
+           (!month || [first month] == [second month]) &&
+           (!year || [first year] == [second year]) &&
            [first era] == [second era];
 }
 
@@ -57,6 +55,50 @@ NSDateFormatter *dateFormatter;
     [hourFormatter setDateFormat:@"HH:mm"];
     
     return [hourFormatter stringFromDate:date];
+}
+
++(NSUInteger)minutesBetweenDates:(NSDate*)first second:(NSDate*)second
+{
+    return [[DateHandler getDateComponent:first] minute] - [[DateHandler getDateComponent:second] minute];
+}
+
++(NSDateComponents*)getDateComponent:(NSDate*)date
+{
+    return [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekdayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:date];
+}
+
++(NSString*)getDateMessageString:(NSDate*)date
+{
+    NSString *dateReturn = @"";
+    
+    if ([DateHandler isEqual:date second:[NSDate date] year:YES month:YES week:YES day:YES hour:YES minute:YES])
+    {
+        dateReturn = @"Just now";
+    }
+    else if ([DateHandler isEqual:date second:[NSDate date] year:YES month:YES week:YES day:YES hour:YES minute:NO])
+    {
+        dateReturn = [NSString stringWithFormat:@"%d minutes ago",
+                      [DateHandler minutesBetweenDates:[NSDate date] second:date]];
+    }
+    else if ([DateHandler isEqual:date second:[NSDate date] year:YES month:YES week:YES day:YES hour:NO minute:NO])
+    {
+        dateReturn = [DateHandler hourOfDay:date];
+    }
+    else if ([DateHandler isEqual:[[NSDate date] dateByAddingTimeInterval: -86400.0] second:date year:YES month:YES week:NO day:YES hour:NO minute:NO])
+    {
+        dateReturn = [NSString stringWithFormat:@"Yesterday, %@", [DateHandler hourOfDay:date]];
+    }
+    else if ([DateHandler isEqual:[NSDate date] second:date year:YES month:YES week:YES day:NO hour:NO minute:NO])
+    {
+        dateReturn = [NSString stringWithFormat:@"%@, %@",
+                      [DateHandler dayStringOfWeek:date], [DateHandler hourOfDay:date]];
+    }
+    else
+    {
+        dateReturn = [DateHandler stringFromDate: date];
+    }
+    
+    return dateReturn;
 }
 
 +(NSDateFormatter*)getDateFormater

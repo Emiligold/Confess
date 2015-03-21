@@ -239,13 +239,14 @@ ConfessWrite *translationQuizAssociateVC;
 -(void)sendConfess:(NSString*) confess
 {
     ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
+    confessEntity.objectID = -1;
     confessEntity.toName = self.check.title;
     confessEntity.content = confess;
     NSDate *currDate = [NSDate date];
     confessEntity.lastMessageDate = currDate;
     confessEntity.isNew = YES;
     confessEntity.toFacebookID = self.userID != nil ? self.userID : self.userUrl;
-    [DBServices insertNewConfess:confessEntity];
+    [DBServices mergeEntity:confessEntity];
     
     if (self.userID != nil)
     {

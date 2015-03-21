@@ -62,10 +62,9 @@
         [self.view addSubview:self.profileImage];
         
         // Label initialize
-        CGRect frame = CGRectMake(0, 0, 100, 30);
+        CGRect frame = CGRectMake(0, 0, 190, 30);
         self.name = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.name setFrame:frame];
-        //self.name.textAlignment = NSTextAlignmentCenter;
         self.name.center = CGPointMake(self.view.frame.size.width / 2, 75);
         [self.view addSubview:self.name];
         
@@ -82,10 +81,11 @@
         [self.view addSubview:self.exit];
         
         // Date initialize
-        self.date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        self.date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 190, 30)];
         self.date.center = CGPointMake(self.view.frame.size.width / 2, 175);
         self.date.font=[self.date.font fontWithSize:12];
         self.date.textColor = [UIColor grayColor];
+        self.date.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:self.date];
     }
     
@@ -110,22 +110,10 @@
 {
     self.confess = message;
     NSInteger ySize = self.isMine ? padding : padding + 70;
-    
-    if ([DateHandler isDateInToday:message.lastMessageDate])
-    {
-        self.date.text = [DateHandler hourOfDay:message.lastMessageDate];
-    }
-    else if ([DateHandler isDateInYesterday:message.lastMessageDate])
-    {
-        self.date.text = [NSString stringWithFormat:@"Yesterday, %@", [DateHandler hourOfDay:message.lastMessageDate]];
-    }
-    else
-    {
-        self.date.text = [DateHandler stringFromDate: message.lastMessageDate];
-    }
+    self.date.text = [DateHandler getDateMessageString:message.lastMessageDate];
     
     //[self.date sizeToFit];
-    //self.content.center = CGPointMake(self.contentView.frame.size.width / 2, 100);
+    self.date.backgroundColor = [UIColor clearColor];
     self.content.text = message.content;
     self.content.textAlignment = NSTextAlignmentCenter;
     self.content.scrollEnabled = NO;
@@ -138,8 +126,6 @@
 	//size.width += 10;
     [self.content sizeToFit];
     [self.content setFrame:CGRectMake(padding / 2, ySize, 216, 75)];
-    //[self.exit setTitle: @"X" forState: UIControlStateNormal];
-   // self.exit.titleLabel.textColor = [ColorsHandler lightTextColor];
     [self.exit addTarget:self action:@selector(exitClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     if (!self.isMine)
@@ -155,6 +141,7 @@
         UIImage *image = [UIImage imageWithData:data];
         self.profileImage.image = image;
         self.name.backgroundColor = [UIColor clearColor];
+
     }
 }
 

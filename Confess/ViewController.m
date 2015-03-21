@@ -416,7 +416,11 @@ BOOL isNew;
               {
                   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                   [defaults setObject:@(user.ID) forKey:userPassword];
-                  [DBServices insertUser:user.ID userID:userPassword];
+                  User *appUser = [[User alloc] init];
+                  appUser.facebookID = userPassword;
+                  appUser.userID = user.ID;
+                  appUser.currColor = -1;
+                  [DBServices mergeEntity:appUser];
                   isNew = YES;
                   QBUUser *login = [QBUUser user];
                   login.login = userLogin;
