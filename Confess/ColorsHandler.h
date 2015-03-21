@@ -12,5 +12,6 @@
 
 +(UIColor*)getColorByIndex:(NSUInteger) index;
 +(UIColor*)lightBlueColor;
++(UIColor*)mediumBlueColor;
 
 @end

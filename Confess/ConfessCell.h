@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ConfessEntity.h"
 #import "FriendsTab.h"
+#import "MeTab.h"
 
 @interface ConfessCell : UITableViewCell
 
@@ -17,11 +18,10 @@
 @property (nonatomic, strong) UIImageView *profileImage;
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) UIButton *exit;
-@property (nonatomic, strong) IBOutlet UILabel *date;
+@property (nonatomic, strong) UILabel *date;
 @property (nonatomic, strong) ConfessEntity *confess;
 + (CGFloat)heightForCellWithConfess:(ConfessEntity *)message isMine:(BOOL)isMine;
 - (void)configureCellWithConfess:(ConfessEntity *)message;
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:
-    (NSString *)reuseIdentifier isMine:(BOOL)mine friendsTab:(FriendsTab*)friendsTab;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier isMine:(BOOL)mine friendsTab:(FriendsTab*)friendsTab meTab:(MeTab*)meTab;
 
 @end

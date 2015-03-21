@@ -59,12 +59,13 @@
           [NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""])
     {
         ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
-        confessEntity.loginName = self.confessFriend.name.text;
+        confessEntity.toName = self.confessFriend.name.text;
         confessEntity.content = self.confessFriend.content.text;
         confessEntity.lastMessageDate = [NSDate date];
         confessEntity.isNew = YES;
         confessEntity.url = self.confessFriend.userUrl;
-        confessEntity.facebookID = self.confessFriend.userID;
+        confessEntity.toFacebookID = self.confessFriend.userID != nil ? ((User*)[DBServices getEntityById:[[User alloc] init] entityClass:[self.confessFriend.userID integerValue]]).facebookID : nil;
+        confessEntity.fromFacebookID = [[DBServices getCurrFacebookUser] objectID];
         [DBServices insertNewConfess:confessEntity];
     
         if (self.confessFriend.userID != nil)
@@ -102,7 +103,7 @@
             [self.confessFriend.friendsView.allDialogs addObject:confessEntity];
         }
         
-        [self.confessFriend.friendsView.urlOrIdToDialog setObject:confessEntity forKey:confessEntity.url];
+        [self.confessFriend.friendsView.urlOrIdToDialog setObject:confessEntity forKey:confessEntity.url.url];
         [self.confessFriend.friendsView.chatTable reloadData];
         [self.confessFriend exitClicked:nil];
     }

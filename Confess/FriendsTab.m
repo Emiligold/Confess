@@ -65,10 +65,6 @@ UIBarButtonItem *contactItem;
       forControlEvents:UIControlEventTouchUpInside];
     contactItem = [[UIBarButtonItem alloc]
                                initWithCustomView:contactButton];
-    //UIButton *facebookButton = [[UIButton alloc] init];
-    //facebookButton.frame = CGRectMake(0, 0, 24, 24);
-    //[facebookButton setBackgroundImage:[UIImage imageNamed:@"Facebook_logo_(square).png"] forState:UIControlStateNormal];
-    //[facebookButton addTarget:self action:@selector(facebookClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = contactItem;
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.placeholder = @"Confess Facebook friends";
@@ -81,9 +77,8 @@ UIBarButtonItem *contactItem;
     //self.searchBar.delegate = self;
     //self.chatTable.tableHeaderView = self.searchBar;
     self.tabBarController.tabBar.barTintColor =  [UIColor whiteColor];
-    self.navigationController.navigationBar.barTintColor = [ColorsHandler lightBlueColor];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
-    self.tabBarController.tabBar.barTintColor = [ColorsHandler lightBlueColor];
+    self.navigationController.navigationBar.barTintColor = [ColorsHandler mediumBlueColor];
+    self.tabBarController.tabBar.barTintColor = [ColorsHandler mediumBlueColor];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -136,7 +131,7 @@ UIBarButtonItem *contactItem;
         else
         {
             ConfessEntity *dialog = self.dialogs[((UITableViewCell *)sender).tag];
-            [destinationViewController setDetailItem:name : nil :self :self.dialogs : dialog.facebookID url: image];
+            [destinationViewController setDetailItem:name : nil :self :self.dialogs : dialog.toFacebookID url: image];
         }
     }
     else if ([[segue identifier] isEqualToString:@"FacebookChoose"])
@@ -284,12 +279,10 @@ UIBarButtonItem *contactItem;
     
         if (cell == nil)
         {
-            cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:chatCellIdentifier isMine:NO friendsTab:self];
+            cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:chatCellIdentifier isMine:NO friendsTab:self meTab:nil];
         }
     
         cell.tag  = indexPath.row;
-        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        NSString *url;
         cell.backgroundColor = [ColorsHandler lightBlueColor];
 
         if ([self.dialogs[indexPath.row] isKindOfClass:[QBChatDialog class]])
@@ -302,7 +295,6 @@ UIBarButtonItem *contactItem;
         else if ([self.dialogs[indexPath.row] isKindOfClass:[ConfessEntity class]])
         {
             ConfessEntity *confess = self.dialogs[indexPath.row];
-            url = confess.url;
             [cell configureCellWithConfess:confess];
         }
         
@@ -407,14 +399,13 @@ UIBarButtonItem *contactItem;
         
         NSMutableArray *sentConfesses = [DBServices getSentConfesses:myID];
         
-        for (UserSentConfesses *curr in sentConfesses)
+        for (ConfessEntity *confess in sentConfesses)
         {
-            ConfessEntity *confess = [DBServices getEntityById:[[ConfessEntity alloc] init] entityClass:curr.confessID];
             [self.dialogs addObject:confess];
             
-            if ([self.urlOrIdToDialog objectForKey:confess.url] == nil)
+            if ([self.urlOrIdToDialog objectForKey:confess.url.url] == nil)
             {
-                [self.urlOrIdToDialog setObject:confess forKey:confess.url];
+                [self.urlOrIdToDialog setObject:confess forKey:confess.url.url];
             }
         }
         
@@ -599,7 +590,7 @@ UIBarButtonItem *contactItem;
         UIImage *image = ((FacebookCell *)cell).profileImage.image;
         NSDictionary<FBGraphUser> *friend = self.friends[cell.tag];
         NSString *url = [FacebookCell getUserUrl:friend];
-        [self.confessFriend setDetailItem:name :[[[FacebookHandler instance] haveApp] valueForKey:url] :self :self.dialogs :url url:image];
+        [self.confessFriend setDetailItem:name :[[[FacebookHandler instance] haveApp] valueForKey:url] :self :self.dialogs :((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", url], nil]]) url:image];
     }
     
     self.container.hidden = NO;

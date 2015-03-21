@@ -48,12 +48,12 @@ BOOL fadedin = NO;
     // Dispose of any resources that can be recreated.
 }
 
--(void)setDetailItem:(NSString *)name :(NSString *)userID :(FriendsTab *)view :(NSMutableArray *)dialogs :(NSString *)url url:(UIImage *)image
+-(void)setDetailItem:(NSString*) name : (NSString*) userID : (FriendsTab*) view :
+    (NSMutableArray*) dialogs : (CodeUrls*) url url: (UIImage*) image
 {
     self.name.text = name;
     self.userID = userID;
     self.friendsView = view;
-    //self.dialogs = dialogs;
     self.userUrl = url;
     self.profileImage = image;
     [self.imageButton setBackgroundImage:self.profileImage forState:UIControlStateNormal];

@@ -29,4 +29,14 @@
     return [[FriendsNoAppConfesses alloc] init];
 }
 
+-(NSMutableArray*)properties
+{
+    return [[NSMutableArray alloc] initWithObjects:
+            [NSString stringWithFormat:@"%d", self.objectID],
+            self.userID,
+            self.friendUrl,
+            @(self.isDeleted),
+            nil];
+}
+
 @end

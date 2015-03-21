@@ -28,4 +28,13 @@
     return [[CodeFriendsNoAppConfesses alloc] init];
 }
 
+-(NSMutableArray*)properties
+{
+    return [[NSMutableArray alloc] initWithObjects:
+            [NSString stringWithFormat:@"%d", self.objectID],
+            [NSString stringWithFormat:@"%d", self.confessID],
+            [NSString stringWithFormat:@"%d", self.noAppCode],
+            nil];
+}
+
 @end

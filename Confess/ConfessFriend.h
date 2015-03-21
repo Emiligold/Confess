@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "FriendsTab.h"
+#import "CodeUrls.h"
 
 @interface ConfessFriend : UIViewController
 
 -(void)setDetailItem:(NSString*) name : (NSString*) userID : (FriendsTab*) view :
-    (NSMutableArray*) dialogs : (NSString*) url url: (UIImage*) image;
+    (NSMutableArray*) dialogs : (CodeUrls*) url url: (UIImage*) image;
 - (IBAction)exitClicked:(UIButton *)sender;
 -(void)sendConfess:(NSString*) confess;
 @property (weak, nonatomic) IBOutlet UIButton *confessButton;
@@ -24,6 +25,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UITextView *content;
 @property (nonatomic, weak) IBOutlet FriendsTab *friendsView;
-@property (nonatomic, strong) NSString *userUrl;
+@property (nonatomic, strong) CodeUrls *userUrl;
 
 @end

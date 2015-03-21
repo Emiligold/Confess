@@ -118,18 +118,20 @@
 +(void)insertNewConfess:(ConfessEntity*)confessEntity
 {
     NSString *date = [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confessEntity.lastMessageDate]];
-    NSObject *url = confessEntity.url == nil ? @"null" : @(((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confessEntity.url], nil]]).objectID);
+    //NSObject *url = confessEntity.url == nil ? @"null" : @(((CodeUrls*)[DBServices getEntityByUniqe:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confessEntity.url], nil]]).objectID);
     NSMutableArray *parameters = [[NSMutableArray alloc] initWithObjects:
-            @"null", url,
-            [NSString stringWithFormat:@"'%@'", confessEntity.loginName],
+                                  @"null", confessEntity.url == nil ? @"null" : [NSString stringWithFormat:@"%d", confessEntity.url.objectID],
+            [NSString stringWithFormat:@"'%@'", confessEntity.toName],
             [NSString stringWithFormat:@"'%@'", confessEntity.content],
             date,
             [NSString stringWithFormat:@"%@", [NSNumber numberWithBool: confessEntity.isNew]],
-            confessEntity.facebookID == nil ? @"null" : [NSString stringWithFormat:@"'%@'", confessEntity.facebookID], nil];
+            confessEntity.toFacebookID == nil ? @"null" : [NSString stringWithFormat:@"'%@'", confessEntity.toFacebookID],
+                                  [NSString stringWithFormat:@"'%@'", [[DBServices getCurrFacebookUser] objectID]],
+                                  @"0", nil];
     [[DBManager shared] mergeQuery:tConfessEntity table:parameters];
     [[DBManager shared] executeExecutableQuery];
-    [[DBManager shared] mergeQuery:tUserSentConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"'%d'", [[LocalStorageService shared] currentUser].ID], confessEntity.facebookID != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.facebookID] : @"null", url, date, @([[DBManager shared] lastInsertedRowID]), @(0), nil]];
-    [[DBManager shared] executeExecutableQuery];
+    //[[DBManager shared] mergeQuery:tUserSentConfesses table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"'%d'", [[LocalStorageService shared] currentUser].ID], confessEntity.toFacebookID != nil ? [NSString stringWithFormat:@"'%@'", confessEntity.toFacebookID] : @"null", url, date, @([[DBManager shared] lastInsertedRowID]), @(0), nil]];
+    //[[DBManager shared] executeExecutableQuery];
 }
 
 +(long long)insertNewConversation:(NSString*)userUrl
@@ -183,14 +185,15 @@
 
 +(NSMutableArray*)getMyConfesses
 {
-    [[DBManager shared] joinQuery:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"%@ a", tCodeUserConfesses], [NSString stringWithFormat:@"%@ b", tConfessEntity], nil] tables:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%@'", [DBServices myID]], [NSString stringWithFormat:@"a.confess_id = b.id"], nil]];
-    [[DBManager shared] orderBy:[[NSMutableArray alloc] initWithObjects:@"b.date", nil] values:@"DESC"];
+    [[DBManager shared] selectQuery:tConfessEntity table:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"to_facebook_id = '%@'", ((User*)[self getEntityById:[[User alloc] init] entityClass:[LocalStorageService shared].currentUser.ID]).facebookID], @"is_deleted = 0", nil]];
+    //[[DBManager shared] joinQuery:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"%@ a", tCodeUserConfesses], [NSString stringWithFormat:@"%@ b", tConfessEntity], nil] tables:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%@'", [DBServices myID]], [NSString stringWithFormat:@"a.confess_id = b.id"], nil]];
+    [[DBManager shared] orderBy:[[NSMutableArray alloc] initWithObjects:@"date", nil] values:@"DESC"];
     NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[[DBManager shared] executeNonExecutableQuery]];
     NSMutableArray *final = [[NSMutableArray alloc] init];
     
     for (NSMutableArray *curr in results)
     {
-        [final addObject: [[ConfessEntity alloc] initProperties:[[curr subarrayWithRange:NSMakeRange(5, 7)] mutableCopy]]];
+        [final addObject: [[ConfessEntity alloc] initProperties:curr]];
     }
     
     return final;
@@ -224,7 +227,11 @@
 
 +(NSMutableArray*)getSentConfesses:(NSString*)userID
 {
-    return [[[DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"lastMessageDate" ascending:NO], nil]] mutableCopy];
+    NSString *facebookId = ((User*)[DBServices getEntityById:[[User alloc] init] entityClass:[userID integerValue]]).facebookID;
+    return [[[DBServices select:[[ConfessEntity alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:
+            [NSString stringWithFormat:@"from_facebook_id = '%@'", facebookId], @"is_deleted = 0", nil]] sortedArrayUsingDescriptors:
+             [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"lastMessageDate" ascending:NO] ,nil]] mutableCopy];
+   // return [[[DBServices select:[[UserSentConfesses alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"from_user_id = %@", userID], nil]] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"lastMessageDate" ascending:NO], nil]] mutableCopy];
 }
 
 +(void)insertFacebookUrl:(NSString*)url name:(NSString*)name
@@ -233,6 +240,39 @@
     NSUInteger objectID = [result count] == 0 ? -1 : [((CodeUrls*)result[0]) objectID];
     [[DBManager shared] mergeQuery:tCodeUrls table:[[NSMutableArray alloc] initWithObjects:objectID == -1 ? @"null" : @(objectID), [NSString stringWithFormat:@"\"%@\"", url], [NSString stringWithFormat:@"\"%@\"", name], nil]];
     [[DBManager shared] executeExecutableQuery];
+}
+
++(User*)getUserByFB:(NSString*)facebookId
+{
+    return [self uniqueSelect :[[User alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"fb_id = '%@'", facebookId], nil]];
+}
+
++(void)mergeEntity:(id<AbstractEntity>)entity
+{
+    [[DBManager shared] mergeQuery:[entity tableName] table:entity.properties];
+    [[DBManager shared] executeExecutableQuery];
+}
+
++(id<FBGraphUser>)currFacebookUser:(id<FBGraphUser>)recieved
+{
+    static id<FBGraphUser> user = nil;
+    
+    if (user == nil || recieved != nil)
+    {
+        user = recieved;
+    }
+    
+    return user;
+}
+
++(id<FBGraphUser>)getCurrFacebookUser
+{
+    return [DBServices currFacebookUser:nil];
+}
+
++(void)setCurrFacebookUser:(id<FBGraphUser>)user
+{
+    [DBServices currFacebookUser:user];
 }
 
 @end

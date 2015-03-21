@@ -10,6 +10,8 @@
 #import "AbstractEntity.h"
 #import "ConfessEntity.h"
 #import "FriendsNoAppConfesses.h"
+#import "User.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface DBServices : NSObject
 
@@ -33,5 +35,10 @@
 +(NSMutableArray*)getSentConfesses:(NSString*)userID;
 +(NSMutableArray*)select:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters;
 +(void)insertFacebookUrl:(NSString*)url name:(NSString*)name;
++(User*)getUserByFB:(NSString*)facebookId;
++(id<AbstractEntity>)getEntityByUniqe:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters;
++(void)mergeEntity:(id<AbstractEntity>)entity;
++(id<FBGraphUser>)getCurrFacebookUser;
++(void)setCurrFacebookUser:(id<FBGraphUser>)user;
 
 @end

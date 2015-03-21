@@ -13,5 +13,6 @@
 -(NSString*)tableName;
 -(id)initProperties:(NSMutableArray*)properties;
 -(id<AbstractEntity>)initialize;
+-(NSMutableArray*)properties;
 
 @end

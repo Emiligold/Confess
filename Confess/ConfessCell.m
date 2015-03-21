@@ -12,6 +12,8 @@
 #import "FriendsTab.h"
 #import "ColorsHandler.h"
 #import "DBManager.h"
+#import "DBServices.h"
+#import "MeTab.h"
 
 #define padding 20
 
@@ -19,6 +21,7 @@
 
 @property (nonatomic, assign) BOOL isMine;
 @property (nonatomic, strong) FriendsTab *friendsTab;
+@property (nonatomic, strong) MeTab *meTab;
 
 @end
 
@@ -28,7 +31,7 @@
 {
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier isMine:(BOOL)mine friendsTab:(FriendsTab*)friendsTab;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier isMine:(BOOL)mine friendsTab:(FriendsTab*)friendsTab meTab:(MeTab*)meTab
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
@@ -36,6 +39,7 @@
     {
         self.isMine = mine;
         self.friendsTab = friendsTab;
+        self.meTab = meTab;
         
         self.view = [[UIView alloc] init];
         CGRect viewFrame = CGRectMake(0, 0, 235, 200);
@@ -76,6 +80,13 @@
         [self.exit setTitle: @"X" forState: UIControlStateNormal];
         [self.exit setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         [self.view addSubview:self.exit];
+        
+        // Date initialize
+        self.date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        self.date.center = CGPointMake(self.view.frame.size.width / 2, 175);
+        self.date.font=[self.date.font fontWithSize:12];
+        self.date.textColor = [UIColor grayColor];
+        [self.view addSubview:self.date];
     }
     
     return self;
@@ -83,15 +94,15 @@
 
 + (CGFloat)heightForCellWithConfess:(ConfessEntity *)message isMine:(BOOL)isMine;
 {
-    NSString *text = message.content;
-	CGSize  textSize = {260.0, 10000.0};
-	CGSize size = [text sizeWithFont:[UIFont boldSystemFontOfSize:13]
-                   constrainedToSize:textSize
-                       lineBreakMode:NSLineBreakByWordWrapping];
+    //NSString *text = message.content;
+	//CGSize  textSize = {260.0, 10000.0};
+	//CGSize size = [text sizeWithFont:[UIFont boldSystemFontOfSize:13]
+    //               constrainedToSize:textSize
+    //                   lineBreakMode:NSLineBreakByWordWrapping];
     
 	
-	size.height += 45.0;
-	NSInteger final = isMine ? size.height : 60 + size.height;
+	//size.height += 45.0;
+	//NSInteger final = isMine ? size.height : 60 + size.height;
     return 250;
 }
 
@@ -99,33 +110,48 @@
 {
     self.confess = message;
     NSInteger ySize = self.isMine ? padding : padding + 70;
+    
+    if ([DateHandler isDateInToday:message.lastMessageDate])
+    {
+        self.date.text = [DateHandler hourOfDay:message.lastMessageDate];
+    }
+    else if ([DateHandler isDateInYesterday:message.lastMessageDate])
+    {
+        self.date.text = [NSString stringWithFormat:@"Yesterday, %@", [DateHandler hourOfDay:message.lastMessageDate]];
+    }
+    else
+    {
+        self.date.text = [DateHandler stringFromDate: message.lastMessageDate];
+    }
+    
+    //[self.date sizeToFit];
     //self.content.center = CGPointMake(self.contentView.frame.size.width / 2, 100);
     self.content.text = message.content;
     self.content.textAlignment = NSTextAlignmentCenter;
     self.content.scrollEnabled = NO;
     self.content.backgroundColor = [UIColor clearColor];
     self.content.editable = NO;
-    CGSize textSize = { 260.0, 10000.0 };
-	CGSize size = [self.content.text sizeWithFont:[UIFont boldSystemFontOfSize:13]
-                                        constrainedToSize:textSize
-                                            lineBreakMode:NSLineBreakByWordWrapping];
-	size.width += 10;
+    //CGSize textSize = { 260.0, 10000.0 };
+	//CGSize size = [self.content.text sizeWithFont:[UIFont boldSystemFontOfSize:13]
+    //                                    constrainedToSize:textSize
+    //                                        lineBreakMode:NSLineBreakByWordWrapping];
+	//size.width += 10;
     [self.content sizeToFit];
-    [self.content setFrame:CGRectMake(padding / 2, ySize, 300, size.height + 15)];
+    [self.content setFrame:CGRectMake(padding / 2, ySize, 216, 75)];
     //[self.exit setTitle: @"X" forState: UIControlStateNormal];
    // self.exit.titleLabel.textColor = [ColorsHandler lightTextColor];
     [self.exit addTarget:self action:@selector(exitClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     if (!self.isMine)
     {
-        [self.name setTitle: message.loginName forState: UIControlStateNormal];
+        [self.name setTitle: message.toName forState: UIControlStateNormal];
         [self.name setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [self.name addTarget:self
                       action:@selector(friendClicked:)
             forControlEvents:UIControlEventTouchUpInside];
         self.profileImage.bounds = CGRectMake(0,0,50,50);
         self.profileImage.frame = CGRectMake(93,15,50,50);
-        NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:message.url]];
+        NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:message.url.url]];
         UIImage *image = [UIImage imageWithData:data];
         self.profileImage.image = image;
         self.name.backgroundColor = [UIColor clearColor];
@@ -147,10 +173,43 @@
 {
     if (buttonIndex == 1)
     {
-        [self.friendsTab.dialogs removeObject:self.confess];
-        [self.friendsTab.allDialogs removeObject:self.confess];
-        //TODO: update is_deleted column of confessEntity in DB
-        [self.friendsTab.chatTable reloadData];
+        if (!self.isMine)
+        {
+            [self.friendsTab.dialogs removeObject:self.confess];
+            [self.friendsTab.allDialogs removeObject:self.confess];
+            
+            if ([self.friendsTab.urlOrIdToDialog objectForKey:self.confess.url.url] != nil)
+            {
+                for (NSObject *curr in self.friendsTab.dialogs)
+                {
+                    if ([curr isKindOfClass:[ConfessEntity class]])
+                    {
+                        ConfessEntity *confessEntity = (ConfessEntity*)curr;
+                        
+                        if ([confessEntity.url.url isEqualToString:self.confess.url.url])
+                        {
+                            [self.friendsTab.urlOrIdToDialog setObject:confessEntity forKey:confessEntity.url.url];
+                            
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        //TODO: QBChatDialog
+                    }
+                }
+            }
+            
+            [self.friendsTab.chatTable reloadData];
+        }
+        else
+        {
+            [self.meTab.confesses removeObject: self.confess];
+            [self.meTab.confessesTableView reloadData];
+        }
+        
+        self.confess.isDeleted = YES;
+        [DBServices mergeEntity:self.confess];
     }
 }
 

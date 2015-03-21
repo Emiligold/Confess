@@ -29,4 +29,14 @@
     return [[CodeUserConfesses alloc] init];
 }
 
+-(NSMutableArray*)properties
+{
+    return [[NSMutableArray alloc] initWithObjects:
+            [NSString stringWithFormat:@"%d", self.objectID],
+            self.userID,
+            [NSString stringWithFormat:@"%d", self.confessID],
+            self.facebookID,
+            nil];
+}
+
 @end

@@ -239,12 +239,12 @@ ConfessWrite *translationQuizAssociateVC;
 -(void)sendConfess:(NSString*) confess
 {
     ConfessEntity *confessEntity = [[ConfessEntity alloc] init];
-    confessEntity.loginName = self.check.title;
+    confessEntity.toName = self.check.title;
     confessEntity.content = confess;
     NSDate *currDate = [NSDate date];
     confessEntity.lastMessageDate = currDate;
     confessEntity.isNew = YES;
-    confessEntity.facebookID = self.userID != nil ? self.userID : self.userUrl;
+    confessEntity.toFacebookID = self.userID != nil ? self.userID : self.userUrl;
     [DBServices insertNewConfess:confessEntity];
     
     if (self.userID != nil)
@@ -264,8 +264,8 @@ ConfessWrite *translationQuizAssociateVC;
     }
     else
     {
-        FriendsNoAppConfesses *result = [DBServices getConversation:self.userUrl];
-        long long no_app_code = result == nil ? [DBServices insertNewConversation:self.userUrl] : result.objectID;
+        //FriendsNoAppConfesses *result = [DBServices getConversation:self.userUrl];
+        //long long no_app_code = result == nil ? [DBServices insertNewConversation:self.userUrl] : result.objectID;
         [DBServices updateConversationStatus:self.userUrl userUrl:0];
         //[DBServices insertNewCodeFriends:confessID confessId:no_app_code];
         [self.messages addObject:confessEntity];

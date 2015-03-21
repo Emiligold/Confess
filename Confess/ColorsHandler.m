@@ -35,4 +35,9 @@ BOOL initialized;
     return [UIColor colorWithRed:(231/255.0) green:(238/255.0) blue:(243/255.0) alpha:1];
 }
 
++(UIColor*)mediumBlueColor
+{
+    return [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
+}
+
 @end

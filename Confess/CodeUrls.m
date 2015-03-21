@@ -28,4 +28,12 @@
     return [[CodeUrls alloc] init];
 }
 
+-(NSMutableArray*)properties
+{
+    return [[NSMutableArray alloc] initWithObjects:
+            [NSString stringWithFormat:@"%d", self.objectID],
+            self.url,
+            nil];
+}
+
 @end

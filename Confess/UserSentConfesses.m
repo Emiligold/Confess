@@ -32,4 +32,16 @@
     return [[UserSentConfesses alloc] init];
 }
 
+-(NSMutableArray*)properties
+{
+    return [[NSMutableArray alloc] initWithObjects:
+            self.fromUserID,
+            self.toUserID,
+            self.toUrlCcode,
+            self.lastMessageDate,
+            [NSString stringWithFormat:@"%d", self.confessID],
+            @(self.isDeleted),
+            nil];
+}
+
 @end

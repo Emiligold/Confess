@@ -22,11 +22,11 @@
 {
     [encoder encodeObject:@(self.objectID) forKey:@"objectID"];
     [encoder encodeObject:self.url forKey:@"code_url"];
-    [encoder encodeObject:self.loginName forKey:@"loginName"];
+    [encoder encodeObject:self.toName forKey:@"loginName"];
     [encoder encodeObject:self.content forKey:@"content"];
     [encoder encodeObject:self.lastMessageDate forKey:@"date"];
     [encoder encodeObject:@(self.isNew) forKey:@"isNew"];
-    [encoder encodeObject:self.facebookID forKey:@"facebook_id"];
+    [encoder encodeObject:self.toFacebookID forKey:@"facebook_id"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -35,8 +35,8 @@
     {
         self.objectID = [[decoder decodeObjectForKey:@"objectID"] integerValue];
         self.url = [decoder decodeObjectForKey:@"code_url"];
-        self.facebookID = [decoder decodeObjectForKey:@"facebookID"];
-        self.loginName = [decoder decodeObjectForKey:@"loginName"];
+        self.toFacebookID = [decoder decodeObjectForKey:@"facebookID"];
+        self.toName = [decoder decodeObjectForKey:@"loginName"];
         self.content = [decoder decodeObjectForKey:@"content"];
         self.lastMessageDate = [decoder decodeObjectForKey:@"date"];
         self.isNew = [[decoder decodeObjectForKey:@"isNew"] boolValue];
@@ -49,14 +49,16 @@
 -(id)initProperties:(NSMutableArray*)properties
 {
     self.objectID = [properties[0] integerValue];
-    self.loginName = properties[2];
+    self.toName = properties[2];
     self.url = ((CodeUrls*)[DBServices getEntityById:[[CodeUrls alloc] init]
-                                       entityClass:[properties[1] integerValue]]).url;
+                                       entityClass:[properties[1] integerValue]]);
     self.content = properties[3];
     self.lastMessageDate = [DateHandler dateFromString:properties[4]];
     self.isNew = [properties[5] boolValue];
     //self.currColor = [properties[6] integerValue];
-    self.facebookID = properties[6] == [NSNull null] ? nil : properties[6];
+    self.toFacebookID = properties[6] == [NSNull null] ? nil : properties[6];
+    self.fromFacebookID = properties[7];
+    self.isDeleted = [properties[8] boolValue];
     
     return self;
 }
@@ -64,6 +66,21 @@
 -(NSString*)tableName
 {
     return tConfessEntity;
+}
+
+-(NSMutableArray*)properties
+{
+    return [[NSMutableArray alloc] initWithObjects:
+            [NSString stringWithFormat:@"%d", self.objectID],
+            [NSString stringWithFormat:@"'%@'", self.toName],
+            [NSString stringWithFormat:@"%d", self.url.objectID],
+            [NSString stringWithFormat:@"'%@'", self.content],
+            [NSString stringWithFormat:@"'%@'", self.lastMessageDate],
+            @(self.isNew),
+            [NSString stringWithFormat:@"'%@'", self.toFacebookID],
+            [NSString stringWithFormat:@"'%@'", self.fromFacebookID],
+            @(self.isDeleted),
+            nil];
 }
 
 @end

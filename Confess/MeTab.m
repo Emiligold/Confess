@@ -150,51 +150,50 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIdentifier = @"rowCell";
-    CGSize textSize = { 260.0, 10000.0 };
+    //CGSize textSize = { 260.0, 10000.0 };
     ConfessCell *cell = [self.confessesTableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil)
     {
-        cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier isMine:YES friendsTab:nil];
+        cell = [[ConfessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier isMine:YES friendsTab:nil meTab:self];
     }
     
-    ConfessEntity *confess = [self.confesses objectAtIndex:indexPath.row];
-    [cell configureCellWithConfess:confess];
+    ConfessEntity *confess = self.confesses[indexPath.row];
     //cell.textLabel.text = confess.content;
     //cell.textLabel.textColor = [UIColor whiteColor];
     //cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:confess.date
      //                                                          dateStyle:NSDateFormatterShortStyle
       //                                                         timeStyle:NSDateFormatterFullStyle];
-    CGSize size = [cell.textLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:23]
-                                        constrainedToSize:textSize
-                                            lineBreakMode:NSLineBreakByWordWrapping];
-	size.width += 10;
+    //CGSize size = [cell.textLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:23]
+    //                                    constrainedToSize:textSize
+    //                                        lineBreakMode:NSLineBreakByWordWrapping];
+	//size.width += 10;
     //cell.textLabel.textAlignment = NSTextAlignmentCenter;
     //cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0]];
     //[cell.textLabel setFrame:CGRectMake(padding, padding+5, size.width, size.height+padding)];
     //[cell.backgroundView setFrame:CGRectMake(padding/2, padding+5,
     //                                              300, cell.textLabel.frame.size.height+5)];
     //cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"cell_pressed.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+    ConfessEntity *confessNew = [[ConfessEntity alloc] init];
     
     if (confess.isNew)
     {
-        ConfessEntity *confessNew = [[ConfessEntity alloc] init];
+        
         confessNew.objectID = confess.objectID;
-        confessNew.loginName = confess.loginName;
+        confessNew.toName = confess.toName;
         confessNew.url = confess.url;
         confessNew.content = confess.content;
         confessNew.lastMessageDate = confess.lastMessageDate;
         confessNew.isNew = NO;
-        confessNew.facebookID = confess.facebookID;
+        confessNew.toFacebookID = confess.toFacebookID;
         NSString *confessId = [NSString stringWithFormat:@"%lu", (unsigned long)confess.objectID];
-        NSString *urlId = [NSString stringWithFormat:@"%d", ((CodeUrls*)[[DBServices select:[[CodeUrls alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"url = '%@'", confess.url], nil]] objectAtIndex:0]).objectID];
         [[DBManager shared] mergeQuery:tConfessEntity table:
-         [[NSMutableArray alloc] initWithObjects:confessId, confess.loginName, urlId, confess.content, [DateHandler stringFromDate:confess.lastMessageDate], @"0", @"", nil]];
+         [[NSMutableArray alloc] initWithObjects:confessId, [NSString stringWithFormat: @"'%@'", confess.toName], [NSString stringWithFormat:@"%d", confess.url.objectID], [NSString stringWithFormat:@"'%@'", confess.content], [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confess.lastMessageDate]], @"0", @"", nil]];
         [self.confesses removeObject:confess];
         [self.confesses addObject:confessNew];
     }
     
-    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [cell configureCellWithConfess:confessNew];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [ColorsHandler lightBlueColor];
     return cell;

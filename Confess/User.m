@@ -28,4 +28,13 @@
     return [[User alloc] init];
 }
 
+-(NSMutableArray*)properties
+{
+    return [[NSMutableArray alloc] initWithObjects:
+            [NSString stringWithFormat:@"%d", self.userID],
+            self.facebookID,
+            [NSString stringWithFormat:@"%d", self.currColor],
+            nil];
+}
+
 @end

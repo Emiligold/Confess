@@ -178,8 +178,10 @@ BOOL isNew;
     }
 }
 
--(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
+-(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
+{
     //NSLog(@"%@", user);
+    [DBServices setCurrFacebookUser:user];
     self.profileID = user.objectID;
     self.nameText = user.name;
     // Create session with user
@@ -201,8 +203,8 @@ BOOL isNew;
             QBChatDialog *chatDialog = [QBChatDialog new];
             NSMutableArray *selectedUsersIDs = [NSMutableArray array];
             NSMutableArray *selectedUsersNames = [NSMutableArray array];
-            [selectedUsersIDs addObject:curr.facebookID];
-            [selectedUsersNames addObject:curr.loginName];
+            [selectedUsersIDs addObject:curr.toFacebookID];
+            [selectedUsersNames addObject:curr.toName];
             chatDialog.occupantIDs = selectedUsersIDs;
             chatDialog.type = QBChatDialogTypePrivate;
             [QBChat createDialog:chatDialog delegate:self];
