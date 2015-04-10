@@ -38,6 +38,7 @@
     self.friendsTab = view;
 }
 
+
 -(NSMutableArray*)getAllFriends
 {
     if (self.allFriends != nil)

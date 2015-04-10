@@ -33,5 +33,6 @@
 @property (nonatomic, strong) NSMutableArray *allDialogs;
 @property (nonatomic, strong) NSMutableArray *dialogs;
 @property(nonatomic, strong) NSMutableDictionary *urlOrIdToDialog;
+-(void)scrollUp;
 
 @end

@@ -10,7 +10,7 @@
 #import "FriendsTab.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface TabController : UITabBarController
+@interface TabController : UITabBarController <UITabBarControllerDelegate>
 
 @property (nonatomic, assign) BOOL hideFacebook;
 @property (strong, nonatomic) IBOutlet FBLoginView *loginView;

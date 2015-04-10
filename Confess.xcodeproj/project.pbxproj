@@ -12,6 +12,9 @@
 		9E1129F21A6EEDC800DE3BED /* ConfessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129F01A6EEDC800DE3BED /* ConfessCell.m */; };
 		9E1129F61A72F6AC00DE3BED /* FacebookHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129F51A72F6AC00DE3BED /* FacebookHandler.m */; };
 		9E1129F91A73C46F00DE3BED /* FacebookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1129F81A73C46F00DE3BED /* FacebookCell.m */; };
+		9E22BD1F1AD7F033008D506E /* QuickbloxConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E22BD1E1AD7F033008D506E /* QuickbloxConnection.m */; };
+		9E22BD221AD7F051008D506E /* FacebookConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E22BD211AD7F051008D506E /* FacebookConnection.m */; };
+		9E2306181ABF4E9400FECEDE /* QuickbloxHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2306171ABF4E9400FECEDE /* QuickbloxHandler.m */; };
 		9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C491A31B965007E3CEF /* ColorsHandler.m */; };
 		9E273C4D1A31C3D6007E3CEF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C4C1A31C3D6007E3CEF /* User.m */; };
 		9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E63D40E1A01664800CA1E3B /* GrayConfess.png */; };
@@ -104,6 +107,12 @@
 		9E1129F51A72F6AC00DE3BED /* FacebookHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookHandler.m; sourceTree = "<group>"; };
 		9E1129F71A73C46F00DE3BED /* FacebookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookCell.h; sourceTree = "<group>"; };
 		9E1129F81A73C46F00DE3BED /* FacebookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookCell.m; sourceTree = "<group>"; };
+		9E22BD1D1AD7F033008D506E /* QuickbloxConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickbloxConnection.h; sourceTree = "<group>"; };
+		9E22BD1E1AD7F033008D506E /* QuickbloxConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickbloxConnection.m; sourceTree = "<group>"; };
+		9E22BD201AD7F051008D506E /* FacebookConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookConnection.h; sourceTree = "<group>"; };
+		9E22BD211AD7F051008D506E /* FacebookConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookConnection.m; sourceTree = "<group>"; };
+		9E2306161ABF4E9400FECEDE /* QuickbloxHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickbloxHandler.h; sourceTree = "<group>"; };
+		9E2306171ABF4E9400FECEDE /* QuickbloxHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickbloxHandler.m; sourceTree = "<group>"; };
 		9E273C481A31B965007E3CEF /* ColorsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsHandler.h; sourceTree = "<group>"; };
 		9E273C491A31B965007E3CEF /* ColorsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorsHandler.m; sourceTree = "<group>"; };
 		9E273C4B1A31C3D6007E3CEF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -304,6 +313,8 @@
 				9E273C491A31B965007E3CEF /* ColorsHandler.m */,
 				9E1129F41A72F6AC00DE3BED /* FacebookHandler.h */,
 				9E1129F51A72F6AC00DE3BED /* FacebookHandler.m */,
+				9E2306161ABF4E9400FECEDE /* QuickbloxHandler.h */,
+				9E2306171ABF4E9400FECEDE /* QuickbloxHandler.m */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -430,6 +441,10 @@
 				9EA2D3BB1A8FD15800BF24F7 /* ReturnButtonContainer.m */,
 				9EB3B9001A91304B003F6979 /* InfoButtonContainer.h */,
 				9EB3B9011A91304B003F6979 /* InfoButtonContainer.m */,
+				9E22BD1D1AD7F033008D506E /* QuickbloxConnection.h */,
+				9E22BD1E1AD7F033008D506E /* QuickbloxConnection.m */,
+				9E22BD201AD7F051008D506E /* FacebookConnection.h */,
+				9E22BD211AD7F051008D506E /* FacebookConnection.m */,
 			);
 			path = Confess;
 			sourceTree = "<group>";
@@ -622,6 +637,7 @@
 				9EE9A51719DF09EF002AD3CB /* ConfessView.m in Sources */,
 				9EC1B2B91A126E81004DB39B /* FriendsNoAppConfesses.m in Sources */,
 				9EB3B9021A91304B003F6979 /* InfoButtonContainer.m in Sources */,
+				9E2306181ABF4E9400FECEDE /* QuickbloxHandler.m in Sources */,
 				9E99DD2A19DB36C000A40951 /* AppDelegate.m in Sources */,
 				9E994B5319F5569300DA5A50 /* CharactersEscapeService.m in Sources */,
 				9EC1B2BF1A12795F004DB39B /* CodeFriendsNoAppConfesses.m in Sources */,
@@ -629,9 +645,11 @@
 				9EC1B2C21A127AA8004DB39B /* CodeUserConfesses.m in Sources */,
 				9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */,
 				9EE9A51119DEB14C002AD3CB /* TabController.m in Sources */,
+				9E22BD221AD7F051008D506E /* FacebookConnection.m in Sources */,
 				9E99DD2619DB36C000A40951 /* main.m in Sources */,
 				9E1129F21A6EEDC800DE3BED /* ConfessCell.m in Sources */,
 				9EA2D3B61A8E413A00BF24F7 /* ConfessFriend.m in Sources */,
+				9E22BD1F1AD7F033008D506E /* QuickbloxConnection.m in Sources */,
 				9E1129EB1A6DAE0C00DE3BED /* UserSentConfesses.m in Sources */,
 				9E9A19C819E9929D00BF1C6C /* ChatCell.m in Sources */,
 			);

@@ -174,29 +174,35 @@
     //[cell.backgroundView setFrame:CGRectMake(padding/2, padding+5,
     //                                              300, cell.textLabel.frame.size.height+5)];
     //cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"cell_pressed.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
-    ConfessEntity *confessNew = [[ConfessEntity alloc] init];
+    //ConfessEntity *confessNew = [[ConfessEntity alloc] init];
     
     if (confess.isNew)
     {
-        
-        confessNew.objectID = confess.objectID;
-        confessNew.toName = confess.toName;
-        confessNew.url = confess.url;
-        confessNew.content = confess.content;
-        confessNew.lastMessageDate = confess.lastMessageDate;
-        confessNew.isNew = NO;
-        confessNew.toFacebookID = confess.toFacebookID;
-        NSString *confessId = [NSString stringWithFormat:@"%lu", (unsigned long)confess.objectID];
-        [[DBManager shared] mergeQuery:tConfessEntity table:
-         [[NSMutableArray alloc] initWithObjects:confessId, [NSString stringWithFormat: @"'%@'", confess.toName], [NSString stringWithFormat:@"%d", confess.url.objectID], [NSString stringWithFormat:@"'%@'", confess.content], [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confess.lastMessageDate]], @"0", @"", nil]];
-        [self.confesses removeObject:confess];
-        [self.confesses addObject:confessNew];
+        confess.isNew = NO;
+        [DBServices mergeEntity:confess];
+        //confessNew.objectID = confess.objectID;
+        //confessNew.toName = confess.toName;
+        //confessNew.url = confess.url;
+        //confessNew.content = confess.content;
+        //confessNew.lastMessageDate = confess.lastMessageDate;
+        //confessNew.isNew = NO;
+        //confessNew.toFacebookID = confess.toFacebookID;
+        //NSString *confessId = [NSString stringWithFormat:@"%lu", (unsigned long)confess.objectID];
+        //[[DBManager shared] mergeQuery:tConfessEntity table:
+        // [[NSMutableArray alloc] initWithObjects:confessId, [NSString stringWithFormat: @"'%@'", confess.toName], [NSString stringWithFormat:@"%d", confess.url.objectID], [NSString stringWithFormat:@"'%@'", confess.content], [NSString stringWithFormat:@"'%@'", [DateHandler stringFromDate:confess.lastMessageDate]], @"0", @"", nil]];
+        //[self.confesses removeObject:confess];
+        //[self.confesses addObject:confessNew];
     }
     
-    [cell configureCellWithConfess:confessNew];
+    [cell configureCellWithConfess:confess];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [ColorsHandler lightBlueColor];
     return cell;
+}
+
+-(void)scrollUp
+{
+    [self.confessesTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
 @end

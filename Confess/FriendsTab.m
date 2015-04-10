@@ -631,4 +631,10 @@ UIBarButtonItem *contactItem;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
+-(void)scrollUp
+{
+    UITableView *table = self.facebookTable.hidden ? self.chatTable : self.facebookTable;
+    [table scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+}
+
 @end

@@ -29,6 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,5 +70,23 @@
     //((FriendsTab*)[[self viewControllers] objectAtIndex:1]).hideFacebook = self.hideFacebook;
 }
 
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    static UIViewController *previousController = nil;
+    
+    // the same tab was tapped a second time
+    if (previousController == viewController)
+    {
+        if ([((UINavigationController*)viewController).tabBarItem.title isEqualToString:@"Friends"])
+        {
+            [((FriendsTab*)[((UINavigationController*)viewController).viewControllers objectAtIndex:0]) scrollUp];
+        }
+        else if ([((UINavigationController*)viewController).tabBarItem.title isEqualToString:@"Me"])
+        {
+            [((MeTab*)viewController) scrollUp];
+        }
+    }
+    previousController = viewController;
+}
 
 @end
