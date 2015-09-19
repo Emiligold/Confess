@@ -210,7 +210,7 @@ ConfessWrite *translationQuizAssociateVC;
 {
     static NSString *ChatMessageCellIdentifier = @"ChatMessageCellIdentifier";
     ConfessMessageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ChatMessageCellIdentifier];
-    
+
     if(cell == nil){
         cell = [[ConfessMessageViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ChatMessageCellIdentifier];
     }

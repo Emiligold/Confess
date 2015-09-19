@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "AppDelegate.h"
 
 @interface FacebookConnection : NSObject <FBLoginViewDelegate>
 
++(instancetype)instance:(AppDelegate*)appDelegate;
+-(void)startConnection;
 @property (weak, nonatomic) NSString *profileID;
 @property (weak, nonatomic) NSString *nameText;
+@property (strong, nonatomic) IBOutlet FBLoginView *loginView;
 
 @end

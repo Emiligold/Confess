@@ -21,6 +21,5 @@
 @property (nonatomic, assign) BOOL isNew;
 @property (nonatomic, assign) BOOL isDeleted;
 @property (nonatomic, retain) NSString *fromFacebookID;
-//@property (nonatomic, assign) NSUInteger currColor;
 
 @end

@@ -17,7 +17,14 @@
 		9E2306181ABF4E9400FECEDE /* QuickbloxHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2306171ABF4E9400FECEDE /* QuickbloxHandler.m */; };
 		9E273C4A1A31B965007E3CEF /* ColorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C491A31B965007E3CEF /* ColorsHandler.m */; };
 		9E273C4D1A31C3D6007E3CEF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E273C4C1A31C3D6007E3CEF /* User.m */; };
+		9E4CF4991BAD5893007E91D6 /* chatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E4CF4981BAD5893007E91D6 /* chatIcon.png */; };
 		9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E63D40E1A01664800CA1E3B /* GrayConfess.png */; };
+		9E6533121BAC959600DCBA6A /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E6533111BAC959600DCBA6A /* heart.png */; };
+		9E6533141BAC9F2100DCBA6A /* smiley.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E6533131BAC9F2100DCBA6A /* smiley.png */; };
+		9E6533161BACA3E800DCBA6A /* saddy.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E6533151BACA3E800DCBA6A /* saddy.png */; };
+		9E6533181BACA8AD00DCBA6A /* saddySelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E6533171BACA8AD00DCBA6A /* saddySelected.png */; };
+		9E65331C1BACC70100DCBA6A /* smileySelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E65331B1BACC70100DCBA6A /* smileySelected.png */; };
+		9E6533221BACC9E200DCBA6A /* LikeDislike.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6533211BACC9E200DCBA6A /* LikeDislike.m */; };
 		9E994B4D19F5551C00DA5A50 /* LocalStorageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E994B4C19F5551C00DA5A50 /* LocalStorageService.m */; };
 		9E994B5019F555A300DA5A50 /* ChatService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E994B4F19F555A300DA5A50 /* ChatService.m */; };
 		9E994B5319F5569300DA5A50 /* CharactersEscapeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E994B5219F5569300DA5A50 /* CharactersEscapeService.m */; };
@@ -117,7 +124,15 @@
 		9E273C491A31B965007E3CEF /* ColorsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorsHandler.m; sourceTree = "<group>"; };
 		9E273C4B1A31C3D6007E3CEF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		9E273C4C1A31C3D6007E3CEF /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		9E4CF4981BAD5893007E91D6 /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chatIcon.png; path = ../../chatIcon.png; sourceTree = "<group>"; };
 		9E63D40E1A01664800CA1E3B /* GrayConfess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GrayConfess.png; sourceTree = "<group>"; };
+		9E6533111BAC959600DCBA6A /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = ../../heart.png; sourceTree = "<group>"; };
+		9E6533131BAC9F2100DCBA6A /* smiley.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = smiley.png; path = ../../smiley.png; sourceTree = "<group>"; };
+		9E6533151BACA3E800DCBA6A /* saddy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = saddy.png; path = ../../saddy.png; sourceTree = "<group>"; };
+		9E6533171BACA8AD00DCBA6A /* saddySelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = saddySelected.png; path = ../../saddySelected.png; sourceTree = "<group>"; };
+		9E65331B1BACC70100DCBA6A /* smileySelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = smileySelected.png; path = ../../smileySelected.png; sourceTree = "<group>"; };
+		9E6533201BACC9E200DCBA6A /* LikeDislike.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikeDislike.h; sourceTree = "<group>"; };
+		9E6533211BACC9E200DCBA6A /* LikeDislike.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeDislike.m; sourceTree = "<group>"; };
 		9E994B4B19F5551C00DA5A50 /* LocalStorageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalStorageService.h; sourceTree = "<group>"; };
 		9E994B4C19F5551C00DA5A50 /* LocalStorageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalStorageService.m; sourceTree = "<group>"; };
 		9E994B4E19F555A300DA5A50 /* ChatService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatService.h; sourceTree = "<group>"; };
@@ -405,6 +420,12 @@
 		9E99DD1F19DB36C000A40951 /* Confess */ = {
 			isa = PBXGroup;
 			children = (
+				9E4CF4981BAD5893007E91D6 /* chatIcon.png */,
+				9E65331B1BACC70100DCBA6A /* smileySelected.png */,
+				9E6533171BACA8AD00DCBA6A /* saddySelected.png */,
+				9E6533151BACA3E800DCBA6A /* saddy.png */,
+				9E6533131BAC9F2100DCBA6A /* smiley.png */,
+				9E6533111BAC959600DCBA6A /* heart.png */,
 				9E9A9B351A68563C005F9E1F /* SearchFacebookContainer.h */,
 				9E9A9B361A68563C005F9E1F /* SearchFacebookContainer.m */,
 				9E4B273A1A3C6D2100C37D4A /* Handlers */,
@@ -496,6 +517,8 @@
 				9E1129EA1A6DAE0C00DE3BED /* UserSentConfesses.m */,
 				9E1129EC1A6ED8A700DE3BED /* CodeUrls.h */,
 				9E1129ED1A6ED8A700DE3BED /* CodeUrls.m */,
+				9E6533201BACC9E200DCBA6A /* LikeDislike.h */,
+				9E6533211BACC9E200DCBA6A /* LikeDislike.m */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -587,11 +610,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E6533121BAC959600DCBA6A /* heart.png in Resources */,
 				9E99DD3219DB36C000A40951 /* Images.xcassets in Resources */,
 				9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */,
+				9E6533161BACA3E800DCBA6A /* saddy.png in Resources */,
 				9EE9A50419DDF96B002AD3CB /* Telefono.png in Resources */,
+				9E6533141BAC9F2100DCBA6A /* smiley.png in Resources */,
 				9E99DD4F19DB374600A40951 /* Icondemo.png in Resources */,
+				9E4CF4991BAD5893007E91D6 /* chatIcon.png in Resources */,
+				9E6533181BACA8AD00DCBA6A /* saddySelected.png in Resources */,
 				9E99DD2419DB36C000A40951 /* InfoPlist.strings in Resources */,
+				9E65331C1BACC70100DCBA6A /* smileySelected.png in Resources */,
 				9E99DD2D19DB36C000A40951 /* Main.storyboard in Resources */,
 				9EE9A50219DDF910002AD3CB /* Facebook_logo_(square).png in Resources */,
 			);
@@ -649,6 +678,7 @@
 				9E99DD2619DB36C000A40951 /* main.m in Sources */,
 				9E1129F21A6EEDC800DE3BED /* ConfessCell.m in Sources */,
 				9EA2D3B61A8E413A00BF24F7 /* ConfessFriend.m in Sources */,
+				9E6533221BACC9E200DCBA6A /* LikeDislike.m in Sources */,
 				9E22BD1F1AD7F033008D506E /* QuickbloxConnection.m in Sources */,
 				9E1129EB1A6DAE0C00DE3BED /* UserSentConfesses.m in Sources */,
 				9E9A19C819E9929D00BF1C6C /* ChatCell.m in Sources */,

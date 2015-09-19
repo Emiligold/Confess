@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AppDelegate.h"
 
-@interface QuickbloxConnection : NSObject
+@interface QuickbloxConnection : NSObject <QBChatDelegate>
+
++(instancetype)instance:(AppDelegate*)appDelegate;
+
+-(void)StartConnection:(NSString*)userLogin userPassword:(NSString*)userPassword
+              userMail:(NSString*)userMail loginView:(FBLoginView*)loginView;
+
 
 @end

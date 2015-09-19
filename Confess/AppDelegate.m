@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "FacebookSDK/FacebookSDK.h"
+#import "FacebookConnection.h"
+#import "QuickbloxConnection.h"
+#import "TabController.h"
 
 @implementation AppDelegate
 
@@ -19,8 +22,8 @@
     [QBSettings setAccountKey:@"E6evRhoV9sHcQ5pYGgxq"];
     
     // Whenever a person opens the app, check for a cached session
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
+    {
         // If there's one, just open the session silently, without showing the user the login UI
         [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
                                            allowLoginUI:NO
@@ -30,9 +33,16 @@
                                           // also for intermediate states and NOT just when the session open
                                           [self sessionStateChanged:session state:state error:error];
                                       }];
-    [FBLoginView class];
-    [FBProfilePictureView class];
-    
+        [FBLoginView class];
+        [FBProfilePictureView class];
+    }
+    else
+    {
+        self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        TabController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
+        self.window.rootViewController = viewController;
+        [self.window makeKeyAndVisible];
     }
     // Override point for customization after application launch.
     return YES;
@@ -86,9 +96,10 @@
     // If the session was opened successfully
     if (!error && state == FBSessionStateOpen){
         NSLog(@"Session opened");
+        [[FacebookConnection instance:self] startConnection];
         // Show the user the logged-in UI
         //[self userLoggedIn];
-        return;
+        //return;
     }
     if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
         // If the session is closed
@@ -104,7 +115,7 @@
         NSString *alertTitle;
         // If the error requires people using an app to make an action outside of the app in order to recover
         if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
-            alertTitle = @"Something went wrong";
+            alertTitle = @"Something went wrong :(";
             alertText = [FBErrorUtility userMessageForError:error];
         //    [self showMessage:alertText withTitle:alertTitle];
         } else {
@@ -137,6 +148,30 @@
         // Show the user the logged-out UI
        // [self userLoggedOut];
     }
+}
+
+-(void)ConnectedToFacebook:(NSString*)userLogin userPassword:(NSString*)userPassword
+                  userMail:(NSString*)userMail loginView:(FBLoginView*)loginView
+{
+    [[QuickbloxConnection instance:self] StartConnection:userLogin
+                                            userPassword:userPassword userMail:userMail loginView:loginView];
+}
+
+-(void)ConnectedToQuickBlox:(NSString*)userLogin userPassword:(NSString*)userPassword loginView:(FBLoginView*)loginView
+{
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    TabController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"TabController"];
+    viewController.selectedIndex=1;
+    viewController.loginView = loginView;
+    viewController.profileID = userPassword;
+    viewController.nameText = userLogin;
+    [viewController initProperties];
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];
+    //self.tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
+    //self.loginView.hidden = NO;
+    //[self presentViewController:viewController animated:YES completion:nil];
 }
 
 @end

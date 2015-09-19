@@ -12,7 +12,7 @@
 @interface User : NSObject <AbstractEntity>
 
 @property (nonatomic, assign) NSUInteger currColor;
-@property (nonatomic, retain) NSString *facebookID;
+@property (nonatomic, retain) NSString* facebookID;
 @property (nonatomic, assign) NSUInteger userID;
 
 @end

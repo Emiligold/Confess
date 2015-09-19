@@ -40,7 +40,6 @@
         self.content = [decoder decodeObjectForKey:@"content"];
         self.lastMessageDate = [decoder decodeObjectForKey:@"date"];
         self.isNew = [[decoder decodeObjectForKey:@"isNew"] boolValue];
-        //self.currColor = [[decoder decodeObjectForKey:@"currColor"] integerValue];
     }
     
     return self;
@@ -50,7 +49,7 @@
 {
     self.objectID = [properties[0] integerValue];
     self.url = ((CodeUrls*)[DBServices getEntityById:[[CodeUrls alloc] init]
-                                         entityClass:[properties[1] integerValue]]);
+                                    entityClass:[properties[1] integerValue]]);
     self.toName = properties[2];
     self.content = properties[3];
     self.lastMessageDate = [DateHandler dateFromString:properties[4]];

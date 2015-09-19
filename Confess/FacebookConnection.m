@@ -8,62 +8,52 @@
 
 #import "FacebookConnection.h"
 #import "DBServices.h"
+#import "ViewController.h"
+#import "AppDelegate.h"
+
+@interface FacebookConnection ()
+
+@property (nonatomic, strong) AppDelegate* appDelegate;
+
+@end
 
 @implementation FacebookConnection
 
++(instancetype)instance:(AppDelegate*)appDelegate
+{
+    static FacebookConnection* instance = nil;
+    static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+        instance.appDelegate = appDelegate;
+	});
+	
+	return instance;
+}
+
+-(void)startConnection
+{
+    self.loginView = [[FBLoginView alloc] init];
+    self.loginView.delegate = self;
+    self.loginView.readPermissions = @[@"public_profile", @"email", @"user_friends"];
+    self.loginView.center = CGPointMake(160, 220);
+}
+
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-    //NSLog(@"%@", user);
-    [DBServices setCurrFacebookUser:user];
-    self.profileID = user.objectID;
-    self.nameText = user.name;
-    // Create session with user
-    NSString *userLogin = [user.name stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    NSString *userPassword = user.objectID;
-    NSString *userMail = [user objectForKey:@"email"];
+    static BOOL connected = NO;
     
-    if (isNew)
+    if (!connected)
     {
-        FBGraphObject *picture = [user objectForKey:@"picture"];
-        FBGraphObject *check = [picture objectForKey:@"data"];
-        NSString *url = [check objectForKey:@"url"];
-        NSMutableArray *confesses = [DBServices getRecievedConversations:url];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
-        for (NSMutableArray *values in confesses)
-        {
-            ConfessEntity *curr = values[1];
-            QBChatDialog *chatDialog = [QBChatDialog new];
-            NSMutableArray *selectedUsersIDs = [NSMutableArray array];
-            NSMutableArray *selectedUsersNames = [NSMutableArray array];
-            [selectedUsersIDs addObject:curr.toFacebookID];
-            [selectedUsersNames addObject:curr.toName];
-            chatDialog.occupantIDs = selectedUsersIDs;
-            chatDialog.type = QBChatDialogTypePrivate;
-            [QBChat createDialog:chatDialog delegate:self];
-            QBChatMessage *message = [[QBChatMessage alloc] init];
-            message.text = curr.content;
-            message.senderID = [values[0] integerValue];
-            NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            params[@"save_to_history"] = @YES;
-            [message setCustomParameters:params];
-            //message.senderID = [LocalStorageService shared].currentUser.ID;
-            [[ChatService instance] sendMessage:message];
-            [DBServices insertCodeUserConfesses:[defaults objectForKey:user.objectID] userId:curr.objectID confessId:user.objectID];
-        }
+        connected = YES;
+        //NSLog(@"%@", user);
+        [DBServices setCurrFacebookUser:user];
+        self.profileID = user.objectID;
+        // Create session with user
+        NSString *userMail = [user objectForKey:@"email"];
+        [self.appDelegate ConnectedToFacebook:user.name userPassword:user.objectID userMail:userMail loginView:self.loginView];
     }
-    
-    [self tryToConnect:userLogin :userPassword :userMail :loginView];
-    
-    if (fetched)
-    {
-        [self loginViewShowingLoggedInUser : loginView];
-    }
-    
-    self.tbc.profileID = self.profileID;
-    self.tbc.nameText = self.nameText;
-    [self.tbc initProperties];
-
 }
 
 @end

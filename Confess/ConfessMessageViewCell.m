@@ -23,14 +23,14 @@ static UIImage *confessImage;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+
+    if (self)
+    {
         self.dateLabel = [[UILabel alloc] init];
         [self.dateLabel setFrame:CGRectMake(10, 5, 300, 20)];
         [self.dateLabel setFont:[UIFont systemFontOfSize:11.0]];
         [self.dateLabel setTextColor:[UIColor lightGrayColor]];
         self.dateLabel.textColor = [UIColor whiteColor];
-       // self.dateLabel.center = self.contentView.center;
-        //[self.contentView addSubview:self.dateLabel];
         
         confessImage = [[UIImage imageNamed:@"GrayConfess"] stretchableImageWithLeftCapWidth:24  topCapHeight:15];
         self.backgroundImageView = [[UIImageView alloc] init];
@@ -97,7 +97,6 @@ static UIImage *confessImage;
 - (void)configureCellWithMessage:(QBChatAbstractMessage *)message
 {
     self.messageTextView.text = message.text;
-    
     CGSize textSize = { 260.0, 10000.0 };
     
 	CGSize size = [self.messageTextView.text sizeWithFont:[UIFont boldSystemFontOfSize:13]

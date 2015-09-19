@@ -14,14 +14,30 @@
 #import "DBManager.h"
 #import "DBServices.h"
 #import "MeTab.h"
+#import "LikeDislike.h"
 
 #define padding 20
+
+typedef enum UserInteraction : NSUInteger
+{
+    Liked = 0,
+    Hated = 1,
+    None = 2
+} UserInteraction;
 
 @interface ConfessCell ()
 
 @property (nonatomic, assign) BOOL isMine;
 @property (nonatomic, strong) FriendsTab *friendsTab;
 @property (nonatomic, strong) MeTab *meTab;
+@property (nonatomic, strong) UIButton *smileyButton;
+@property (nonatomic, strong) UIButton *saddyButton;
+@property (nonatomic, strong) UIImage *saddySelected;
+@property (nonatomic, strong) UIImage *saddy;
+@property (nonatomic, strong) UIImage *smiley;
+@property (nonatomic, strong) UIImage *smileySelected;
+@property (nonatomic, strong) UIImage *chat;
+@property (nonatomic, strong) LikeDislike *likeDislike;
 
 @end
 
@@ -49,9 +65,31 @@
         [self.view setBackgroundColor:[UIColor whiteColor]];
         [self.contentView addSubview:self.view];
         self.view.center = CGPointMake(self.contentView.frame.size.width / 2, 124);
-
-        //CGPointMake(self.contentView.frame.size.width / 2,
-         //                              self.contentView.frame.size.height / 2);
+        
+        // Images init
+        self.smiley = [UIImage imageNamed:@"smiley.png"];
+        self.saddy = [UIImage imageNamed:@"saddy.png"];
+        self.saddySelected = [UIImage imageNamed:@"saddySelected.png"];
+        self.smileySelected = [UIImage imageNamed:@"smileySelected.png"];
+        self.chat = [UIImage imageNamed:@"chatIcon.png"];
+        self.smiley = [self imageWithImage:self.smiley scaledToSize:CGSizeMake(84, 64)];
+        self.saddy = [self imageWithImage:self.saddy scaledToSize:CGSizeMake(84, 64)];
+        self.smileyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.saddySelected = [self imageWithImage:self.saddySelected scaledToSize:CGSizeMake(84, 64)];
+        UIImageView *smileyImageView = [[UIImageView alloc] initWithImage:self.smiley];
+        CGRect smileyButtonFrame = CGRectMake(self.view.frame.size.width / 2 + 27, 143, 84, 64);
+        smileyImageView.center = CGPointMake(self.view.frame.size.width / 2 + 65, 175);
+        self.smileyButton.center = CGPointMake(self.view.frame.size.width / 2 + 65, 175);
+        [self.smileyButton setFrame:smileyButtonFrame];
+        [self.view addSubview:self.smileyButton];
+        self.saddyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        CGRect sadButtonFrame = CGRectMake(self.view.frame.size.width / 2 - 12, 144, 84, 64);
+        UIImageView *saddyImageView = [[UIImageView alloc] initWithImage:self.saddy];
+        saddyImageView.center = CGPointMake(self.view.frame.size.width / 2 + 25, 177);
+        UIImageView *saddySelectedImageView = [[UIImageView alloc] initWithImage:self.saddySelected];
+        saddySelectedImageView.center = CGPointMake(self.view.frame.size.width / 2 + 25, 177);
+        [self.saddyButton setFrame:sadButtonFrame];
+        [self.view addSubview:self.saddyButton];
         
         // Image Initialize
         self.profileImage = [[UIImageView alloc] init];
@@ -82,7 +120,7 @@
         
         // Date initialize
         self.date = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 190, 30)];
-        self.date.center = CGPointMake(self.view.frame.size.width / 2, 175);
+        self.date.center = CGPointMake(self.view.frame.size.width / 2 - 60, 175);
         self.date.font=[self.date.font fontWithSize:12];
         self.date.textColor = [UIColor grayColor];
         self.date.textAlignment = NSTextAlignmentCenter;
@@ -128,7 +166,17 @@
     [self.content setFrame:CGRectMake(padding / 2, ySize, 216, 75)];
     [self.exit addTarget:self action:@selector(exitClicked:) forControlEvents:UIControlEventTouchUpInside];
     
-    if (!self.isMine)
+    if (self.isMine)
+    {
+        self.likeDislike = [self getLikeDislike];
+        [self.smileyButton setImage:(self.likeDislike != nil && self.likeDislike.isLike) ?
+         self.smileySelected : self.smiley forState:UIControlStateNormal];
+        [self.saddyButton setImage:(self.likeDislike != nil && !self.likeDislike.isLike) ?
+         self.saddySelected : self.saddy forState:UIControlStateNormal];
+        [self.smileyButton addTarget:self action:@selector(smileyClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.saddyButton addTarget:self action:@selector(saddyClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else
     {
         [self.name setTitle: message.toName forState: UIControlStateNormal];
         [self.name setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -198,6 +246,92 @@
         self.confess.isDeleted = YES;
         [DBServices mergeEntity:self.confess];
     }
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    //UIGraphicsBeginImageContext(newSize);
+    // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+    // Pass 1.0 to force exact pixel size.
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+- (IBAction)smileyClicked:(id)sender
+{
+    //TODO: NotifyUser
+    [self.smileyButton setImage:(self.likeDislike != nil && self.likeDislike.isLike) ? self.smiley : self.smileySelected forState:UIControlStateNormal];
+    
+    if (self.likeDislike != nil && !self.likeDislike.isLike)
+    {
+        [self.saddyButton setImage:self.saddy forState:UIControlStateNormal];
+    }
+    
+    if (self.likeDislike != nil)
+    {
+        if (self.likeDislike.isLike)
+        {
+            [DBServices deleteEntityById:[[LikeDislike alloc] init] entityClass:self.likeDislike.objectID];
+            self.likeDislike = nil;
+        }
+        else
+        {
+            self.likeDislike.isLike = YES;
+            [DBServices mergeEntity:self.likeDislike];
+        }
+    }
+    else
+    {
+        self.likeDislike = [[LikeDislike alloc] init];
+        self.likeDislike.confessID = self.confess.objectID;
+        self.likeDislike.isLike = YES;
+        self.likeDislike.userID = [DBServices currUserId];
+        [DBServices mergeEntity:self.likeDislike];
+        self.likeDislike.objectID = (int)[[DBManager shared] lastInsertedRowID];
+    }
+}
+
+- (IBAction)saddyClicked:(id)sender
+{
+    //TODO: Notify user
+    [self.saddyButton setImage:(self.likeDislike != nil && !self.likeDislike.isLike) ? self.saddy : self.saddySelected forState:UIControlStateNormal];
+    
+    if (self.likeDislike != nil && self.likeDislike.isLike)
+    {
+        [self.smileyButton setImage:self.smiley forState:UIControlStateNormal];
+    }
+    
+    if (self.likeDislike != nil)
+    {
+        if (!self.likeDislike.isLike)
+        {
+            [DBServices deleteEntityById:[[LikeDislike alloc] init] entityClass:self.likeDislike.objectID];
+            self.likeDislike = nil;
+        }
+        else
+        {
+            self.likeDislike.isLike = NO;
+            [DBServices mergeEntity:self.likeDislike];
+        }
+    }
+    else
+    {
+        self.likeDislike = [[LikeDislike alloc] init];
+        self.likeDislike.confessID = self.confess.objectID;
+        self.likeDislike.isLike = NO;
+        self.likeDislike.userID = [DBServices currUserId];
+        [DBServices mergeEntity:self.likeDislike];
+        self.likeDislike.objectID = (int)[[DBManager shared] lastInsertedRowID];
+    }
+}
+
+-(LikeDislike*)getLikeDislike
+{
+    NSUInteger userId = [[LocalStorageService shared] currentUser].ID;
+    return [DBServices getEntityByUniqe:[[LikeDislike alloc] init] entityClass:
+                                [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%d'", userId], [NSString stringWithFormat:@"confess_id = '%d'", self.confess.objectID], nil]];
 }
 
 @end

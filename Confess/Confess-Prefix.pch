@@ -28,8 +28,10 @@
 #define tFriendsNoAppConfesses @"FRIENDS_NO_APP_CONFESSES"
 #define tCodeFriendsNoAppConfesses @"CODE_FRIENDS_NO_APP_CONFESSES"
 #define tConfessEntity @"CODE_CONFESSES"
+#define tLikeDislike @"LIKES_DISLIKES"
 #define tCodeUserConfesses @"CODE_USER_CONFESSES"
 #define tUsers @"USERS"
 #define tUserSentConfesses @"USER_SENT_CONFESSES"
 #define tCodeUrls @"CODE_URLS"
 #define tCodeBlocks @"CODE_BLOCKS"
+

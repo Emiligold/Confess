@@ -39,7 +39,9 @@
 
 +(id<AbstractEntity>)uniqueSelect:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters
 {
-    return [DBServices select:entityClass entityClass:parameters][0];
+    NSMutableArray *array = [DBServices select:entityClass entityClass:parameters];
+    
+    return array.count > 0 ? array[0] : nil;
 }
 
 +(NSMutableArray*)select:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters
@@ -248,6 +250,18 @@
 +(void)setCurrFacebookUser:(id<FBGraphUser>)user
 {
     [DBServices currFacebookUser:user];
+}
+
++(void)deleteEntityById:(id<AbstractEntity>)entityClass entityClass:(NSUInteger)objectID
+{
+    [[DBManager shared] deleteQuery:[entityClass tableName] table:
+     [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"id = '%d'", objectID], nil]];
+    [[DBManager shared] executeExecutableQuery];
+}
+
++(NSUInteger)currUserId
+{
+    return [[LocalStorageService shared] currentUser].ID;
 }
 
 @end

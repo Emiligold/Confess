@@ -37,6 +37,7 @@ BOOL fadedin = NO;
     self.imageButton.layer.cornerRadius = 20;
     self.imageButton.contentMode = UIViewContentModeScaleAspectFit;
     [self.content setReturnKeyType:UIReturnKeyDone];
+    self.content.backgroundColor = [UIColor redColor];
     self.textareaLabel.hidden = NO;
     self.textareaLabel.alpha = 0.0;
     self.content.text = @"";

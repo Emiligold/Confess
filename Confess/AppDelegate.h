@@ -13,6 +13,11 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
+-(void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
+
+-(void)ConnectedToFacebook:(NSString*)userLogin userPassword:(NSString*)userPassword
+                  userMail:(NSString*)userMail loginView:(FBLoginView*)loginView;
+
+-(void)ConnectedToQuickBlox:(NSString*)userLogin userPassword:(NSString*)userPassword loginView:(FBLoginView*)loginView;
 
 @end

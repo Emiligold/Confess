@@ -19,6 +19,7 @@
 +(id<AbstractEntity>)getEntityById:(id<AbstractEntity>)entityClass entityClass:(NSUInteger)objectID;
 +(id<AbstractEntity>)getConversationsOfUser;
 +(id<AbstractEntity>)getConversation:(NSString*)userUrl;
++(void)deleteEntityById:(id<AbstractEntity>)entityClass entityClass:(NSUInteger)objectID;
 +(NSMutableArray*)getConfessesOfConversation:(NSUInteger)noAppCode;
 +(NSMutableArray*)getMessagesByUrl:(NSString*)userUrl;
 +(long long)insertNewConversation:(NSString*)userUrl;
@@ -39,5 +40,6 @@
 +(void)mergeEntity:(id<AbstractEntity>)entity;
 +(id<FBGraphUser>)getCurrFacebookUser;
 +(void)setCurrFacebookUser:(id<FBGraphUser>)user;
++(NSUInteger)currUserId;
 
 @end

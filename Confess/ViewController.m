@@ -35,7 +35,6 @@ BOOL isNew;
     [self toggleHiddenState:YES];
     self.content.lineBreakMode = NSLineBreakByWordWrapping;
     self.content.numberOfLines = 2;
-    self.content.textColor = [UIColor blackColor];
     self.content.textColor = [UIColor colorWithRed:(125/255.0) green:(128/255.0) blue:(130/255.0) alpha:1];
     self.content.layer.shadowColor = [self.content.textColor CGColor];
     self.content.layer.shadowOffset = CGSizeMake(2.5, 2.5);
