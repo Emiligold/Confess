@@ -11,7 +11,7 @@
 #import "FriendsTab.h"
 #import "MeTab.h"
 
-@interface ConfessCell : UITableViewCell
+@interface ConfessCell : UITableViewCell <UITextViewDelegate>
 
 @property (nonatomic, strong) UITextView  *content;
 @property (nonatomic, strong) UIButton     *name;

@@ -10,8 +10,9 @@
 #import "FriendsTab.h"
 #import "CodeUrls.h"
 
-@interface ConfessFriend : UIViewController
+@interface ConfessFriend : UIViewController <UITextViewDelegate>
 
+extern NSUInteger const MAX_LINES;
 -(void)setDetailItem:(NSString*) name : (NSString*) userID : (FriendsTab*) view :
     (NSMutableArray*) dialogs : (CodeUrls*) url url: (UIImage*) image;
 - (IBAction)exitClicked:(UIButton *)sender;
@@ -26,5 +27,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *content;
 @property (nonatomic, weak) IBOutlet FriendsTab *friendsView;
 @property (nonatomic, strong) CodeUrls *userUrl;
+@property (nonatomic, assign) NSUInteger numberOfLines;
 
 @end

@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "TabController.h"
 #import <Foundation/Foundation.h>
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface ViewController : UIViewController <FBLoginViewDelegate, QBChatDelegate>
 
@@ -22,5 +23,6 @@
 @property (weak, nonatomic) IBOutlet TabController *tbc;
 @property (weak, nonatomic) IBOutlet NSString *nameText;
 @property (weak, nonatomic) IBOutlet NSString *profileID;
+@property (weak, nonatomic) IBOutlet UIButton *logInFacebookButton;
 
 @end

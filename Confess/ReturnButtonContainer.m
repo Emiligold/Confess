@@ -51,8 +51,18 @@
     [sender setTitleColor:[sender tintColor] forState:UIControlStateNormal];
     NSRange cursorPosition = [self.confessFriend.content selectedRange];
     NSMutableString *tfContent = [[NSMutableString alloc] initWithString:self.confessFriend.content.text];
-    [tfContent insertString:@"\n" atIndex:cursorPosition.location];
-    [self.confessFriend.content setText:tfContent];
+    self.confessFriend.numberOfLines++;
+    
+    if (self.confessFriend.numberOfLines > MAX_LINES)
+    {
+        self.confessFriend.numberOfLines = MAX_LINES;
+        [self.confessFriend.content resignFirstResponder];
+    }
+    else
+    {
+        [tfContent insertString:@"\n" atIndex:cursorPosition.location];
+        [self.confessFriend.content setText:tfContent];
+    }
 }
 
 - (IBAction)returnTouchDown:(UIButton*)sender

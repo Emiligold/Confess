@@ -18,13 +18,6 @@
 
 #define padding 20
 
-typedef enum UserInteraction : NSUInteger
-{
-    Liked = 0,
-    Hated = 1,
-    None = 2
-} UserInteraction;
-
 @interface ConfessCell ()
 
 @property (nonatomic, assign) BOOL isMine;
@@ -108,6 +101,8 @@ typedef enum UserInteraction : NSUInteger
         
         // Text initialize
         self.content = [[UITextView alloc] init];
+        self.content.delegate = self;
+        //[self.content addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
         [self.view addSubview:self.content];
         
         // Exit initialize
@@ -155,16 +150,23 @@ typedef enum UserInteraction : NSUInteger
     self.content.text = message.content;
     self.content.textAlignment = NSTextAlignmentCenter;
     self.content.scrollEnabled = NO;
-    self.content.backgroundColor = [UIColor clearColor];
+    self.content.backgroundColor = [UIColor redColor];
     self.content.editable = NO;
     //CGSize textSize = { 260.0, 10000.0 };
 	//CGSize size = [self.content.text sizeWithFont:[UIFont boldSystemFontOfSize:13]
     //                                    constrainedToSize:textSize
     //                                        lineBreakMode:NSLineBreakByWordWrapping];
 	//size.width += 10;
-    [self.content sizeToFit];
-    [self.content setFrame:CGRectMake(padding / 2, ySize, 216, 75)];
+    //[self.content sizeToFit];
+    [self.content setFrame:CGRectMake(padding / 2, ySize, 216, [self.content sizeThatFits:CGSizeMake(216, FLT_MAX)].height)/*75*/];
     [self.exit addTarget:self action:@selector(exitClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.content setFont:[UIFont systemFontOfSize:self.isMine ? 15 : 14]];
+
+    CGFloat topCorrect = ([self.content bounds].size.height - [self.content contentSize].height * [self.content zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    self.content.contentOffset = (CGPoint){ .x = 0, .y = -topCorrect };
+    NSUInteger centerHeight = self.isMine ? 90 : 124;
+    self.content.center = CGPointMake(self.contentView.frame.size.width / 2 - 41.5, centerHeight);
     
     if (self.isMine)
     {
@@ -196,6 +198,58 @@ typedef enum UserInteraction : NSUInteger
 - (IBAction)friendClicked:(id)sender
 {
     [self.friendsTab friendClicked:self];
+}
+
+- (CGFloat)measureHeightOfUITextView:(UITextView *)textView
+{
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
+    {
+        // This is the code for iOS 7. contentSize no longer returns the correct value, so
+        // we have to calculate it.
+        //
+        // This is partly borrowed from HPGrowingTextView, but I've replaced the
+        // magic fudge factors with the calculated values (having worked out where
+        // they came from)
+        
+        CGRect frame = textView.bounds;
+        
+        // Take account of the padding added around the text.
+        
+        UIEdgeInsets textContainerInsets = textView.textContainerInset;
+        UIEdgeInsets contentInsets = textView.contentInset;
+        
+        CGFloat leftRightPadding = textContainerInsets.left + textContainerInsets.right + textView.textContainer.lineFragmentPadding * 2 + contentInsets.left + contentInsets.right;
+        CGFloat topBottomPadding = textContainerInsets.top + textContainerInsets.bottom + contentInsets.top + contentInsets.bottom;
+        
+        frame.size.width -= leftRightPadding;
+        frame.size.height -= topBottomPadding;
+        
+        NSString *textToMeasure = textView.text;
+        if ([textToMeasure hasSuffix:@"\n"])
+        {
+            textToMeasure = [NSString stringWithFormat:@"%@-", textView.text];
+        }
+        
+        // NSString class method: boundingRectWithSize:options:attributes:context is
+        // available only on ios7.0 sdk.
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+        
+        NSDictionary *attributes = @{ NSFontAttributeName: textView.font, NSParagraphStyleAttributeName : paragraphStyle };
+        
+        CGRect size = [textToMeasure boundingRectWithSize:CGSizeMake(CGRectGetWidth(frame), MAXFLOAT)
+                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                               attributes:attributes
+                                                  context:nil];
+        
+        CGFloat measuredHeight = ceilf(CGRectGetHeight(size) + topBottomPadding);
+        return measuredHeight;
+    }
+    else
+    {
+        return textView.contentSize.height;
+    }
 }
 
 - (IBAction)exitClicked:(id)sender
@@ -333,5 +387,40 @@ typedef enum UserInteraction : NSUInteger
     return [DBServices getEntityByUniqe:[[LikeDislike alloc] init] entityClass:
                                 [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"user_id = '%d'", userId], [NSString stringWithFormat:@"confess_id = '%d'", self.confess.objectID], nil]];
 }
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    CGFloat topCorrect = ([self.content bounds].size.height - [self.content contentSize].height * [self.content zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    self.content.contentOffset = (CGPoint){ .x = 0, .y = -topCorrect };
+}
+
+-(void)textViewDidChange:(UITextView *)textView
+{
+    CGFloat topCorrect = ([self.content bounds].size.height - [self.content contentSize].height * [self.content zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    self.content.contentOffset = (CGPoint){ .x = 0, .y = -topCorrect };
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    CGFloat topCorrect = ([self.content bounds].size.height - [self.content contentSize].height * [self.content zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    self.content.contentOffset = (CGPoint){ .x = 0, .y = -topCorrect };
+}
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    CGFloat topCorrect = ([self.content bounds].size.height - [self.content contentSize].height * [self.content zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    self.content.contentOffset = (CGPoint){ .x = 0, .y = -topCorrect };
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat topCorrect = ([self.content bounds].size.height - [self.content contentSize].height * [self.content zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    self.content.contentOffset = (CGPoint){ .x = 0, .y = -topCorrect };
+
+    return self;
+}
+
 
 @end

@@ -25,7 +25,6 @@
 -(void)createConditionParameters:(NSMutableArray*)conditionParameters;
 -(void)deleteQuery:(NSString*)table table:(NSMutableArray*)conditionParameters;
 -(instancetype)initWithDatabaseFilename:(NSString *)dbFilename;
--(void)deleteQuery:(NSString*)table table:(NSMutableArray*)conditionParameters;
 +(instancetype)shared;
 
 @end

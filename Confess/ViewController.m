@@ -30,9 +30,10 @@ BOOL isNew;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     
     [self toggleHiddenState:YES];
+    
+    // Title initialize
     self.content.lineBreakMode = NSLineBreakByWordWrapping;
     self.content.numberOfLines = 2;
     self.content.textColor = [UIColor colorWithRed:(125/255.0) green:(128/255.0) blue:(130/255.0) alpha:1];
@@ -46,20 +47,28 @@ BOOL isNew;
     style.minimumLineHeight = 30.f;
     style.maximumLineHeight = 30.f;
     NSDictionary *attributtes = @{NSParagraphStyleAttributeName : style,};
-    self.content.attributedText = [[NSAttributedString alloc] initWithString:@"Text your friend anonymously what you didn't have the courage to tell"
+    self.content.attributedText = [[NSAttributedString alloc] initWithString:
+                                   @"Text your friend anonymously what you didn't have the courage to tell"
                                                                   attributes:attributtes];
     [self.content sizeToFit];
     [self.content setTextAlignment:NSTextAlignmentCenter];
+    
     self.continueNoFacebook.hidden = true;
+    
+    // Login view initialize
     self.loginView = [[FBLoginView alloc] init];
     self.loginView.delegate = self;
     self.loginView.readPermissions = @[@"public_profile", @"email", @"user_friends"];
     self.loginView.center = CGPointMake(160, 220);
     [self.view addSubview:self.loginView];
     self.loginView.hidden = true;
+    
     //self.view.backgroundColor = [UIColor colorWithRed:(214/255.0) green:(195/255.0) blue:(163/255.0) alpha:1];
-    self.view.backgroundColor = [UIColor whiteColor];
+    //self.view.backgroundColor = [UIColor whiteColor];
     self.startButton.alpha = 0.0;
+    
+    self.logInFacebookButton.layer.cornerRadius = 23;
+    self.logInFacebookButton.clipsToBounds = YES;
     
     if ([FBSession activeSession] == nil || [FBSession activeSession].state == FBSessionStateCreated)
     {
@@ -234,6 +243,11 @@ BOOL isNew;
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
     //self.content.text = @"You are logged out";
     
+    //[[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/permissions" parameters:nil
+    //                                   HTTPMethod:@"DELETE"] startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+        // ...
+    //}];
+    
     [FBSession.activeSession closeAndClearTokenInformation];
     [FBSession.activeSession close];
     [FBSession setActiveSession:nil];
@@ -344,16 +358,26 @@ BOOL isNew;
     } else {
         // Open a session showing the user the login UI
         // You must ALWAYS ask for public_profile permissions when opening a session
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
-                                           allowLoginUI:YES
-                                      completionHandler:
-         ^(FBSession *session, FBSessionState state, NSError *error) {
+        FBSession *fbSession = [[FBSession alloc] initWithPermissions:[NSArray arrayWithObjects:@"public_profile", @"email", @"user_friends", nil]];
+        [fbSession openWithBehavior:FBSessionLoginBehaviorForcingSafari completionHandler:^(FBSession *session,FBSessionState state, NSError *error){
+            [FBSession setActiveSession:fbSession]; // Retain the Active Session.
+            // Retrieve the app delegate
+            AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+            // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
+            [appDelegate sessionStateChanged:session state:state error:error];
+
+        }];
+        
+        //[FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
+        //                                   allowLoginUI:YES
+        //                              completionHandler:
+        // ^(FBSession *session, FBSessionState state, NSError *error) {
              
              // Retrieve the app delegate
-             AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+        //     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
              // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
-             [appDelegate sessionStateChanged:session state:state error:error];
-         }];
+        //     [appDelegate sessionStateChanged:session state:state error:error];
+        // }];
     }
 }
 
@@ -374,7 +398,8 @@ BOOL isNew;
     {
         if (!fetched)
         {
-        [QBRequest createSessionWithExtendedParameters:parameters successBlock:^(QBResponse *response, QBASession *session) {
+            [QBRequest createSessionWithExtendedParameters:parameters successBlock:^(QBResponse *response, QBASession *session)
+             {
             // Save current user
             QBUUser *currentUser = [QBUUser user];
             currentUser.ID = session.userID;
@@ -383,7 +408,6 @@ BOOL isNew;
             currentUser.email = userMail;
             fetched = YES;
             [defaults setObject:@(currentUser.ID) forKey:userPassword];
-            //
             [[LocalStorageService shared] setCurrentUser:currentUser];
         
             // Login to QuickBlox Chat
@@ -427,7 +451,6 @@ BOOL isNew;
                   login.email = userMail;
                   login.ID = user.ID;
                   fetched = YES;
-                  //
                   [[LocalStorageService shared] setCurrentUser:user];
                   [self loginViewShowingLoggedInUser:loginView];
                   
