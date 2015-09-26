@@ -242,7 +242,7 @@ BOOL isNew;
 
 -(void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
     //self.content.text = @"You are logged out";
-    
+    //FBSDKGraphRequestConnection
     //[[[FBSDKGraphRequest alloc] initWithGraphPath:@"me/permissions" parameters:nil
     //                                   HTTPMethod:@"DELETE"] startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
         // ...

@@ -850,6 +850,7 @@
 					"$(inherited)",
 					/Users/nogabadhav/Desktop,
 					"$(PROJECT_DIR)Frameworks",
+					"/Users/nogabadhav/Downloads/FacebookSDKs-iOS-20150910-2",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Confess/Confess-Prefix.pch";
@@ -884,6 +885,7 @@
 					"$(inherited)",
 					/Users/nogabadhav/Desktop,
 					"$(PROJECT_DIR)Frameworks",
+					"/Users/nogabadhav/Downloads/FacebookSDKs-iOS-20150910-2",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Confess/Confess-Prefix.pch";

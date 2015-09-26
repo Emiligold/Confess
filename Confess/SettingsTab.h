@@ -14,5 +14,6 @@
 @property (strong, nonatomic) IBOutlet FBLoginView *loginView;
 -(void)initProperties;
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
+- (IBAction)deleteAccount:(id)sender;
 
 @end

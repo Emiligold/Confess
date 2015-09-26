@@ -68,4 +68,43 @@ NSMutableArray *settings;
 }
 */
 
+- (IBAction)deleteAccount:(id)sender
+{
+    [FBRequestConnection startWithGraphPath:@"/me/permissions"
+                                 parameters:nil
+                                 HTTPMethod:@"DELETE"
+                          completionHandler:^(
+                                              FBRequestConnection *connection,
+                                              id result,
+                                              NSError *error
+                                              )
+     {
+         if (error != nil)
+         {
+             //TODO: Throw Exception
+         }
+         else
+         {
+             [self clickLogOut];
+         }
+     }];
+}
+
+-(void)clickLogOut
+{
+    for (id obj in self.loginView.subviews)
+    {
+        if ([obj isKindOfClass:[UIButton class]])
+        {
+            UIButton* loginButton = obj;
+            [self performSelector:@selector(logOut:) withObject:loginButton afterDelay:0.5];
+        }
+    }
+}
+
+-(void)logOut:(UIButton*)loginButton
+{
+    [loginButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+}
+
 @end
