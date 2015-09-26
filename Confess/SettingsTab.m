@@ -85,26 +85,10 @@ NSMutableArray *settings;
          }
          else
          {
-             [self clickLogOut];
+             //TODO: Ask are you sure?! :(
+             [FBSession.activeSession closeAndClearTokenInformation];
          }
      }];
-}
-
--(void)clickLogOut
-{
-    for (id obj in self.loginView.subviews)
-    {
-        if ([obj isKindOfClass:[UIButton class]])
-        {
-            UIButton* loginButton = obj;
-            [self performSelector:@selector(logOut:) withObject:loginButton afterDelay:0.5];
-        }
-    }
-}
-
--(void)logOut:(UIButton*)loginButton
-{
-    [loginButton sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
 @end
