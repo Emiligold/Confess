@@ -61,11 +61,10 @@
     self.confesses = [DBServices getMyConfesses];
     //[self.confessesTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"rowCell"];
     //self.confessesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.view.backgroundColor = [ColorsHandler lightBlueColor];
+    //self.view.backgroundColor = [ColorsHandler lightBlueColor];
     self.titleScroll.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
-    self.confessesTableView.backgroundColor = [ColorsHandler lightBlueColor];
     self.confessesTableView.allowsMultipleSelectionDuringEditing = NO;
-    self.confessesTableView.backgroundColor = [ColorsHandler lightBlueColor];
+    //self.confessesTableView.backgroundColor = [ColorsHandler lightBlueColor];
 }
 
 - (void)didReceiveMemoryWarning

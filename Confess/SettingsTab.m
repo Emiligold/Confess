@@ -10,6 +10,8 @@
 
 @interface SettingsTab ()  <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) UIActivityIndicatorView *spinner;
+
 @end
 
 @implementation SettingsTab
@@ -30,6 +32,11 @@ NSMutableArray *settings;
     [super viewDidLoad];
     self.tabBarController.tabBar.hidden = NO;
     settings = [[NSMutableArray alloc] initWithObjects:@"Log out", nil ];
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.spinner.center = self.view.center;
+    self.spinner.hidesWhenStopped = YES;
+    [self.view addSubview:self.spinner];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,14 +77,13 @@ NSMutableArray *settings;
 
 - (IBAction)deleteAccount:(id)sender
 {
+    //TODO: Ask are you sure?! :(
+    
+    // Deleting facebook permissions
     [FBRequestConnection startWithGraphPath:@"/me/permissions"
                                  parameters:nil
                                  HTTPMethod:@"DELETE"
-                          completionHandler:^(
-                                              FBRequestConnection *connection,
-                                              id result,
-                                              NSError *error
-                                              )
+                          completionHandler:^(FBRequestConnection *connection, id result, NSError *error)
      {
          if (error != nil)
          {
@@ -85,8 +91,10 @@ NSMutableArray *settings;
          }
          else
          {
-             //TODO: Ask are you sure?! :(
+             // logging out facebook
              [FBSession.activeSession closeAndClearTokenInformation];
+
+             //TODO: delete user from DB, clear NSUserDefaults, delete user from quickblox and display first screen
          }
      }];
 }

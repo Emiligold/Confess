@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet TabController *tbc;
 @property (weak, nonatomic) IBOutlet NSString *nameText;
 @property (weak, nonatomic) IBOutlet NSString *profileID;
-@property (weak, nonatomic) IBOutlet UIButton *logInFacebookButton;
+@property (weak, nonatomic) IBOutlet UIView *logInContainer;
+@property (nonatomic, strong) UIView *modalView;
+@property (weak, nonatomic) IBOutlet UIView *skipContainer;
 
 @end

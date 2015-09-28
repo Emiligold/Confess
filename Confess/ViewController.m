@@ -12,10 +12,14 @@
 #import "ConfessView.h"
 #import "AppDelegate.h"
 #import "DBServices.h"
+#import "LogInContainer.h"
+#import "SkipContainer.h"
 
 @interface ViewController () <QBActionStatusDelegate>
 
 -(void)toggleHiddenState:(BOOL)shouldHide;
+@property (nonatomic, strong) LogInContainer *logInContainerView;
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
 
 @end
 
@@ -36,19 +40,20 @@ BOOL isNew;
     // Title initialize
     self.content.lineBreakMode = NSLineBreakByWordWrapping;
     self.content.numberOfLines = 2;
-    self.content.textColor = [UIColor colorWithRed:(125/255.0) green:(128/255.0) blue:(130/255.0) alpha:1];
+    //self.content.textColor = [UIColor colorWithRed:(125/255.0) green:(128/255.0) blue:(130/255.0) alpha:1];
+    self.content.textColor = [UIColor whiteColor];
     self.content.layer.shadowColor = [self.content.textColor CGColor];
     self.content.layer.shadowOffset = CGSizeMake(2.5, 2.5);
     self.content.layer.shadowRadius = 3.5;
     self.content.layer.shadowOpacity = 0.0;
     self.content.layer.masksToBounds = NO;
-    self.content.font = [UIFont systemFontOfSize:14];
+   // self.content.font = [UIFont systemFontOfSize:16];
     NSMutableParagraphStyle *style  = [[NSMutableParagraphStyle alloc] init];
     style.minimumLineHeight = 30.f;
     style.maximumLineHeight = 30.f;
     NSDictionary *attributtes = @{NSParagraphStyleAttributeName : style,};
     self.content.attributedText = [[NSAttributedString alloc] initWithString:
-                                   @"Text your friend anonymously what you didn't have the courage to tell"
+                                   @"Confess your friends annonymously"
                                                                   attributes:attributtes];
     [self.content sizeToFit];
     [self.content setTextAlignment:NSTextAlignmentCenter];
@@ -58,26 +63,64 @@ BOOL isNew;
     // Login view initialize
     self.loginView = [[FBLoginView alloc] init];
     self.loginView.delegate = self;
-    self.loginView.readPermissions = @[@"public_profile", @"email", @"user_friends"];
+    self.loginView.readPermissions = @[@"public_profile", /*@"email",*/ @"user_friends"];
     self.loginView.center = CGPointMake(160, 220);
     [self.view addSubview:self.loginView];
     self.loginView.hidden = true;
     
+    //self.logInContainer.layer.cornerRadius = 25;
+    //self.logInContainer.layer.masksToBounds = YES;
+    //self.logInContainer.layer.borderColor = [UIColor grayColor].CGColor;
+    //self.logInContainer.layer.borderWidth = 3.0f;
+    
     //self.view.backgroundColor = [UIColor colorWithRed:(214/255.0) green:(195/255.0) blue:(163/255.0) alpha:1];
     //self.view.backgroundColor = [UIColor whiteColor];
-    self.startButton.alpha = 0.0;
     
-    self.logInFacebookButton.layer.cornerRadius = 23;
-    self.logInFacebookButton.clipsToBounds = YES;
+    //UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IMG_9546 2.PNG"]];
+    
+    //[self.view addSubview:backgroundImage];
+    //[self.view sendSubviewToBack:backgroundImage];
+
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:@"IMG_9548 2.PNG"] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+    self.modalView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.modalView.opaque = NO;
+    self.modalView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.65f];
+    
+    // self.startButton.alpha = 0.0;
+    self.content.alpha = 0.0;
     
     if ([FBSession activeSession] == nil || [FBSession activeSession].state == FBSessionStateCreated)
     {
         [self.view addSubview:self.startButton];
-        [UIView animateWithDuration:5.0
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{self.startButton.alpha = 1.0;}
-                     completion:nil];
+        //[UIView animateWithDuration:5.0
+        //                  delay:0.0
+        //                options:UIViewAnimationOptionCurveEaseIn
+        //             animations:^{self.startButton.alpha = 1.0;}
+        //             completion:nil];
+        [UIView animateWithDuration:3.2
+                              delay:0.0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.content.alpha = 1.0;
+                         }
+                         completion:^(BOOL finished){
+                             [UIView animateWithDuration:0.7
+                                              animations:^{
+                                                  self.icon.alpha = 0.0;
+                                                  [UIView animateWithDuration:0.6 animations:^{
+                                                      self.content.frame = CGRectOffset(self.content.frame, 0, -105);
+                                                  }];
+                                              }
+                                              completion:^(BOOL finished){
+                                                  NSLog(@"Done!");
+                                                  self.logInContainer.hidden = NO;
+                                              }];
+                         }];
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -138,23 +181,15 @@ BOOL isNew;
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)startClicked:(id)sender {
-    self.startButton.hidden = YES;
-    self.content.hidden = YES;
-    self.loginView.hidden = NO;
-    self.continueNoFacebook.hidden = NO;
-}
-
--(void)fadeIn:(UIView*)viewToFadeIn withDuration:(NSTimeInterval)duration andWait:(NSTimeInterval)wait
+- (IBAction)startClicked:(id)sender
 {
-    if (UserPassword == nil)
-    {
-        [UIView beginAnimations:@"Fade In" context:nil];
-        [UIView setAnimationDelay:wait];
-        [UIView setAnimationDuration:duration];
-        self.startButton.alpha = 1;
-        [UIView commitAnimations];
-    }
+    self.startButton.hidden = YES;
+    [self.modalView addSubview:self.logInContainer];
+    [self.view addSubview:self.modalView];
+    self.content.hidden = YES;
+    //self.loginView.hidden = NO;
+    //self.continueNoFacebook.hidden = NO;
+    self.logInContainer.hidden = NO;
 }
 
 -(void)toggleHiddenState:(BOOL)shouldHide{
@@ -165,12 +200,17 @@ BOOL isNew;
     self.continueNoFacebook.hidden = YES;
 }
 
--(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView{
+-(void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
+{
     //self.lblLoginStatus.text = @"You are logged in.";
     [self toggleHiddenState:NO];
+    self.logInContainer.hidden = YES;
     self.tbc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
     self.tbc.selectedIndex=1;
     self.loginView.hidden = NO;
+    self.content.hidden = YES;
+    self.icon.hidden = NO;
+    self.icon.alpha = 1.0;
     self.tbc.loginView = self.loginView;
     self.tbc.profileID = self.profileID;
     self.tbc.nameText = self.nameText;
@@ -188,8 +228,18 @@ BOOL isNew;
 
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.view.center;
+    spinner.hidesWhenStopped = YES;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+    
     //NSLog(@"%@", user);
     [DBServices setCurrFacebookUser:user];
+    self.logInContainer.hidden = YES;
+    self.content.hidden = YES;
+    self.icon.hidden = NO;
+    self.icon.alpha = 1.0;
     self.profileID = user.objectID;
     self.nameText = user.name;
     // Create session with user
@@ -281,12 +331,13 @@ BOOL isNew;
 }
 
 
--(void)loginView:(FBLoginView *)loginView handleError:(NSError *)error{
+-(void)loginView:(FBLoginView *)loginView handleError:(NSError *)error
+{
     //NSLog(@"%@", [error localizedDescription]);
 }
 
-- (IBAction)continueWithoutFacebookClicked:(id)sender {
-    
+- (IBAction)continueWithoutFacebookClicked:(id)sender
+{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Continue without Facebook?" message:@"Confess contacts only" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
     [alert show];
 }
@@ -465,6 +516,20 @@ BOOL isNew;
               }];
 
          }errorBlock:^(QBResponse *response) { }];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"LogInSegue"])
+    {
+        self.logInContainerView = [segue destinationViewController];
+        [self.logInContainerView initProperties:self];
+    }
+    else  if ([[segue identifier] isEqualToString:@"NoFacebookSegue"])
+    {
+        SkipContainer *skipContainer = [segue destinationViewController];
+        [skipContainer initProperties:self];
     }
 }
 

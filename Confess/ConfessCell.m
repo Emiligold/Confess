@@ -60,13 +60,13 @@
         self.view.center = CGPointMake(self.contentView.frame.size.width / 2, 124);
         
         // Images init
-        self.smiley = [UIImage imageNamed:@"smiley.png"];
-        self.saddy = [UIImage imageNamed:@"saddy.png"];
+        self.smiley = [UIImage imageNamed:@"smiley2.png"];
+        self.saddy = [UIImage imageNamed:@"saddy2.png"];
         self.saddySelected = [UIImage imageNamed:@"saddySelected.png"];
         self.smileySelected = [UIImage imageNamed:@"smileySelected.png"];
         self.chat = [UIImage imageNamed:@"chatIcon.png"];
-        self.smiley = [self imageWithImage:self.smiley scaledToSize:CGSizeMake(84, 64)];
-        self.saddy = [self imageWithImage:self.saddy scaledToSize:CGSizeMake(84, 64)];
+        self.smiley = [self imageWithImage:self.smiley scaledToSize:CGSizeMake(40, 40)];
+        self.saddy = [self imageWithImage:self.saddy scaledToSize:CGSizeMake(40, 40)];
         self.smileyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.saddySelected = [self imageWithImage:self.saddySelected scaledToSize:CGSizeMake(84, 64)];
         UIImageView *smileyImageView = [[UIImageView alloc] initWithImage:self.smiley];
@@ -120,6 +120,14 @@
         self.date.textColor = [UIColor grayColor];
         self.date.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:self.date];
+        
+        UIGraphicsBeginImageContext(self.view.frame.size);
+        [[UIImage imageNamed:@"IMG_9548 2.PNG"] drawInRect:self.view.bounds];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        //self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+
     }
     
     return self;
@@ -150,7 +158,8 @@
     self.content.text = message.content;
     self.content.textAlignment = NSTextAlignmentCenter;
     self.content.scrollEnabled = NO;
-    self.content.backgroundColor = [UIColor redColor];
+    //self.content.backgroundColor = [UIColor redColor];
+    self.content.backgroundColor = [UIColor clearColor];
     self.content.editable = NO;
     //CGSize textSize = { 260.0, 10000.0 };
 	//CGSize size = [self.content.text sizeWithFont:[UIFont boldSystemFontOfSize:13]

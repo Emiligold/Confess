@@ -109,7 +109,7 @@ UIBarButtonItem *contactItem;
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // TODO: Fix this
+    //TODO: Fix this
     if ([[segue identifier] isEqualToString:@"Chat"])
     {
         ConfessView *translationQuizAssociateVC = [segue destinationViewController];
