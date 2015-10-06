@@ -32,7 +32,7 @@
 //+(void)insertUser:(long) userID userID:(NSString*)userFB;
 +(UIColor*)getPreviousColor:(NSUInteger)userID;
 +(UIColor*)getNextColor:(NSUInteger)userID;
-+(NSMutableArray*)getSentConfesses:(NSString*)userID;
++(NSMutableArray*)getSentConfesses:(NSString*)facebookId;
 +(NSMutableArray*)select:(id<AbstractEntity>)entityClass entityClass:(NSMutableArray*)parameters;
 +(void)insertFacebookUrl:(NSString*)url name:(NSString*)name;
 +(User*)getUserByFB:(NSString*)facebookId;

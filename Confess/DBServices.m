@@ -202,9 +202,8 @@
     return [ColorsHandler getColorByIndex:nextIndex];
 }
 
-+(NSMutableArray*)getSentConfesses:(NSString*)userID
++(NSMutableArray*)getSentConfesses:(NSString*)facebookId
 {
-    NSString *facebookId = ((User*)[DBServices getEntityById:[[User alloc] init] entityClass:[userID integerValue]]).facebookID;
     return [[[DBServices select:[[ConfessEntity alloc] init] entityClass:[[NSMutableArray alloc] initWithObjects:
             [NSString stringWithFormat:@"from_facebook_id = '%@'", facebookId], @"is_deleted = 0", nil]] sortedArrayUsingDescriptors:
              [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"lastMessageDate" ascending:NO] ,nil]] mutableCopy];

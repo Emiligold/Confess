@@ -33,6 +33,8 @@
 @property (nonatomic, strong) NSMutableArray *allDialogs;
 @property (nonatomic, strong) NSMutableArray *dialogs;
 @property(nonatomic, strong) NSMutableDictionary *urlOrIdToDialog;
+@property (strong, nonatomic) IBOutlet NSString *nameText;
+@property (weak, nonatomic) IBOutlet NSString *profileID;
 -(void)scrollUp;
 
 @end

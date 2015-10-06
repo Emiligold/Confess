@@ -32,6 +32,11 @@
 @property (nonatomic, strong) ConfessFriend *confessFriend;
 @property (nonatomic, strong) ConfessButtonContainer *confessButton;
 @property (nonatomic, strong) ReturnButtonContainer *returnButton;
+@property (nonatomic, strong) NSArray *descriptors;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet FBProfilePictureView *profilePicture;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end
 
@@ -54,9 +59,6 @@ UIBarButtonItem *contactItem;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Navigation Initialize
-    [self.navigationItem setHidesBackButton:YES animated:YES];
     UIButton *contactButton = [[UIButton alloc] init];
     contactButton.frame=CGRectMake(0,0,30,30);
     [contactButton setBackgroundImage:[UIImage imageNamed: @"Telefono.png"]
@@ -65,26 +67,54 @@ UIBarButtonItem *contactItem;
       forControlEvents:UIControlEventTouchUpInside];
     contactItem = [[UIBarButtonItem alloc]
                                initWithCustomView:contactButton];
-    self.navigationItem.rightBarButtonItem = contactItem;
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.placeholder = @"Confess Facebook friends";
-    self.navigationItem.titleView = self.searchBar;
     self.searchBar.delegate = self;
     
+    // Navigation Initialize
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+    self.navigationItem.rightBarButtonItem = contactItem;
+    self.navigationItem.titleView = self.searchBar;
+
     self.tabBarController.tabBar.hidden = NO;
     self.chatTable.allowsMultipleSelectionDuringEditing = NO;
-    self.chatTable.backgroundColor = [ColorsHandler lightBlueColor];
+    self.chatTable.backgroundColor = [ColorsHandler whiteColor];
     //self.searchBar.delegate = self;
     //self.chatTable.tableHeaderView = self.searchBar;
+    
     self.tabBarController.tabBar.barTintColor =  [UIColor whiteColor];
-    self.navigationController.navigationBar.barTintColor = [ColorsHandler mediumBlueColor];
-    self.tabBarController.tabBar.barTintColor = [ColorsHandler mediumBlueColor];
+    //self.navigationController.navigationBar.barTintColor = [ColorsHandler mediumBlueColor];
+    //self.tabBarController.tabBar.barTintColor = [ColorsHandler mediumBlueColor];
+    
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"lastMessageDate" ascending:NO];
+    self.descriptors = [NSArray arrayWithObject:descriptor];
+    self.nameLabel.text = self.nameText;
+    self.profilePicture.profileID = self.profileID;
+    self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.height / 2;
+    self.profilePicture.clipsToBounds = YES;
+    //self.chatTable.contentInset = UIEdgeInsetsMake(-70, 0, -120, 0);
+    //self.chatTable.scrollIndicatorInsets = adjustForTabbarInsets;
+    
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:@"IMG_9546.PNG"] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [QBChat dialogsWithExtendedRequest:nil delegate:self];
+    
+    if ([DBServices currUserId] != 0)
+    {
+        [QBChat dialogsWithExtendedRequest:nil delegate:self];
+    }
+    else
+    {
+        [self initConfessesOfNoApp];
+    }
+    
     self.tabBarController.tabBar.hidden = NO;
 }
 
@@ -305,7 +335,7 @@ UIBarButtonItem *contactItem;
         }
     
         cell.tag  = indexPath.row;
-        cell.backgroundColor = [ColorsHandler lightBlueColor];
+        cell.backgroundColor = [ColorsHandler whiteColor];
 
         if ([self.dialogs[indexPath.row] isKindOfClass:[QBChatDialog class]])
         {
@@ -353,17 +383,10 @@ UIBarButtonItem *contactItem;
     //cell.imageView.transform = CGAffineTransformMakeScale(widthScale, heightScale);
     cell.backgroundColor = [ColorsHandler lightBlueColor];
     
-    //if (indexPath.row % 2)
-    //{
-        //cell.backgroundColor = [UIColor lightGrayColor];
-    //}
-    //else
-    //{
         //cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"GrayConfess.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
         //cell.textLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"GrayConfess.png"]];
         //cell.detailTextLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"GrayConfess.png"]];
         //cell.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
-    //}
     
     return cell;
 }
@@ -375,17 +398,16 @@ UIBarButtonItem *contactItem;
 //}
 
 - (void)completedWithResult:(Result *)result{
-    if (result.success && [result isKindOfClass:[QBDialogsPagedResult class]]) {
+    if (result.success && [result isKindOfClass:[QBDialogsPagedResult class]] && self.dialogs == nil)
+    {
         QBDialogsPagedResult *pagedResult = (QBDialogsPagedResult *)result;
         NSArray *dialogs = pagedResult.dialogs;
         NSMutableArray *dialogsFilter = [dialogs mutableCopy];
         self.urlOrIdToDialog = [[NSMutableDictionary alloc] init];
-        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"lastMessageDate" ascending:NO];
-        NSArray *descriptors = [NSArray arrayWithObject:descriptor];
         
         if (dialogs != nil && dialogs.count > 0)
         {
-            dialogs = [[dialogs sortedArrayUsingDescriptors:descriptors] mutableCopy];
+            dialogs = [[dialogs sortedArrayUsingDescriptors:self.descriptors] mutableCopy];
         }
         
         for (QBChatDialog *dialog in dialogs)
@@ -411,27 +433,9 @@ UIBarButtonItem *contactItem;
             }
         }
 
-        NSString *myID = [NSString stringWithFormat:@"%ld", (unsigned long)[LocalStorageService shared].currentUser.ID];
-        self.dialogs = [dialogsFilter mutableCopy];
+        [self initConfessesOfNoApp];
         
-        if (self.dialogs == nil)
-        {
-            self.dialogs = [[NSMutableArray alloc] init];
-        }
-        
-        NSMutableArray *sentConfesses = [DBServices getSentConfesses:myID];
-        
-        for (ConfessEntity *confess in sentConfesses)
-        {
-            [self.dialogs addObject:confess];
-            
-            if ([self.urlOrIdToDialog objectForKey:confess.url.url] == nil)
-            {
-                [self.urlOrIdToDialog setObject:confess forKey:confess.url.url];
-            }
-        }
-        
-        self.dialogs = [[self.dialogs sortedArrayUsingDescriptors:descriptors] mutableCopy];
+        self.dialogs = [[self.dialogs sortedArrayUsingDescriptors:self.descriptors] mutableCopy];
         //NSMutableArray *parameters = [[NSMutableArray alloc] init];
         //[parameters addObject:[NSString stringWithFormat:@"user_id = '%@'", myID]];
         //[[DBManager shared] selectQuery:tFriendsNoAppConfesses table:parameters];
@@ -480,9 +484,31 @@ UIBarButtonItem *contactItem;
     }
 }
 
+-(void)initConfessesOfNoApp
+{
+    if (self.dialogs == nil)
+    {
+        self.dialogs = [[NSMutableArray alloc] init];
+    }
+    
+    NSMutableArray *sentConfesses = [DBServices getSentConfesses:[[DBServices getCurrFacebookUser] objectID]];
+    
+    for (ConfessEntity *confess in sentConfesses)
+    {
+        [self.dialogs addObject:confess];
+        
+        if ([self.urlOrIdToDialog objectForKey:confess.url.url] == nil)
+        {
+            [self.urlOrIdToDialog setObject:confess forKey:confess.url.url];
+        }
+    }
+    
+    self.dialogs = [[self.dialogs sortedArrayUsingDescriptors:self.descriptors] mutableCopy];
+}
+
 -(void)facebookLoadCompleted
 {
-    _allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
+    self.allDialogs = [NSMutableArray arrayWithArray:self.dialogs];
     [self.chatTable reloadData];
 }
 
@@ -532,6 +558,9 @@ UIBarButtonItem *contactItem;
     [searchBar resignFirstResponder];
     self.facebookTable.hidden = YES;
     self.chatTable.hidden = NO;
+    self.profilePicture.hidden = NO;
+    self.nameLabel.hidden = NO;
+    self.tabBar.hidden = NO;
     [self.chatTable reloadData];
     
 }
@@ -542,6 +571,9 @@ UIBarButtonItem *contactItem;
     [searchBar setShowsCancelButton:YES animated:YES];
     self.chatTable.hidden = YES;
     self.facebookTable.hidden = NO;
+    self.profilePicture.hidden = YES;
+    self.nameLabel.hidden = YES;
+    self.tabBar.hidden = YES;
     self.friends = [[FacebookHandler instance] getAllFriends];
 }
 

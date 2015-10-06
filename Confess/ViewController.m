@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "FriendsTab.h"
 #import "TabController.h"
 #import "ConfessView.h"
 #import "AppDelegate.h"
@@ -82,7 +81,7 @@ BOOL isNew;
     //[self.view sendSubviewToBack:backgroundImage];
 
     UIGraphicsBeginImageContext(self.view.frame.size);
-    [[UIImage imageNamed:@"IMG_9548 2.PNG"] drawInRect:self.view.bounds];
+    [[UIImage imageNamed:@"IMG_9546.PNG"] drawInRect:self.view.bounds];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

@@ -62,6 +62,10 @@
             //});
         }];} errorBlock:^(QBResponse *response)
      {
+         if (response.error.error.code == -1009)
+         {
+             [self.appDelegate ConnectedToQuickBlox:userLogin userPassword:userPassword loginView:loginView];
+         }
      }];
 }
 

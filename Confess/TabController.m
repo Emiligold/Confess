@@ -50,14 +50,19 @@
 
 -(void)initProperties
 {
-    UINavigationController *navigationController = (UINavigationController*)[[self viewControllers] objectAtIndex:2];
-    SettingsTab *settingsTab = (SettingsTab*)[navigationController.viewControllers objectAtIndex:0];
+    UINavigationController *settingsTabNavigationController = (UINavigationController*)[[self viewControllers] objectAtIndex:2];
+    SettingsTab *settingsTab = (SettingsTab*)[settingsTabNavigationController.viewControllers objectAtIndex:0];
     settingsTab.loginView = self.loginView;
     [settingsTab initProperties];
-    MeTab *meTab = ((MeTab*)[[self viewControllers] objectAtIndex:0]);
+    UINavigationController *meTabNavigationController = (UINavigationController*)[[self viewControllers] objectAtIndex:0];
+    MeTab *meTab = (MeTab*)[meTabNavigationController.viewControllers objectAtIndex:0];
     meTab.profileID = self.profileID;
     meTab.nameText = self.nameText;
     [meTab initProperties];
+    UINavigationController *friendsTabNavigationController = (UINavigationController*)[[self viewControllers] objectAtIndex:1];
+    FriendsTab *friendsTab = (FriendsTab*)[friendsTabNavigationController.viewControllers objectAtIndex:0];
+    friendsTab.profileID = self.profileID;
+    friendsTab.nameText = self.nameText;
 }
 
 #pragma mark - Navigation
@@ -83,7 +88,7 @@
         }
         else if ([((UINavigationController*)viewController).tabBarItem.title isEqualToString:@"Me"])
         {
-            [((MeTab*)viewController) scrollUp];
+            [((MeTab*)[((UINavigationController*)viewController).viewControllers objectAtIndex:0]) scrollUp];
         }
     }
     previousController = viewController;

@@ -15,7 +15,9 @@
 #import "ConfessCell.h"
 #import "ColorsHandler.h"
 
-@interface MeTab () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface MeTab () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UISearchBarDelegate>
+
+@property (weak, nonatomic) IBOutlet UITabBar *tabGotSent;
 
 @end
 
@@ -35,20 +37,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(220, 72);
-    spinner.hidesWhenStopped = YES;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
     
-    dispatch_queue_t downloadQuqeue = dispatch_queue_create("download", NULL);
-    dispatch_async(downloadQuqeue, ^{
-        [NSThread sleepForTimeInterval:1];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [spinner stopAnimating];
-        });
-    });
+    UIButton *contactButton = [[UIButton alloc] init];
+    contactButton.frame=CGRectMake(0,0,30,30);
+    [contactButton setBackgroundImage:[UIImage imageNamed: @"Telefono.png"]
+                             forState:UIControlStateNormal];
+    //[contactButton addTarget:self action:@selector(showPicker:)];
+    self.searchBar = [[UISearchBar alloc] init];
+    self.searchBar.placeholder = @"Confess Facebook friends";
+    self.searchBar.delegate = self;
+    UIBarButtonItem *contactItem = [[UIBarButtonItem alloc]
+                   initWithCustomView:contactButton];
 
+    // Navigation Initialize
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+    self.navigationItem.rightBarButtonItem = contactItem;
+    self.navigationItem.titleView = self.searchBar;
+    
     self.name.text = self.nameText;
     self.profilePicture.profileID = self.profileID;
     self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.height / 2;
@@ -65,6 +70,12 @@
     self.titleScroll.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(221/255.0) blue:(236/255.0) alpha:1];
     self.confessesTableView.allowsMultipleSelectionDuringEditing = NO;
     //self.confessesTableView.backgroundColor = [ColorsHandler lightBlueColor];
+    
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [[UIImage imageNamed:@"IMG_9546.PNG"] drawInRect:self.view.bounds];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.view.backgroundColor = [UIColor colorWithPatternImage:image];
 }
 
 - (void)didReceiveMemoryWarning
@@ -197,7 +208,8 @@
     
     [cell configureCellWithConfess:confess];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor = [ColorsHandler lightBlueColor];
+    cell.backgroundColor = [UIColor whiteColor];
+    //cell.backgroundColor = [ColorsHandler lightBlueColor];
     return cell;
 }
 

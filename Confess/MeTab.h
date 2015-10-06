@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *confessesTableView;
 @property (nonatomic,strong) NSMutableArray *confesses;
 @property (weak, nonatomic) IBOutlet UIScrollView *titleScroll;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 -(void)scrollUp;
 
 @end

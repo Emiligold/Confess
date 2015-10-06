@@ -15,6 +15,7 @@
 #import "DBServices.h"
 #import "MeTab.h"
 #import "LikeDislike.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define padding 20
 
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) UIImage *smileySelected;
 @property (nonatomic, strong) UIImage *chat;
 @property (nonatomic, strong) LikeDislike *likeDislike;
+@property (nonatomic, strong) UIView *modalView;
 
 @end
 
@@ -56,7 +58,6 @@
         self.view.layer.cornerRadius = 25;
         self.view.layer.masksToBounds = YES;
         [self.view setBackgroundColor:[UIColor whiteColor]];
-        [self.contentView addSubview:self.view];
         self.view.center = CGPointMake(self.contentView.frame.size.width / 2, 124);
         
         // Images init
@@ -125,8 +126,15 @@
         [[UIImage imageNamed:@"IMG_9548 2.PNG"] drawInRect:self.view.bounds];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+        self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
         
+        self.view.layer.masksToBounds = NO;
+        self.view.layer.shadowOffset = CGSizeMake(-15, 10);
+        self.view.layer.shadowRadius = 3;
+        self.view.layer.shadowOpacity = 0.5;
         //self.view.backgroundColor = [UIColor colorWithPatternImage:image];
+        
+        [self.contentView addSubview:self.view];
 
     }
     
