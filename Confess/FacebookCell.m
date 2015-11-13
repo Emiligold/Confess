@@ -12,6 +12,7 @@
 @interface FacebookCell()
 
 @property (nonatomic, strong) FriendsTab *friendsTab;
+@property (nonatomic, strong) NSMutableDictionary *urlToData;
 
 @end
 
@@ -23,6 +24,7 @@
     if (self)
     {
         self.friendsTab = friendsTab;
+        self.urlToData = [[NSMutableDictionary alloc] init];
         
         // Image initialize
         self.profileImage = [[UIImageView alloc] init];
@@ -88,10 +90,35 @@
     [self.name sizeToFit];
     self.profileImage.bounds = CGRectMake(0,0,50,50);
     self.profileImage.frame = CGRectMake(20,20,50,50);
-    NSData *data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
-    UIImage *image = [UIImage imageWithData:data];
+    NSData *data;
+    UIImage *image;
+    
+    if (false)//[self.urlToData objectForKey:url] != nil)
+    {
+        data = [self.urlToData objectForKey:url];
+    }
+    else
+    {
+        NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:[NSOperationQueue mainQueue]
+                               completionHandler:^(NSURLResponse * response,
+                                                   NSData * data,
+                                                   NSError * error) {
+                                   if (!error){
+                                       self.profileImage.image = [UIImage imageWithData:data];
+                                       // do whatever you want with image
+                                   }
+                                   
+                               }];
+        
+        //data = [NSData dataWithContentsOfURL : [NSURL URLWithString:url]];
+        //[self.urlToData setObject:data forKey:url];
+    }
+    
+    //UIImage *image = [UIImage imageWithData:data];
     self.name.center = CGPointMake(self.contentView.frame.size.width / 2, 85);
-    self.profileImage.image = image;
+    //self.profileImage.image = image;
     self.profileImage.center = CGPointMake(self.contentView.frame.size.width / 2, 50);
     [self.name addTarget:self
                   action:@selector(friendClicked:)

@@ -206,7 +206,7 @@
         //[self.confesses addObject:confessNew];
     }
     
-    [cell configureCellWithConfess:confess];
+    [cell configureCellWithConfess:confess isMine:YES];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor whiteColor];
     //cell.backgroundColor = [ColorsHandler lightBlueColor];

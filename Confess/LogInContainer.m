@@ -38,8 +38,16 @@
     self.skipButton.layer.cornerRadius = 23;
     self.skipButton.clipsToBounds = YES;
     //self.skipButton.backgroundColor = [UIColor clearColor];
-    //[[self.skipButton layer] setBorderWidth:2.0f];
-    //[[self.skipButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    [[self.skipButton layer] setBorderWidth:2.0f];
+    [[self.skipButton layer] setBorderColor:[UIColor colorWithWhite:1.0 alpha:0.5].CGColor];
+    self.logInButton.layer.masksToBounds = NO;
+    self.logInButton.layer.shadowOffset = CGSizeMake(-10, 10);
+    self.logInButton.layer.shadowRadius = 2;
+    self.logInButton.layer.shadowOpacity = 0.5;
+    self.skipButton.layer.masksToBounds = NO;
+    self.skipButton.layer.shadowOffset = CGSizeMake(-10, 10);
+    self.skipButton.layer.shadowRadius = 2;
+    self.skipButton.layer.shadowOpacity = 0.5;
 }
 
 - (void)didReceiveMemoryWarning

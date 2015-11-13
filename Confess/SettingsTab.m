@@ -7,6 +7,7 @@
 //
 
 #import "SettingsTab.h"
+#import "DBServices.h"
 
 @interface SettingsTab ()  <UITableViewDelegate, UITableViewDataSource>
 
@@ -95,6 +96,8 @@ NSMutableArray *settings;
              [FBSession.activeSession closeAndClearTokenInformation];
 
              //TODO: delete user from DB, clear NSUserDefaults, delete user from quickblox and display first screen
+             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+             [userDefault removeObjectForKey:[[DBServices getCurrFacebookUser] objectID]];
          }
      }];
 }

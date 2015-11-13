@@ -30,6 +30,9 @@
 		9E305FC81BB8A016008AA6D7 /* SkipContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E305FC71BB8A016008AA6D7 /* SkipContainer.m */; };
 		9E305FCA1BB94C2A008AA6D7 /* smiley2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E305FC91BB94C2A008AA6D7 /* smiley2.png */; };
 		9E305FCC1BB951C3008AA6D7 /* saddy2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E305FCB1BB951C3008AA6D7 /* saddy2.png */; };
+		9E3ABE0C1BD6CC1A00957223 /* IMG_9699.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 9E3ABE0B1BD6CC1A00957223 /* IMG_9699.PNG */; };
+		9E3ABE0E1BDC0B2300957223 /* IMG_9864.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 9E3ABE0D1BDC0B2300957223 /* IMG_9864.PNG */; };
+		9E3ABE141BDD524600957223 /* IMG_9720.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 9E3ABE131BDD524600957223 /* IMG_9720.PNG */; };
 		9E4CF4991BAD5893007E91D6 /* chatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E4CF4981BAD5893007E91D6 /* chatIcon.png */; };
 		9E4CF49B1BB568FA007E91D6 /* PicConfessIcon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E4CF49A1BB568FA007E91D6 /* PicConfessIcon1.png */; };
 		9E4CF49D1BB5916E007E91D6 /* blurr.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E4CF49C1BB5916E007E91D6 /* blurr.png */; };
@@ -163,6 +166,9 @@
 		9E305FC71BB8A016008AA6D7 /* SkipContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkipContainer.m; sourceTree = "<group>"; };
 		9E305FC91BB94C2A008AA6D7 /* smiley2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = smiley2.png; path = ../../smiley2.png; sourceTree = "<group>"; };
 		9E305FCB1BB951C3008AA6D7 /* saddy2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = saddy2.png; path = ../../saddy2.png; sourceTree = "<group>"; };
+		9E3ABE0B1BD6CC1A00957223 /* IMG_9699.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IMG_9699.PNG; path = "../../../Pictures/iPhoto Library.photolibrary/Previews/2015/10/20/20151020-222151/PvVpJcNwRRKnlgkyZNnjnA/IMG_9699.PNG"; sourceTree = "<group>"; };
+		9E3ABE0D1BDC0B2300957223 /* IMG_9864.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IMG_9864.PNG; path = ../../Images/IMG_9864.PNG; sourceTree = "<group>"; };
+		9E3ABE131BDD524600957223 /* IMG_9720.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IMG_9720.PNG; path = ../../Images/IMG_9720.PNG; sourceTree = "<group>"; };
 		9E4CF4981BAD5893007E91D6 /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chatIcon.png; path = ../../chatIcon.png; sourceTree = "<group>"; };
 		9E4CF49A1BB568FA007E91D6 /* PicConfessIcon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PicConfessIcon1.png; path = ../../Images/PicConfessIcon1.png; sourceTree = "<group>"; };
 		9E4CF49C1BB5916E007E91D6 /* blurr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blurr.png; path = ../../blurr.png; sourceTree = "<group>"; };
@@ -488,6 +494,7 @@
 		9E99DD1F19DB36C000A40951 /* Confess */ = {
 			isa = PBXGroup;
 			children = (
+				9E3ABE0B1BD6CC1A00957223 /* IMG_9699.PNG */,
 				9E994B5819F55C4D00DA5A50 /* External */,
 				9E305FCB1BB951C3008AA6D7 /* saddy2.png */,
 				9E305FC91BB94C2A008AA6D7 /* smiley2.png */,
@@ -600,6 +607,8 @@
 		9EE9A50E19DE9DA0002AD3CB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9E3ABE131BDD524600957223 /* IMG_9720.PNG */,
+				9E3ABE0D1BDC0B2300957223 /* IMG_9864.PNG */,
 				9E9B06041BBB059400259A7D /* SentButtonPic.png */,
 				9E9B06021BBAEBFF00259A7D /* GotPic.png */,
 				9E9B06001BBAEBF900259A7D /* SentPic.png */,
@@ -703,10 +712,12 @@
 				9E99DD3219DB36C000A40951 /* Images.xcassets in Resources */,
 				9E63D40F1A01664800CA1E3B /* GrayConfess.png in Resources */,
 				9E6533161BACA3E800DCBA6A /* saddy.png in Resources */,
+				9E3ABE0C1BD6CC1A00957223 /* IMG_9699.PNG in Resources */,
 				9E9B06051BBB059400259A7D /* SentButtonPic.png in Resources */,
 				9EE9A50419DDF96B002AD3CB /* Telefono.png in Resources */,
 				9E4CF49D1BB5916E007E91D6 /* blurr.png in Resources */,
 				9E258E5F1BB736480035E4D1 /* IMG_9546 2.PNG in Resources */,
+				9E3ABE141BDD524600957223 /* IMG_9720.PNG in Resources */,
 				9E6533141BAC9F2100DCBA6A /* smiley.png in Resources */,
 				9E26199A1BB71E52002803AC /* background.png in Resources */,
 				9E305FCA1BB94C2A008AA6D7 /* smiley2.png in Resources */,
@@ -722,6 +733,7 @@
 				9E305FCC1BB951C3008AA6D7 /* saddy2.png in Resources */,
 				9E99DD2D19DB36C000A40951 /* Main.storyboard in Resources */,
 				9EE9A50219DDF910002AD3CB /* Facebook_logo_(square).png in Resources */,
+				9E3ABE0E1BDC0B2300957223 /* IMG_9864.PNG in Resources */,
 				9E9B06031BBAEBFF00259A7D /* GotPic.png in Resources */,
 				9E2619981BB7095C002803AC /* facebookIcon.png in Resources */,
 				9E2619961BB703E4002803AC /* xPic.png in Resources */,

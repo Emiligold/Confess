@@ -44,17 +44,17 @@ BOOL isNew;
     self.content.layer.shadowColor = [self.content.textColor CGColor];
     self.content.layer.shadowOffset = CGSizeMake(2.5, 2.5);
     self.content.layer.shadowRadius = 3.5;
-    self.content.layer.shadowOpacity = 0.0;
+     self.content.layer.shadowOpacity = 0.3;
     self.content.layer.masksToBounds = NO;
-   // self.content.font = [UIFont systemFontOfSize:16];
-    NSMutableParagraphStyle *style  = [[NSMutableParagraphStyle alloc] init];
-    style.minimumLineHeight = 30.f;
-    style.maximumLineHeight = 30.f;
-    NSDictionary *attributtes = @{NSParagraphStyleAttributeName : style,};
-    self.content.attributedText = [[NSAttributedString alloc] initWithString:
-                                   @"Confess your friends annonymously"
-                                                                  attributes:attributtes];
-    [self.content sizeToFit];
+    //self.content.font = [UIFont systemFontOfSize:16];
+    //NSMutableParagraphStyle *style  = [[NSMutableParagraphStyle alloc] init];
+    //style.minimumLineHeight = 30.f;
+    //style.maximumLineHeight = 30.f;
+    //NSDictionary *attributtes = @{NSParagraphStyleAttributeName : style,};
+    //self.content.attributedText = [[NSAttributedString alloc] initWithString:
+    //                               @"Confess your friends annonymously"
+    //                                                              attributes:attributtes];
+    //[self.content sizeToFit];
     [self.content setTextAlignment:NSTextAlignmentCenter];
     
     self.continueNoFacebook.hidden = true;
@@ -81,7 +81,7 @@ BOOL isNew;
     //[self.view sendSubviewToBack:backgroundImage];
 
     UIGraphicsBeginImageContext(self.view.frame.size);
-    [[UIImage imageNamed:@"IMG_9546.PNG"] drawInRect:self.view.bounds];
+    [[UIImage imageNamed:@"IMG_9720.PNG"] drawInRect:self.view.bounds];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
@@ -208,7 +208,7 @@ BOOL isNew;
     self.tbc.selectedIndex=1;
     self.loginView.hidden = NO;
     self.content.hidden = YES;
-    self.icon.hidden = NO;
+    // self.icon.hidden = NO;
     self.icon.alpha = 1.0;
     self.tbc.loginView = self.loginView;
     self.tbc.profileID = self.profileID;
@@ -230,6 +230,7 @@ BOOL isNew;
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.view.center;
     spinner.hidesWhenStopped = YES;
+    spinner.color = [UIColor whiteColor];
     [self.view addSubview:spinner];
     [spinner startAnimating];
     
@@ -237,7 +238,7 @@ BOOL isNew;
     [DBServices setCurrFacebookUser:user];
     self.logInContainer.hidden = YES;
     self.content.hidden = YES;
-    self.icon.hidden = NO;
+    // self.icon.hidden = NO;
     self.icon.alpha = 1.0;
     self.profileID = user.objectID;
     self.nameText = user.name;

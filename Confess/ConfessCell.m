@@ -126,7 +126,7 @@
         [[UIImage imageNamed:@"IMG_9548 2.PNG"] drawInRect:self.view.bounds];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        self.view.backgroundColor = [UIColor whiteColor];
         
         self.view.layer.masksToBounds = NO;
         self.view.layer.shadowOffset = CGSizeMake(-15, 10);
@@ -155,10 +155,10 @@
     return 250;
 }
 
-- (void)configureCellWithConfess:(ConfessEntity *)message;
+- (void)configureCellWithConfess:(ConfessEntity *)message isMine:(BOOL)isMine;
 {
     self.confess = message;
-    NSInteger ySize = self.isMine ? padding : padding + 70;
+    NSInteger ySize = isMine ? padding : padding + 70;
     self.date.text = [DateHandler getDateMessageString:message.lastMessageDate];
     
     //[self.date sizeToFit];
@@ -177,15 +177,15 @@
     //[self.content sizeToFit];
     [self.content setFrame:CGRectMake(padding / 2, ySize, 216, [self.content sizeThatFits:CGSizeMake(216, FLT_MAX)].height)/*75*/];
     [self.exit addTarget:self action:@selector(exitClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.content setFont:[UIFont systemFontOfSize:self.isMine ? 15 : 14]];
+    [self.content setFont:[UIFont systemFontOfSize:isMine ? 15 : 14]];
 
     CGFloat topCorrect = ([self.content bounds].size.height - [self.content contentSize].height * [self.content zoomScale])/2.0;
     topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
     self.content.contentOffset = (CGPoint){ .x = 0, .y = -topCorrect };
-    NSUInteger centerHeight = self.isMine ? 90 : 124;
+    NSUInteger centerHeight = isMine ? 90 : 124;
     self.content.center = CGPointMake(self.contentView.frame.size.width / 2 - 41.5, centerHeight);
     
-    if (self.isMine)
+    if (isMine)
     {
         self.likeDislike = [self getLikeDislike];
         [self.smileyButton setImage:(self.likeDislike != nil && self.likeDislike.isLike) ?
@@ -194,6 +194,10 @@
          self.saddySelected : self.saddy forState:UIControlStateNormal];
         [self.smileyButton addTarget:self action:@selector(smileyClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.saddyButton addTarget:self action:@selector(saddyClicked:) forControlEvents:UIControlEventTouchUpInside];
+        self.name.hidden = YES;
+        self.profileImage.hidden = YES;
+        self.smileyButton.hidden = NO;
+        self.saddyButton.hidden = NO;
     }
     else
     {
@@ -208,7 +212,10 @@
         UIImage *image = [UIImage imageWithData:data];
         self.profileImage.image = image;
         self.name.backgroundColor = [UIColor clearColor];
-
+        self.name.hidden = NO;
+        self.profileImage.hidden = NO;
+        self.smileyButton.hidden = YES;
+        self.saddyButton.hidden = YES;
     }
 }
 

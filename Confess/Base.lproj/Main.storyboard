@@ -12,20 +12,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="SME-1d-SqE">
-                                <rect key="frame" x="21" y="253" width="280" height="153"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confess your friend anonymously" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SME-1d-SqE">
+                                <rect key="frame" x="20" y="172" width="280" height="181"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Text your friend anonymously what you didn't have the courage to tell">
-                                        <attributes>
-                                            <font key="NSFont" size="17" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="17" defaultTabInterval="36">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <color key="highlightedColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fqf-k5-X8F">
                                 <rect key="frame" x="102" y="296" width="116" height="40"/>
@@ -38,22 +30,12 @@
                                     <action selector="startClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Opy-P7-QJr"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PicConfessIcon1.png" id="xRh-My-A4P">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PicConfessIcon1.png" id="xRh-My-A4P">
                                 <rect key="frame" x="90" y="86" width="143" height="110"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="X3J-ee-LVI">
-                                <rect key="frame" x="43" y="262" width="234" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Continue without facebook">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="continueWithoutFacebookClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="HDR-Lk-E56"/>
-                                </connections>
-                            </button>
-                            <containerView hidden="YES" alpha="0.69999999999999996" contentMode="scaleToFill" id="XMw-wi-ork">
-                                <rect key="frame" x="21" y="204" width="280" height="218"/>
+                            <containerView hidden="YES" contentMode="scaleToFill" id="XMw-wi-ork">
+                                <rect key="frame" x="18" y="196" width="280" height="218"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -65,7 +47,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <containerView hidden="YES" alpha="0.74999999999999978" contentMode="scaleToFill" id="fi1-Vu-SZX">
-                                <rect key="frame" x="19" y="128" width="281" height="240"/>
+                                <rect key="frame" x="19" y="120" width="281" height="240"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
@@ -77,7 +59,6 @@
                     </view>
                     <connections>
                         <outlet property="content" destination="SME-1d-SqE" id="eCH-Ye-jZc"/>
-                        <outlet property="continueNoFacebook" destination="X3J-ee-LVI" id="A6f-qh-zDU"/>
                         <outlet property="icon" destination="xRh-My-A4P" id="sYS-zZ-KYH"/>
                         <outlet property="logInContainer" destination="XMw-wi-ork" id="cVb-Vx-mxC"/>
                         <outlet property="skipContainer" destination="fi1-Vu-SZX" id="flD-6s-jNm"/>
@@ -138,7 +119,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tabBar contentMode="scaleToFill" id="pgm-BG-Ma3">
+                            <tabBar hidden="YES" contentMode="scaleToFill" id="pgm-BG-Ma3">
                                 <rect key="frame" x="0.0" y="198" width="320" height="49"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -147,6 +128,14 @@
                                     <tabBarItem systemItem="more" id="FFw-nb-QB3"/>
                                 </items>
                             </tabBar>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="tdb-7O-oNd">
+                                <rect key="frame" x="99" y="211" width="123" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
@@ -434,7 +423,7 @@
                                     <outlet property="delegate" destination="I8C-3P-cTe" id="VIK-ON-LZC"/>
                                 </connections>
                             </tableView>
-                            <tabBar contentMode="scaleToFill" id="eJN-GJ-maK">
+                            <tabBar alpha="0.59999999999999964" contentMode="scaleToFill" id="eJN-GJ-maK">
                                 <rect key="frame" x="0.0" y="198" width="320" height="49"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -442,6 +431,7 @@
                                     <tabBarItem systemItem="favorites" id="GgE-iB-9Pi"/>
                                     <tabBarItem systemItem="more" id="iUA-UW-hfb"/>
                                 </items>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tabBar>
                             <containerView hidden="YES" opaque="NO" alpha="0.74999999999999978" contentMode="scaleToFill" id="RPP-rz-PnQ">
                                 <rect key="frame" x="27" y="34" width="266" height="252"/>
@@ -486,17 +476,24 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2Gb-6e-E6p">
+                            <tableView clipsSubviews="YES" alpha="0.74999999999999978" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2Gb-6e-E6p">
                                 <rect key="frame" x="0.0" y="247" width="320" height="276"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="I8C-3P-cTe" id="J4B-Ln-M3Y"/>
                                     <outlet property="delegate" destination="I8C-3P-cTe" id="i7B-Kt-zVM"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="e9Q-XE-3vq">
+                                <rect key="frame" x="14" y="99" width="75" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
                     <toolbarItems>
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Aky-qP-uvb"/>
@@ -1011,7 +1008,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="z8j-mn-vV3">
-                                <rect key="frame" x="24" y="92" width="236" height="48"/>
+                                <rect key="frame" x="24" y="79" width="236" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.2470588386" green="0.51372551919999998" blue="0.91764712329999998" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="15"/>
@@ -1024,14 +1021,14 @@
                                     <action selector="logInClicked:" destination="anK-9b-Yyd" eventType="touchUpInside" id="mTV-h9-OVh"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xml-7b-dHf">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xml-7b-dHf">
                                 <rect key="frame" x="22" y="158" width="236" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.90980398650000005" green="0.45882356169999999" blue="0.43529415129999999" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="15"/>
                                 <size key="titleShadowOffset" width="1" height="0.0"/>
                                 <state key="normal" title="Skip">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1049,7 +1046,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" alpha="0.89999999999999991" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebookIcon.png" id="TgD-Yk-gS1">
-                                <rect key="frame" x="12" y="92" width="87" height="49"/>
+                                <rect key="frame" x="12" y="79" width="87" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PicConfessIcon1.png" id="kSk-wV-lW0">
@@ -1110,12 +1107,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" alpha="0.85000002384185791" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TTG-Bi-siL">
-                                <rect key="frame" x="31" y="172" width="218" height="48"/>
+                                <rect key="frame" x="96" y="172" width="88" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.90980398650000005" green="0.45882356169999999" blue="0.43529415129999999" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="15"/>
                                 <size key="titleShadowOffset" width="1" height="0.0"/>
-                                <state key="normal" title="Continue without Facebook">
+                                <state key="normal" title="Continue">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1132,11 +1129,11 @@
             </objects>
             <point key="canvasLocation" x="-759" y="-1060"/>
         </scene>
-        <!--Navigation Controller - Me-->
+        <!--Navigation Controller - Chats-->
         <scene sceneID="Zxv-15-s5A">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yPr-jx-O94" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Me" id="5bU-Oi-WVP"/>
+                    <tabBarItem key="tabBarItem" title="Chats" id="5bU-Oi-WVP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cln-IV-B1i">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
